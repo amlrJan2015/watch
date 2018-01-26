@@ -1,15 +1,35 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="11134" systemVersion="15F34" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="13771" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch42" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11106"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="11055"/>
+        <deployment identifier="watchOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13756"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModuleProvider="target"/>
+                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="JanOnVal_WatchKit_App" customModuleProvider="target">
+                    <items>
+                        <label width="136" height="30" alignment="center" text="W[T]:" textAlignment="left" id="PCY-uC-Q7M"/>
+                        <label width="136" height="30" alignment="center" text="Verbr[W]:" textAlignment="left" id="f3L-uF-OHr"/>
+                        <button width="136" height="71" alignment="center" verticalAlignment="bottom" title="start" id="zGs-CE-g4a">
+                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <connections>
+                                <action selector="getTemp" destination="AgC-eL-Hgc" id="Nu1-ax-DGg"/>
+                            </connections>
+                        </button>
+                    </items>
+                    <connections>
+                        <outlet property="ep2" destination="f3L-uF-OHr" id="sfH-gm-9rd"/>
+                        <outlet property="temperatureLbl" destination="PCY-uC-Q7M" id="0fM-IW-JND"/>
+                    </connections>
+                </controller>
             </objects>
+            <point key="canvasLocation" x="73.230769230769241" y="101.56410256410257"/>
         </scene>
     </scenes>
 </document>
