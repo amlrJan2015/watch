@@ -12,9 +12,9 @@ final class DeviceDAO {
     
     static func getDevices() -> [Device] {
         return [
-            Device(id: 1, name: "Gesamt", description: "Janitza electronics GmbH, UMG605"),
-            Device(id: 2, name: "Heizung", description: "Janitza electronics GmbH, UMG605"),
-            Device(id: 3, name: "Temperatur", description: ""),
+            Device(id: 1, name: "Gesamt", description: "Janitza electronics GmbH, UMG605", type: "JanitzaUMG605"),
+            Device(id: 2, name: "Heizung", description: "Janitza electronics GmbH, UMG605", type: "JanitzaUMG605"),
+            Device(id: 3, name: "Temperatur", description: "", type: "XXXManInput"),
         ]
     }
 }

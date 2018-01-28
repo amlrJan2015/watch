@@ -97,6 +97,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     func doGetData1()->URLSessionDataTask {
         var request = URLRequest(url: URL(string:"\(self.serverUrl!)\(self.endPoint1!)")!)
         request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
         let session = URLSession.shared
         return session.dataTask(with: request, completionHandler: { data, response, error -> Void in
             
@@ -120,6 +121,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     func doGetData2()->URLSessionDataTask {
         var request = URLRequest(url: URL(string:"\(self.serverUrl!)\(self.endPoint2!)")!)
         request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
         let session = URLSession.shared
         return session.dataTask(with: request, completionHandler: { data, response, error -> Void in
             

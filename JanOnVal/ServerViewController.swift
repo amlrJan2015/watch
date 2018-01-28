@@ -14,6 +14,7 @@ class ServerViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        (UIApplication.shared.delegate as? AppDelegate)?.appModel.serverUrl = serverUrl.text!
     }
 
     override func didReceiveMemoryWarning() {
