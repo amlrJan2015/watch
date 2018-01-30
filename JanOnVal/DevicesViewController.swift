@@ -13,13 +13,13 @@ class DevicesViewController: UITableViewController {
     // MARK: devices properties
     
     var devices :[Device] = []
-    var selectedDevices = (UIApplication.shared.delegate as? AppDelegate)!.appModel.selectedDeviceSet
+//    let selectedDevices = (UIApplication.shared.delegate as? AppDelegate)!.appModel.selectedDeviceSet
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
+        //self.clearsSelectionOnViewWillAppear = false
         
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem
@@ -90,12 +90,13 @@ class DevicesViewController: UITableViewController {
         let device = devices[indexPath.row]
         if cell?.accessoryType == .checkmark {
             cell?.accessoryType = .none
-            selectedDevices.remove(device.id)
+            (UIApplication.shared.delegate as? AppDelegate)!.appModel.selectedDeviceSet.remove(device)
         } else {
             cell?.accessoryType = .checkmark
-            selectedDevices.insert(device.id)
+            (UIApplication.shared.delegate as? AppDelegate)!.appModel.selectedDeviceSet.insert(device)
         }
-        print(selectedDevices)
+//        print(selectedDevices)
+//        print((UIApplication.shared.delegate as? AppDelegate)!.appModel.selectedDeviceSet)
     }
     
     

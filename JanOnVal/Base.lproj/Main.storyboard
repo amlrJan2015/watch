@@ -134,7 +134,7 @@
             </objects>
             <point key="canvasLocation" x="76" y="-897"/>
         </scene>
-        <!--Devices View Controller-->
+        <!--Geräte-->
         <scene sceneID="94k-Fz-jlF">
             <objects>
                 <tableViewController id="Nvl-XX-b3h" customClass="DevicesViewController" customModule="JanOnVal" customModuleProvider="target" sceneMemberID="viewController">
@@ -178,11 +178,69 @@
                             <outlet property="delegate" destination="Nvl-XX-b3h" id="j0S-bK-ccP"/>
                         </connections>
                     </tableView>
+                    <tabBarItem key="tabBarItem" title="Geräte" id="J6D-He-sMg"/>
                     <navigationItem key="navigationItem" id="Kr5-72-odn"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="czr-Mk-u12" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1020" y="-224.4377811094453"/>
+            <point key="canvasLocation" x="98" y="-241"/>
+        </scene>
+        <!--Messwerte-->
+        <scene sceneID="qNe-n2-hIQ">
+            <objects>
+                <tableViewController id="b3I-fS-q4S" customClass="MeasurementTableViewController" customModule="JanOnVal" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="OgV-bn-71w">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <searchBar key="tableHeaderView" contentMode="redraw" text="" showsScopeBar="YES" id="SLh-M6-5cH">
+                            <rect key="frame" x="0.0" y="0.0" width="375" height="100"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <textInputTraits key="textInputTraits"/>
+                            <scopeButtonTitles>
+                                <string>PowerActive</string>
+                                <string>ActiveEnergy</string>
+                            </scopeButtonTitles>
+                        </searchBar>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MeasurementCell" textLabel="zqA-mA-1z2" detailTextLabel="64y-JG-LLz" rowHeight="69" style="IBUITableViewCellStyleSubtitle" id="Web-V0-EhI">
+                                <rect key="frame" x="0.0" y="84" width="375" height="69"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Web-V0-EhI" id="epQ-1u-FwX">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="68.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="zqA-mA-1z2">
+                                            <rect key="frame" x="16" y="14" width="36.5" height="20.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="64y-JG-LLz">
+                                            <rect key="frame" x="16" y="37.5" width="44" height="14.5"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                            <nil key="textColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="b3I-fS-q4S" id="oaG-9I-DL9"/>
+                            <outlet property="delegate" destination="b3I-fS-q4S" id="jHU-jt-MS2"/>
+                        </connections>
+                    </tableView>
+                    <tabBarItem key="tabBarItem" title="Messwerte" id="nSj-B1-rk1"/>
+                    <connections>
+                        <outlet property="measurementSearchBar" destination="SLh-M6-5cH" id="ESA-6f-ZRf"/>
+                    </connections>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JHG-Ke-9WS" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="116" y="479.91004497751129"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="3rz-Rz-vRU">
@@ -195,60 +253,13 @@
                     </tabBar>
                     <connections>
                         <segue destination="m83-2z-C3D" kind="relationship" relationship="viewControllers" id="6Oa-Y0-tmV"/>
-                        <segue destination="O9S-dg-P8P" kind="relationship" relationship="viewControllers" id="e2Y-q7-PK8"/>
-                        <segue destination="0BH-cd-GxU" kind="relationship" relationship="viewControllers" id="f1D-QP-lsg"/>
+                        <segue destination="Nvl-XX-b3h" kind="relationship" relationship="viewControllers" id="eUa-dg-z8H"/>
+                        <segue destination="b3I-fS-q4S" kind="relationship" relationship="viewControllers" id="DJp-du-wQb"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Jkg-Q3-CUN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-786" y="-313"/>
-        </scene>
-        <!--Messwerte-->
-        <scene sceneID="iAv-OQ-zOx">
-            <objects>
-                <viewController id="0BH-cd-GxU" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="fir-aT-PlS">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Messwerte" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kbn-UM-iH4">
-                                <rect key="frame" x="142" y="20" width="90.5" height="21"/>
-                                <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
-                                <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                        <constraints>
-                            <constraint firstItem="Kbn-UM-iH4" firstAttribute="top" secondItem="zdX-iP-jrv" secondAttribute="top" id="cp5-AU-aaQ"/>
-                            <constraint firstItem="Kbn-UM-iH4" firstAttribute="centerX" secondItem="zdX-iP-jrv" secondAttribute="centerX" id="uW1-XZ-pFc"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="zdX-iP-jrv"/>
-                    </view>
-                    <tabBarItem key="tabBarItem" title="Messwerte" id="WGg-2z-dQL"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="FX5-I8-gIL" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-66" y="528"/>
-        </scene>
-        <!--Geräte-->
-        <scene sceneID="ak7-ep-HIn">
-            <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="O9S-dg-P8P" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Geräte" id="Oxz-jK-3Kb"/>
-                    <toolbarItems/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="iKw-yb-gwY">
-                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                        <autoresizingMask key="autoresizingMask"/>
-                    </navigationBar>
-                    <nil name="viewControllers"/>
-                    <connections>
-                        <segue destination="Nvl-XX-b3h" kind="relationship" relationship="rootViewController" id="seb-OK-eas"/>
-                    </connections>
-                </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hh9-45-Jfh" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="76" y="-223"/>
         </scene>
     </scenes>
 </document>

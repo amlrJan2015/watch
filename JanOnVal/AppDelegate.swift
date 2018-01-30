@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var connectivityHandler: ConnectivityHandler?
-    var appModel = AppModel(serverUrl: "", selectedDeviceSet: Set<Int>())
+    var appModel = AppModel(serverUrl: "", selectedDeviceSet: Set<Device>())
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
