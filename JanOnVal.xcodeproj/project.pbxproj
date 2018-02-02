@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA425AD0201E21A8001FA571 /* MeasurementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA425ACF201E21A8001FA571 /* MeasurementTableViewController.swift */; };
+		AA425AD4201E603D001FA571 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA425AD3201E603D001FA571 /* Measurement.swift */; };
 		AA43F50F1FDA6A5E00C879E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA43F50E1FDA6A5E00C879E0 /* AppDelegate.swift */; };
 		AA43F5111FDA6A5E00C879E0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA43F5101FDA6A5E00C879E0 /* ViewController.swift */; };
 		AA43F5141FDA6A5E00C879E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA43F5121FDA6A5E00C879E0 /* Main.storyboard */; };
@@ -19,6 +21,10 @@
 		AA43F5321FDA6A5E00C879E0 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA43F5311FDA6A5E00C879E0 /* InterfaceController.swift */; };
 		AA43F5341FDA6A5E00C879E0 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA43F5331FDA6A5E00C879E0 /* ExtensionDelegate.swift */; };
 		AA43F5361FDA6A5E00C879E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA43F5351FDA6A5E00C879E0 /* Assets.xcassets */; };
+		AA4F10A6201B534000DDA380 /* DevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4F10A5201B534000DDA380 /* DevicesViewController.swift */; };
+		AA4F10A8201B561300DDA380 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4F10A7201B561300DDA380 /* Device.swift */; };
+		AA665222201B78F800E63CC1 /* ServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA665221201B78F800E63CC1 /* ServerViewController.swift */; };
+		AA665224201B7AF400E63CC1 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA665223201B7AF400E63CC1 /* AppModel.swift */; };
 		AAC370E62015C8E800132087 /* ConnectivityHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC370E52015C8E800132087 /* ConnectivityHandler.swift */; };
 /* End PBXBuildFile section */
 
@@ -65,6 +71,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		AA425ACF201E21A8001FA571 /* MeasurementTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementTableViewController.swift; sourceTree = "<group>"; };
+		AA425AD3201E603D001FA571 /* Measurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
 		AA43F50B1FDA6A5E00C879E0 /* JanOnVal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JanOnVal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA43F50E1FDA6A5E00C879E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AA43F5101FDA6A5E00C879E0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -81,6 +89,10 @@
 		AA43F5331FDA6A5E00C879E0 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		AA43F5351FDA6A5E00C879E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA43F5371FDA6A5E00C879E0 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AA4F10A5201B534000DDA380 /* DevicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicesViewController.swift; sourceTree = "<group>"; };
+		AA4F10A7201B561300DDA380 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
+		AA665221201B78F800E63CC1 /* ServerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerViewController.swift; sourceTree = "<group>"; };
+		AA665223201B7AF400E63CC1 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		AAC370E52015C8E800132087 /* ConnectivityHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -102,6 +114,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		AA425AD2201E601D001FA571 /* model */ = {
+			isa = PBXGroup;
+			children = (
+				AA4F10A7201B561300DDA380 /* Device.swift */,
+				AA665223201B7AF400E63CC1 /* AppModel.swift */,
+				AA425AD3201E603D001FA571 /* Measurement.swift */,
+			);
+			path = model;
+			sourceTree = "<group>";
+		};
 		AA43F5021FDA6A5E00C879E0 = {
 			isa = PBXGroup;
 			children = (
@@ -132,6 +154,10 @@
 				AA43F5171FDA6A5E00C879E0 /* LaunchScreen.storyboard */,
 				AA43F51A1FDA6A5E00C879E0 /* Info.plist */,
 				AAC370E52015C8E800132087 /* ConnectivityHandler.swift */,
+				AA4F10A5201B534000DDA380 /* DevicesViewController.swift */,
+				AA425AD2201E601D001FA571 /* model */,
+				AA665221201B78F800E63CC1 /* ServerViewController.swift */,
+				AA425ACF201E21A8001FA571 /* MeasurementTableViewController.swift */,
 			);
 			path = JanOnVal;
 			sourceTree = "<group>";
@@ -292,9 +318,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA4F10A6201B534000DDA380 /* DevicesViewController.swift in Sources */,
 				AA43F5111FDA6A5E00C879E0 /* ViewController.swift in Sources */,
+				AA665224201B7AF400E63CC1 /* AppModel.swift in Sources */,
 				AAC370E62015C8E800132087 /* ConnectivityHandler.swift in Sources */,
+				AA665222201B78F800E63CC1 /* ServerViewController.swift in Sources */,
+				AA425AD4201E603D001FA571 /* Measurement.swift in Sources */,
 				AA43F50F1FDA6A5E00C879E0 /* AppDelegate.swift in Sources */,
+				AA425AD0201E21A8001FA571 /* MeasurementTableViewController.swift in Sources */,
+				AA4F10A8201B561300DDA380 /* Device.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
