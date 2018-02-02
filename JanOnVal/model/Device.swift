@@ -15,7 +15,15 @@ struct Device {
     let type: String
 }
 
-extension Device {
+extension Device: Hashable {
+    var hashValue: Int {
+        return self.id
+    }
+    
+    static func ==(lhs: Device, rhs: Device) -> Bool {
+        return lhs.id == rhs.id
+    }
+    
     init?(json: [String: Any]) {
         guard let name = json["name"] as? String,
             let id = json["id"] as? Int,

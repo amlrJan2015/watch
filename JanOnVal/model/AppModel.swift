@@ -10,5 +10,5 @@ import Foundation
 
 struct AppModel {
     var serverUrl: String
-    var selectedDeviceSet: Set<Int>
+    var selectedDeviceSet: Set<Device>
 }
