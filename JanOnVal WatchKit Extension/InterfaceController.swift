@@ -14,10 +14,13 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     
     //let tempRestURL = URL(string: "http://www.zum-eisenberg.de:8080/rest/1/projects/Eisenberg/onlinevalues?value=1;Temperature;Temp_Extern1")!
     
-    var endPoint1: String?
-    var endPoint2: String?
+    var selectedMeasurementArr = Array<String>()
+    
+    @IBOutlet var table: WKInterfaceTable!
     
     var session: WCSession?
+    
+    
     
     func applicationDidFinishLaunching() {
         // Perform any final initialization of your application.
@@ -62,11 +65,26 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     
     var serverUrl: String?
     
+    @IBOutlet var startFetching: WKInterfaceButton!
+    
+    
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        self.endPoint1 = (message["ep1"] as? String)
-        self.endPoint2 = (message["ep2"] as? String)
+        selectedMeasurementArr = []
+        measurementValueArr = []
+        let arr = (message["selectedMeasurementArr"] as? [String])
+        for item in arr! {
+            let splitedStr = item.split(separator: ";")
+            selectedMeasurementArr.append("\(String(splitedStr[0]));\(String(splitedStr[1]));\(String(splitedStr[2]))")
+            measurementValueArr.append(MeasurementValue(value: nil, unit: String(splitedStr[3])))
+        }
+        
+        table.setNumberOfRows(selectedMeasurementArr.count, withRowType: "measurementRowType")
+        
+        
         self.serverUrl = (message["serverUrl"] as! String)
-        NSLog("%@", "ep1:\(self.endPoint1) server:\(self.serverUrl)")
+        NSLog("%@", "server:\(self.serverUrl)")
+        //        startFetching.setBackgroundColor(UIColor.init(red: <#T##CGFloat#>, green: <#T##CGFloat#>, blue: <#T##CGFloat#>, alpha: <#T##CGFloat#>))
+        startFetching.setBackgroundColor(UIColor.green)
     }
     
     override func awake(withContext context: Any?) {
@@ -84,18 +102,32 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         session?.activate()
     }
     
+    var measurementValueArr = Array<MeasurementValue>()
     
+    private func configureTableWithData() {
+        table.setNumberOfRows(selectedMeasurementArr.count, withRowType: "measurementRowType")
+        
+        for index in 0..<selectedMeasurementArr.count {
+            let row = table.rowController(at: index) as? MeasurementRowType
+            let measurement = selectedMeasurementArr[index]
+            
+            row?.value.setText("\(measurementValueArr[index].value)")
+            row?.unit.setText(String(measurement.split(separator: ";")[3]))
+        }
+    }
     
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
     
-    var fetchTask1: URLSessionDataTask!
-    var fetchTask2: URLSessionDataTask!
     
-    func doGetData1()->URLSessionDataTask {
-        var request = URLRequest(url: URL(string:"\(self.serverUrl!)\(self.endPoint1!)")!)
+    var fetchTaskArr = Array<URLSessionDataTask>()
+    
+    
+    private func doGetData(atSelectedMeasurementIndex index: Int) -> URLSessionDataTask {
+//        print("RequestTo:\(self.serverUrl!)onlinevalues?value=\(self.selectedMeasurementArr[index])")
+        var request = URLRequest(url: URL(string:"\(self.serverUrl!)onlinevalues?value=\(self.selectedMeasurementArr[index])")!)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         let session = URLSession.shared
@@ -104,65 +136,47 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
             do {
                 let json = try JSONSerialization.jsonObject(with: data!) as! Dictionary<String, AnyObject>
                 DispatchQueue.main.async { // Correct
-                    guard let value = json["value"] as? [String: Any],
-                        let t = value["1.Temperature.Temp_Extern1"] as? Double else {
+                    let measurementStr = self.selectedMeasurementArr[index]
+                    let measurementStrSplited = measurementStr.split(separator: ";")
+                    let deviceId = String(measurementStrSplited[0])
+                    let value = String(measurementStrSplited[1])
+                    let type = String(measurementStrSplited[2])
+                    let unit = self.measurementValueArr[index].unit
+                    
+                    guard let measurementValue = json["value"] as? [String: Any],
+                        let t = measurementValue["\(deviceId).\(value).\(type)"] as? Double else {
                             return
                     }
-                    print("T:\(t)")
-                    self.temperatureLbl.setText(String(format:"W[T]:%.1f˚", t))
+//                    print("T:\(t)")
+                    //                    self.temperatureLbl.setText(String(format:"W[T]:%.1f˚", t))
+                    self.measurementValueArr[index] = MeasurementValue(value: t, unit: unit)
+                    
+                    let row = self.table.rowController(at: index) as? MeasurementRowType
+                    
+                    row?.value.setText(String(format:"%.1f", t))
+                    row?.unit.setText(unit)
                 }
             } catch {
-                print("error")
+                print("error:\(error)")
             }
             
         })
     }
-    
-    func doGetData2()->URLSessionDataTask {
-        var request = URLRequest(url: URL(string:"\(self.serverUrl!)\(self.endPoint2!)")!)
-        request.httpMethod = "GET"
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        let session = URLSession.shared
-        return session.dataTask(with: request, completionHandler: { data, response, error -> Void in
-            
-            do {
-                let json = try JSONSerialization.jsonObject(with: data!) as! Dictionary<String, AnyObject>
-                DispatchQueue.main.async { // Correct
-                    guard let value = json["value"] as? [String: Any],
-                        let t = value["1.PowerActive.SUM13"] as? Double else {
-                            return
-                    }
-                    print("T:\(t)")
-                    self.ep2.setText(String(format:"Verbr:%.1fW", t))
-                }
-            } catch {
-                print("error")
-            }
-            
-        })
-    }
-
-    @IBOutlet var temperatureLbl: WKInterfaceLabel!    
-    @IBOutlet var ep2: WKInterfaceLabel!
     
     var fetchTimer: Timer?;
     
     @IBAction func getTemp() {
-        temperatureLbl.setText("W[T]:...")
-        ep2.setText("Verbr[W]:...")
-        
         fetchTimer?.invalidate();
         
         fetchTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { (timer) in
             DispatchQueue.main.async { // Correct
-                print("get data")
-                if self.fetchTask1 == nil || self.fetchTask1.state == URLSessionTask.State.completed {
-                    self.fetchTask1 = self.doGetData1()
-                    self.fetchTask1.resume()
-                }
-                if self.fetchTask2 == nil || self.fetchTask2.state == URLSessionTask.State.completed {
-                    self.fetchTask2 = self.doGetData2()
-                    self.fetchTask2.resume()
+//                print("get data")
+                
+                for index in 0..<self.selectedMeasurementArr.count {
+                    if self.fetchTaskArr.count == index || self.fetchTaskArr[index].state == URLSessionTask.State.completed {
+                        self.fetchTaskArr.insert(self.doGetData(atSelectedMeasurementIndex: index), at: index)
+                        self.fetchTaskArr[index].resume()
+                    }
                 }
             }
         }

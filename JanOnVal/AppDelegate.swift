@@ -14,7 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
     var connectivityHandler: ConnectivityHandler?
-    var appModel = AppModel(serverUrl: "", selectedDeviceSet: Set<Device>())
+//    var appModel = AppModel(serverUrl: "", selectedDeviceSet: Set<Device>())
+    let tabBarController = AppTabBarController()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.

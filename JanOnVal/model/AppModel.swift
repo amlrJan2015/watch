@@ -8,7 +8,8 @@
 
 import Foundation
 
-struct AppModel {
-    var serverUrl: String
-    var selectedDeviceSet: Set<Device>
+class AppModel {
+    var serverUrl = ""
+    var selectedDeviceArr = Array<Device>()
+//    var selectedMeasurementArr = Array<Measurement>()
 }
