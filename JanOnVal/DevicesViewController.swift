@@ -88,12 +88,18 @@ class DevicesViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         let device = devices[indexPath.row]
-        if cell?.accessoryType == .checkmark {
+        
+        
+        
+        
+        
+//        if cell?.accessoryType == .checkmark {
+        if appModel!.selectedDeviceArr.contains(device) {
             cell?.accessoryType = .none
-            appModel!.selectedDeviceArr.remove(at: indexPath.row)
+            appModel!.selectedDeviceArr.remove(at:appModel!.selectedDeviceArr.index(of: device)!)
         } else {
             cell?.accessoryType = .checkmark
-            appModel!.selectedDeviceArr.insert(device, at: indexPath.row)
+            appModel!.selectedDeviceArr.append(device)
         }
         print(appModel!.selectedDeviceArr)
     }
