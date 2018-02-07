@@ -37,7 +37,7 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
         let tbc = tabBarController as? AppTabBarController
         appModel = tbc?.appModel
         
-//        print(appModel!.selectedDeviceArr)
+        print(appModel!.selectedDeviceArr)
         
         for device in appModel!.selectedDeviceArr {
             
@@ -137,7 +137,17 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return currMeasurements.count
     }
+ 
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return appModel?.selectedDeviceArr[section].name
+    }
     
+//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+//        let vw = UIView()
+//        vw.backgroundColor = UIColor.blue
+//
+//        return vw
+//    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MeasurementCell", for: indexPath)
@@ -159,7 +169,7 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
         let cell = tableView.cellForRow(at: indexPath)
         let measurement = currMeasurements[indexPath.row]
         let key = "\(indexPath.section);\(measurement.value);\(measurement.type)"
-//        if cell?.accessoryType == .checkmark {
+
         if selectedMeasurement[key] != nil {
             cell?.accessoryType = .none
             selectedMeasurement.removeValue(forKey: key)
@@ -169,6 +179,5 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
             let device = appModel?.selectedDeviceArr[indexPath.section]
             selectedMeasurement[key] = "\(device!.id);\(measurement.value);\(measurement.type);\(measurement.unit)"
         }
-//        print(selectedMeasurement)
     }
 }

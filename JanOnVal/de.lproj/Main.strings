@@ -1,0 +1,42 @@
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "7O7-ht-CLw"; */
+"7O7-ht-CLw.text" = "Subtitle";
+
+/* Class = "UIButton"; normalTitle = "Send to Watch"; ObjectID = "EMK-W9-0UK"; */
+"EMK-W9-0UK.normalTitle" = "Send to Watch";
+
+/* Class = "UISearchBar"; IaT-k3-fee.scopeButtonTitles[0] = "PowerActive"; ObjectID = "IaT-k3-fee"; */
+"IaT-k3-fee.scopeButtonTitles[0]" = "PowerActive";
+
+/* Class = "UISearchBar"; IaT-k3-fee.scopeButtonTitles[1] = "ActiveEnergy"; ObjectID = "IaT-k3-fee"; */
+"IaT-k3-fee.scopeButtonTitles[1]" = "ActiveEnergy";
+
+/* Class = "UISearchBar"; IaT-k3-fee.scopeButtonTitles[2] = "No Filter"; ObjectID = "IaT-k3-fee"; */
+"IaT-k3-fee.scopeButtonTitles[2]" = "No Filter";
+
+/* Class = "UITabBarItem"; title = "Geräte"; ObjectID = "J6D-He-sMg"; */
+"J6D-He-sMg.title" = "Geräte";
+
+/* Class = "UITabBarItem"; title = "Messwerte"; ObjectID = "N6A-4m-XVZ"; */
+"N6A-4m-XVZ.title" = "Messwerte";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "NYF-V8-I1k"; */
+"NYF-V8-I1k.text" = "Title";
+
+/* Class = "UITextField"; text = "http://www.zum-eisenberg.de:8080/rest/1/projects/Eisenberg/"; ObjectID = "Vbb-Nb-P25"; */
+"Vbb-Nb-P25.text" = "http://www.zum-eisenberg.de:8080/rest/1/projects/Eisenberg/";
+
+/* Class = "UILabel"; text = "Subtitle"; ObjectID = "Xmu-Ld-6mK"; */
+"Xmu-Ld-6mK.text" = "Subtitle";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "eb8-a8-SAH"; */
+"eb8-a8-SAH.text" = "Title";
+
+/* Class = "UILabel"; text = "URL"; ObjectID = "g4E-Vz-nbL"; */
+"g4E-Vz-nbL.text" = "URL";
+
+/* Class = "UITabBarItem"; title = "Server"; ObjectID = "hAX-Pk-Kar"; */
+"hAX-Pk-Kar.title" = "Server";
+
+/* Class = "UILabel"; text = "Servereinstellungen"; ObjectID = "nwj-Oj-Kzf"; */
+"nwj-Oj-Kzf.text" = "Servereinstellungen";
