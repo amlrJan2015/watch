@@ -103,10 +103,17 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
         //        }
         
         currMeasurements = [:]
+        let selectedScope = searchBar.selectedScopeButtonIndex
         for (device, measurementArr) in measurements {
+            currMeasurements[device] = [Measurement]()
             for measurement in measurementArr {
-                if  measurement.valueName.contains(searchText) {
-                    currMeasurements[device]?.append(measurement)
+                if "" == searchText {
+                    if  "No Filter" == searchBar.scopeButtonTitles![selectedScope] ||
+                        searchBar.scopeButtonTitles![selectedScope] == measurement.value {
+                        currMeasurements[device]!.append(measurement)
+                    }
+                } else if measurement.valueName.contains(searchText) {
+                    currMeasurements[device]!.append(measurement)
                 }
             }
         }
@@ -118,12 +125,13 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
         currMeasurements = [:]
         
         for (device, measurementArr) in measurements {
+            currMeasurements[device] = [Measurement]()
             if "No Filter" == measurementSearchBar.scopeButtonTitles![selectedScope] {
                 currMeasurements[device] = measurementArr
             } else {
                 for measurement in measurementArr {
                     if measurementSearchBar.scopeButtonTitles![selectedScope] == measurement.value {
-                        currMeasurements[device]?.append(measurement)
+                        currMeasurements[device]!.append(measurement)
                     }
                 }
             }
