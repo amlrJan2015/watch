@@ -21,6 +21,7 @@ struct Measurement {
     let unit: String
     let value: String
     let valueName: String
+    var deviceId = 0
 }
 
 extension Measurement: Hashable {

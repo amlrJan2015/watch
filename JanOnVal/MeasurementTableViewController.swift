@@ -11,22 +11,28 @@ import UIKit
 class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
     
     var connectivityHandler: ConnectivityHandler!
-    
     var appModel: AppModel?
-    
-    var measurements: [Measurement] = []
-    var currMeasurements: [Measurement] = []
-    var selectedMeasurement = Dictionary<String, String>()
+    var measurements = Dictionary<Device, [Measurement]>()
+    var currMeasurements = Dictionary<Device, [Measurement]>()
+    var selectedMeasurement = Dictionary<Device, [Measurement]>()
     
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var measurementSearchBar: UISearchBar!
     
     @IBAction func sendMeasurementsToWatch(_ sender: UIButton) {
+        
+        var selectedMeasurementArr = [String]()
+        for (device, measurementArr) in selectedMeasurement {
+            for measurement in measurementArr {
+                selectedMeasurementArr.append("\(device.id);\(measurement.value);\(measurement.type);\(measurement.unit)")
+            }
+        }
+        
         connectivityHandler.session.sendMessage(
             [
                 "serverUrl": appModel?.serverUrl,
-                "selectedMeasurementArr": Array(selectedMeasurement.values)
+                "selectedMeasurementArr": selectedMeasurementArr
         ], replyHandler: nil) { (err) in
             NSLog("%@", "Error sending data to watch: \(err)")
         }
@@ -37,9 +43,11 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
         let tbc = tabBarController as? AppTabBarController
         appModel = tbc?.appModel
         
-        print(appModel!.selectedDeviceArr)
-        
         for device in appModel!.selectedDeviceArr {
+            
+            measurements[device] = []
+            currMeasurements[device] = []
+            selectedMeasurement[device] = []
             
             var request = URLRequest(url: URL(string:"\(appModel!.serverUrl)devices/\(device.id)/online/values")!)
             
@@ -47,25 +55,29 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
             request.setValue("application/json", forHTTPHeaderField: "Accept")
             let session = URLSession.shared
             let fetchDevicesTask = session.dataTask(with: request, completionHandler: { data, response, error -> Void in
-                
-                do {
-                    //                    print(String(data: data!,encoding: String.Encoding.utf8) as! String)
-                    let json = try JSONSerialization.jsonObject(with: data!, options: []) //as! Dictionary<String, AnyObject>
-                    
-                    let measurementArr = ((json as? [String: Any])!["valuetype"] as? [[String: Any]])!;
-                    DispatchQueue.main.async { // Correct
-                        for measurement in measurementArr {
-                            let m = Measurement(json: measurement);
-                            self.measurements.append(m!)
-                            if self.measurementSearchBar.scopeButtonTitles![self.measurementSearchBar.selectedScopeButtonIndex] == m?.value {
-                                self.currMeasurements.append(m!)
-                            }
-                        }
+                if let measurementsData = data {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: measurementsData, options: []) //as! Dictionary<String, AnyObject>
                         
-                        self.tableView.reloadData()
+                        let measurementArr = ((json as? [String: Any])!["valuetype"] as? [[String: Any]])!;
+                        DispatchQueue.main.async { // Correct
+                            for measurement in measurementArr {
+                                var m = Measurement(json: measurement);
+                                m?.deviceId = device.id
+                                
+                                self.measurements[device]?.append(m!)
+                                if self.measurementSearchBar.scopeButtonTitles![self.measurementSearchBar.selectedScopeButtonIndex] == m?.value {
+                                    self.currMeasurements[device]?.append(m!)
+                                }
+                            }
+                            
+                            self.tableView.reloadData()
+                        }
+                    } catch {
+                        print("error:\(error)")
                     }
-                } catch {
-                    print("error:\(error)")
+                } else {
+                    print("No data to:\(self.appModel!.serverUrl)devices/\(device.id)/online/values)")
                 }
                 
             })
@@ -76,15 +88,6 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
-        
-        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -93,39 +96,40 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
     
     // MARK: - SearchBar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        if searchText.count > 0 {
-//            searchBar.showsScopeBar = false
-//        } else {
-//            searchBar.showsScopeBar = true
-//        }
+        //        if searchText.count > 0 {
+        //            searchBar.showsScopeBar = false
+        //        } else {
+        //            searchBar.showsScopeBar = true
+        //        }
         
-        currMeasurements = []
-        for measurement in measurements {
-            if  measurement.valueName.contains(searchText) {
-                currMeasurements.append(measurement)
-            }
-        }
-        
-        self.tableView.reloadData()        
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        currMeasurements = []
-        
-        for measurement in measurements {
-            if "No Filter" == measurementSearchBar.scopeButtonTitles![selectedScope] {
-                currMeasurements.append(measurement)
-            } else if measurementSearchBar.scopeButtonTitles![selectedScope] == measurement.value {
-                currMeasurements.append(measurement)
+        currMeasurements = [:]
+        for (device, measurementArr) in measurements {
+            for measurement in measurementArr {
+                if  measurement.valueName.contains(searchText) {
+                    currMeasurements[device]?.append(measurement)
+                }
             }
         }
         
         self.tableView.reloadData()
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        currMeasurements = [:]
+        
+        for (device, measurementArr) in measurements {
+            if "No Filter" == measurementSearchBar.scopeButtonTitles![selectedScope] {
+                currMeasurements[device] = measurementArr
+            } else {
+                for measurement in measurementArr {
+                    if measurementSearchBar.scopeButtonTitles![selectedScope] == measurement.value {
+                        currMeasurements[device]?.append(measurement)
+                    }
+                }
+            }
+        }
+        
+        self.tableView.reloadData()
     }
     
     // MARK: - Table view data source
@@ -135,29 +139,35 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return currMeasurements.count
+        if currMeasurements.count > 0 {
+            let device = appModel!.selectedDeviceArr[section]
+            return currMeasurements[device]!.count
+        }
+        
+        return 0
     }
- 
+    
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         return appModel?.selectedDeviceArr[section].name
     }
     
-//    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-//        let vw = UIView()
-//        vw.backgroundColor = UIColor.blue
-//
-//        return vw
-//    }
+    //    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    //        let vw = UIView()
+    //        vw.backgroundColor = UIColor.blue
+    //
+    //        return vw
+    //    }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "MeasurementCell", for: indexPath)
         
         // Configure the cell...
-        let measurement = currMeasurements[indexPath.row]
+        let device = appModel!.selectedDeviceArr[indexPath.section]
+        let measurement = currMeasurements[device]![indexPath.row]
         cell.textLabel?.text = measurement.valueName
         cell.detailTextLabel?.text = measurement.typeName
-        let key = "\(indexPath.section);\(measurement.value);\(measurement.type)"
-        if selectedMeasurement[key] != nil {
+        
+        if selectedMeasurement[device]!.contains(measurement){
             cell.accessoryType = .checkmark
         } else {
             cell.accessoryType = .none
@@ -167,17 +177,16 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
-        let measurement = currMeasurements[indexPath.row]
-        let key = "\(indexPath.section);\(measurement.value);\(measurement.type)"
-
-        if selectedMeasurement[key] != nil {
+        let device = appModel!.selectedDeviceArr[indexPath.section]
+        let measurement = currMeasurements[device]![indexPath.row]
+        
+        if selectedMeasurement[device]!.contains(measurement){
             cell?.accessoryType = .none
-            selectedMeasurement.removeValue(forKey: key)
+            let idxToRemove = selectedMeasurement[device]?.index(of: measurement)
+            selectedMeasurement[device]?.remove(at: idxToRemove!)
         } else {
             cell?.accessoryType = .checkmark
-//            onlinevalues?value=1;PowerActive;SUM13
-            let device = appModel?.selectedDeviceArr[indexPath.section]
-            selectedMeasurement[key] = "\(device!.id);\(measurement.value);\(measurement.type);\(measurement.unit)"
+            selectedMeasurement[device]!.append(measurement)
         }
     }
 }

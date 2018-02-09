@@ -13,7 +13,6 @@
 		AA425AD0201E21A8001FA571 /* MeasurementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA425ACF201E21A8001FA571 /* MeasurementTableViewController.swift */; };
 		AA425AD4201E603D001FA571 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA425AD3201E603D001FA571 /* Measurement.swift */; };
 		AA43F50F1FDA6A5E00C879E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA43F50E1FDA6A5E00C879E0 /* AppDelegate.swift */; };
-		AA43F5111FDA6A5E00C879E0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA43F5101FDA6A5E00C879E0 /* ViewController.swift */; };
 		AA43F5141FDA6A5E00C879E0 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA43F5121FDA6A5E00C879E0 /* Main.storyboard */; };
 		AA43F5161FDA6A5E00C879E0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA43F5151FDA6A5E00C879E0 /* Assets.xcassets */; };
 		AA43F5191FDA6A5E00C879E0 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = AA43F5171FDA6A5E00C879E0 /* LaunchScreen.storyboard */; };
@@ -84,7 +83,6 @@
 		AA425AD3201E603D001FA571 /* Measurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
 		AA43F50B1FDA6A5E00C879E0 /* JanOnVal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JanOnVal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA43F50E1FDA6A5E00C879E0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		AA43F5101FDA6A5E00C879E0 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		AA43F5131FDA6A5E00C879E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		AA43F5151FDA6A5E00C879E0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		AA43F5181FDA6A5E00C879E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -157,7 +155,6 @@
 			isa = PBXGroup;
 			children = (
 				AA43F50E1FDA6A5E00C879E0 /* AppDelegate.swift */,
-				AA43F5101FDA6A5E00C879E0 /* ViewController.swift */,
 				AA43F5121FDA6A5E00C879E0 /* Main.storyboard */,
 				AA43F5151FDA6A5E00C879E0 /* Assets.xcassets */,
 				AA43F5171FDA6A5E00C879E0 /* LaunchScreen.storyboard */,
@@ -263,15 +260,15 @@
 				TargetAttributes = {
 					AA43F50A1FDA6A5E00C879E0 = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					AA43F51C1FDA6A5E00C879E0 = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 					AA43F52B1FDA6A5E00C879E0 = {
 						CreatedOnToolsVersion = 9.2;
-						ProvisioningStyle = Automatic;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -331,7 +328,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA4F10A6201B534000DDA380 /* DevicesViewController.swift in Sources */,
-				AA43F5111FDA6A5E00C879E0 /* ViewController.swift in Sources */,
 				AA665224201B7AF400E63CC1 /* AppModel.swift in Sources */,
 				256DE29D20248C0C000D2549 /* AppTabBarController.swift in Sources */,
 				AAC370E62015C8E800132087 /* ConnectivityHandler.swift in Sources */,
@@ -430,10 +426,11 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -450,9 +447,10 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE_SPECIFIER = "GridVis Watch App Store";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -490,9 +488,10 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
@@ -503,8 +502,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE_SPECIFIER = "GridVis Watch App Store";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VALIDATE_PRODUCT = YES;
@@ -517,13 +517,13 @@
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = "JanOnVal WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "GridVis Watch Dev";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -536,15 +536,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Janitza electronics GmbH (364UQ5RPHK)";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Distribution: Janitza electronics GmbH (364UQ5RPHK)";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = "JanOnVal WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch;
+				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch.wk.wke;
 				PRODUCT_NAME = "${TARGET_NAME}";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "GridVis Watch WatchKit Extesion";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
@@ -560,19 +560,19 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				IBSC_MODULE = JanOnVal_WatchKit_Extension;
 				INFOPLIST_FILE = "JanOnVal WatchKit App/Info.plist";
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "GridVis Watch Dev";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+				WATCHOS_DEPLOYMENT_TARGET = 4.2;
 			};
 			name = Debug;
 		};
@@ -581,21 +581,21 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Janitza electronics GmbH (364UQ5RPHK)";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Distribution: Janitza electronics GmbH (364UQ5RPHK)";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				IBSC_MODULE = JanOnVal_WatchKit_Extension;
 				INFOPLIST_FILE = "JanOnVal WatchKit App/Info.plist";
-				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch;
+				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch.wk;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "GridVis Watch Watch App";
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+				WATCHOS_DEPLOYMENT_TARGET = 4.2;
 			};
 			name = Release;
 		};
@@ -606,14 +606,14 @@
 				"CODE_SIGN_ENTITLEMENTS[sdk=*]" = "";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = JanOnVal/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "GridVis Watch Dev";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -623,16 +623,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Distribution: Janitza electronics GmbH (364UQ5RPHK)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Janitza electronics GmbH (364UQ5RPHK)";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = JanOnVal/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "";
+				PROVISIONING_PROFILE_SPECIFIER = "GridVis Watch App Store";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

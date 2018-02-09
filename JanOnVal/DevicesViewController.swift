@@ -21,12 +21,6 @@ class DevicesViewController: UITableViewController {
         let tbc = tabBarController as? AppTabBarController
         appModel = tbc?.appModel
         
-        // Uncomment the following line to preserve selection between presentations
-        //self.clearsSelectionOnViewWillAppear = false
-        
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem
-        
         var request = URLRequest(url: URL(string:"\(appModel!.serverUrl)devices")!)
         
         request.httpMethod = "GET"
@@ -42,7 +36,6 @@ class DevicesViewController: UITableViewController {
                 let deviceArr = ((json as? [String: Any])!["device"] as? [[String: Any]])!;
                 for device in deviceArr {
                     let d = Device(json: device);
-                    //                    print("name:\((d?.name)!)")
                     self.devices.append(d!)
                 }
                 DispatchQueue.main.async { // Correct
@@ -58,10 +51,6 @@ class DevicesViewController: UITableViewController {
         
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
     
     // MARK: - Table view data source
     
@@ -88,12 +77,7 @@ class DevicesViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         let device = devices[indexPath.row]
-        
-        
-        
-        
-        
-//        if cell?.accessoryType == .checkmark {
+
         if appModel!.selectedDeviceArr.contains(device) {
             cell?.accessoryType = .none
             appModel!.selectedDeviceArr.remove(at:appModel!.selectedDeviceArr.index(of: device)!)
