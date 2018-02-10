@@ -29,17 +29,28 @@ class DevicesViewController: UITableViewController {
         let fetchDevicesTask = session.dataTask(with: request, completionHandler: { data, response, error -> Void in
             
             do {
-                //print(String(data: data!,encoding: String.Encoding.utf8) as! String)
-                let json = try JSONSerialization.jsonObject(with: data!, options: []) //as! Dictionary<String, AnyObject>
-                
-                
-                let deviceArr = ((json as? [String: Any])!["device"] as? [[String: Any]])!;
-                for device in deviceArr {
-                    let d = Device(json: device);
-                    self.devices.append(d!)
-                }
-                DispatchQueue.main.async { // Correct
-                    self.tableView.reloadData()
+                if let devicesData = data {
+                    //print(String(data: data!,encoding: String.Encoding.utf8) as! String)
+                    let json = try JSONSerialization.jsonObject(with: devicesData, options: []) //as! Dictionary<String, AnyObject>
+                    
+                    
+                    let deviceArr = ((json as? [String: Any])!["device"] as? [[String: Any]])!;
+                    for device in deviceArr {
+                        let d = Device(json: device);
+                        self.devices.append(d!)
+                    }
+                    DispatchQueue.main.async { // Correct
+                        self.tableView.reloadData()
+                    }
+                } else {
+                    let alert = UIAlertController(
+                        title: "No devices found.",
+                        message: "Check your server config!",
+                        preferredStyle: .alert
+                    )
+                    //TODO: go back to server config in handler
+                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                    self.present(alert, animated: true)
                 }
             } catch {
                 print("error:\(error)")
@@ -77,7 +88,7 @@ class DevicesViewController: UITableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
         let device = devices[indexPath.row]
-
+        
         if appModel!.selectedDeviceArr.contains(device) {
             cell?.accessoryType = .none
             appModel!.selectedDeviceArr.remove(at:appModel!.selectedDeviceArr.index(of: device)!)
