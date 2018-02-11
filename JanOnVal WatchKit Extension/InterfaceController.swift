@@ -2,7 +2,7 @@
 //  InterfaceController.swift
 //  JanOnVal WatchKit Extension
 //
-//  Created by Christian Stolz on 08.12.17.
+//  Created by Andreas Mueller on 08.12.17.
 //  Copyright © 2017 Andreas Mueller. All rights reserved.
 //
 
@@ -12,7 +12,8 @@ import WatchConnectivity
 
 class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSessionDelegate {
     
-    //let tempRestURL = URL(string: "http://www.zum-eisenberg.de:8080/rest/1/projects/Eisenberg/onlinevalues?value=1;Temperature;Temp_Extern1")!
+    
+    @IBOutlet var info: WKInterfaceLabel!
     
     var selectedMeasurementArr = Array<String>()
     
@@ -64,9 +65,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     }
     
     var serverUrl: String?
-    
-    @IBOutlet var startFetching: WKInterfaceButton!
-    
+    let defaults = UserDefaults.standard
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
         selectedMeasurementArr = []
@@ -80,11 +79,20 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         
         table.setNumberOfRows(selectedMeasurementArr.count, withRowType: "measurementRowType")
         
-        
-        self.serverUrl = (message["serverUrl"] as! String)
+        serverUrl = (message["serverUrl"] as! String)
         NSLog("%@", "server:\(self.serverUrl)")
         //        startFetching.setBackgroundColor(UIColor.init(red: <#T##CGFloat#>, green: <#T##CGFloat#>, blue: <#T##CGFloat#>, alpha: <#T##CGFloat#>))
-        startFetching.setBackgroundColor(UIColor.green)
+        
+        defaults.set(serverUrl, forKey: SERVER_CONFIG)
+        defaults.set(selectedMeasurementArr, forKey: SELECT_MEASUREMENT_ARR)
+        defaults.set(measurementValueArr.map({ (measurementValue) -> String in
+            return measurementValue.unit ?? ""
+        }), forKey: SELECT_MEASUREMENT_VALUE_ARR)
+        
+        serverUrlOrig = serverUrl!
+        selectedMeasurementArrOrig = selectedMeasurementArr
+        
+        getTemp()
     }
     
     override func awake(withContext context: Any?) {
@@ -93,6 +101,14 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         // Configure interface objects here.
     }
     
+    let SERVER_CONFIG = "SERVER_CONFIG"
+    let SELECT_MEASUREMENT_ARR = "SELECT_MEASUREMENT_ARR"
+    let SELECT_MEASUREMENT_VALUE_ARR = "SELECT_MEASUREMENT_VALUE_ARR"
+    
+    var serverUrlOrig = ""
+    var selectedMeasurementArrOrig = [String]()
+    
+    
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
@@ -100,6 +116,23 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         session = WCSession.default
         session?.delegate = self
         session?.activate()
+        
+        serverUrl = defaults.string(forKey: SERVER_CONFIG)
+        if serverUrl != nil {
+            selectedMeasurementArr = defaults.array(forKey: SELECT_MEASUREMENT_ARR) as! [String]
+            measurementValueArr = (defaults.array(forKey: SELECT_MEASUREMENT_VALUE_ARR) as! [String]).map({ (unit) -> MeasurementValue in
+                return MeasurementValue(value: nil, unit: unit)
+            })
+            
+            if serverUrlOrig != serverUrl && selectedMeasurementArrOrig != selectedMeasurementArr {
+                table.setNumberOfRows(selectedMeasurementArr.count, withRowType: "measurementRowType")
+                serverUrlOrig = serverUrl!
+                selectedMeasurementArrOrig = selectedMeasurementArr
+                getTemp()
+            }
+        } else {
+            info.setText("No config")
+        }
     }
     
     var measurementValueArr = Array<MeasurementValue>()
@@ -126,7 +159,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     
     
     private func doGetData(atSelectedMeasurementIndex index: Int) -> URLSessionDataTask {
-//        print("RequestTo:\(self.serverUrl!)onlinevalues?value=\(self.selectedMeasurementArr[index])")
+        //        print("RequestTo:\(self.serverUrl!)onlinevalues?value=\(self.selectedMeasurementArr[index])")
         var request = URLRequest(url: URL(string:"\(self.serverUrl!)onlinevalues?value=\(self.selectedMeasurementArr[index])")!)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -147,7 +180,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
                         let t = measurementValue["\(deviceId).\(value).\(type)"] as? Double else {
                             return
                     }
-//                    print("T:\(t)")
+                    //                    print("T:\(t)")
                     //                    self.temperatureLbl.setText(String(format:"W[T]:%.1f˚", t))
                     self.measurementValueArr[index] = MeasurementValue(value: t, unit: unit)
                     
@@ -165,20 +198,20 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     
     var fetchTimer: Timer?;
     
-    @IBAction func getTemp() {
+    private func getTemp() {
+        info.setText("Fetching[2s]...")
         fetchTimer?.invalidate();
         
         fetchTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { (timer) in
-            DispatchQueue.main.async { // Correct
-//                print("get data")
-                
-                for index in 0..<self.selectedMeasurementArr.count {
-                    if self.fetchTaskArr.count == index || self.fetchTaskArr[index].state == URLSessionTask.State.completed {
-                        self.fetchTaskArr.insert(self.doGetData(atSelectedMeasurementIndex: index), at: index)
-                        self.fetchTaskArr[index].resume()
-                    }
+            for index in 0..<self.selectedMeasurementArr.count {
+                if self.fetchTaskArr.count == index || self.fetchTaskArr[index].state == URLSessionTask.State.completed {
+                    self.fetchTaskArr.insert(self.doGetData(atSelectedMeasurementIndex: index), at: index)
+                    self.fetchTaskArr[index].resume()
                 }
             }
+        }
+        if fetchTimer!.isValid {
+            fetchTimer!.fire()
         }
     }
 }

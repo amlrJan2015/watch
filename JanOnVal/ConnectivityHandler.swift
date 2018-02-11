@@ -2,7 +2,7 @@
 //  ConnectivityHandler.swift
 //  JanOnVal
 //
-//  Created by Christian Stolz on 22.01.18.
+//  Created by Andreas Mueller on 22.01.18.
 //  Copyright © 2018 Andreas Mueller. All rights reserved.
 //
 

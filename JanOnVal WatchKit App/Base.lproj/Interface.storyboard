@@ -14,12 +14,7 @@
             <objects>
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="JanOnVal_WatchKit_App" customModuleProvider="target">
                     <items>
-                        <button width="136" height="34" alignment="center" verticalAlignment="bottom" title="start" id="zGs-CE-g4a">
-                            <color key="backgroundColor" red="0.92827672916015391" green="0.086628940079385056" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                            <connections>
-                                <action selector="getTemp" destination="AgC-eL-Hgc" id="Nu1-ax-DGg"/>
-                            </connections>
-                        </button>
+                        <label width="136" height="26" alignment="center" verticalAlignment="bottom" text="No config" textAlignment="center" id="jTI-wC-eWP"/>
                         <table alignment="left" id="UXK-c9-bYL">
                             <items>
                                 <tableRow identifier="measurementRowType" id="T6f-m2-3ha" customClass="MeasurementRowType" customModule="JanOnVal_WatchKit_Extension">
@@ -38,7 +33,7 @@
                         </table>
                     </items>
                     <connections>
-                        <outlet property="startFetching" destination="zGs-CE-g4a" id="efb-b0-mp8"/>
+                        <outlet property="info" destination="jTI-wC-eWP" id="LCs-aW-36w"/>
                         <outlet property="table" destination="UXK-c9-bYL" id="BcV-Nf-FFa"/>
                     </connections>
                 </controller>

@@ -21,14 +21,19 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
     let PORT = "PORT"
     let PROJECT = "PROJECT"
     
-    override func viewDidDisappear(_ animated: Bool) {
-        super.viewDidDisappear(animated)
+    private func loadServerConfig() {
+        serverUrl.text = defaults.string(forKey: HOST) ?? "http://www.zum-eisenberg.de"
+        port.text = defaults.string(forKey: PORT) ?? "8080"
+        projectName.text = defaults.string(forKey: PROJECT) ?? "Eisenberg"
+    }
+    
+    func saveServerConfig() {
+        appModel!.serverUrl = getWholeServerUrl()
+        
         defaults.set(serverUrl.text, forKey: HOST)
         defaults.set(port.text, forKey: PORT)
         defaults.set(projectName.text, forKey: PROJECT)
     }
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -38,19 +43,19 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
         projectName.delegate = self
         refreshTime.delegate = self
         
-        serverUrl.text = defaults.string(forKey: HOST) ?? "http://www.zum-eisenberg.de"
-        port.text = defaults.string(forKey: PORT) ?? "8080"
-        projectName.text = defaults.string(forKey: PROJECT) ?? "Eisenberg"
+        loadServerConfig()
 
-        // Do any additional setup after loading the view.
-//        (UIApplication.shared.delegate as? AppDelegate)?.appModel.serverUrl = serverUrl.text!
         let tbc = tabBarController as? AppTabBarController
         appModel = tbc?.appModel
         appModel?.serverUrl = getWholeServerUrl()
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        appModel?.serverUrl = getWholeServerUrl()
+        saveServerConfig()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        saveServerConfig()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

@@ -2,7 +2,7 @@
 //  DevicesViewController.swift
 //  JanOnVal
 //
-//  Created by Christian Stolz on 26.01.18.
+//  Created by Andreas Mueller on 26.01.18.
 //  Copyright © 2018 Andreas Mueller. All rights reserved.
 //
 
@@ -14,19 +14,30 @@ class DevicesViewController: UITableViewController {
     
     var appModel: AppModel?
     
-    var devices :[Device] = []
+    var deviceArr = [Device]()
+    var fetchDevicesTask: URLSessionDataTask?
+    var serverUrlOrig = ""
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        let tbc = tabBarController as? AppTabBarController
-        appModel = tbc?.appModel
+    fileprivate func showAlert(alertTitle title: String, alertMessage message: String) {
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
+        //TODO: go back to server config in handler
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        self.present(alert, animated: true)
+    }
+    
+    fileprivate func createFetchTask() -> URLSessionDataTask {
+        deviceArr = []
         
         var request = URLRequest(url: URL(string:"\(appModel!.serverUrl)devices")!)
         
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         let session = URLSession.shared
-        let fetchDevicesTask = session.dataTask(with: request, completionHandler: { data, response, error -> Void in
+        return session.dataTask(with: request, completionHandler: { data, response, error -> Void in
             
             do {
                 if let devicesData = data {
@@ -37,29 +48,47 @@ class DevicesViewController: UITableViewController {
                     let deviceArr = ((json as? [String: Any])!["device"] as? [[String: Any]])!;
                     for device in deviceArr {
                         let d = Device(json: device);
-                        self.devices.append(d!)
+                        self.deviceArr.append(d!)
                     }
                     DispatchQueue.main.async { // Correct
                         self.tableView.reloadData()
                     }
                 } else {
-                    let alert = UIAlertController(
-                        title: "No devices found.",
-                        message: "Check your server config!",
-                        preferredStyle: .alert
+                    self.showAlert(
+                        alertTitle: "No devices found.",
+                        alertMessage: "Check your server config!"
                     )
-                    //TODO: go back to server config in handler
-                    alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-                    self.present(alert, animated: true)
                 }
             } catch {
                 print("error:\(error)")
+                self.showAlert(
+                    alertTitle: "Something went wrong :(",
+                    alertMessage: "Check your server config!"
+                )
+                DispatchQueue.main.async { // Correct
+                    self.tableView.reloadData()
+                }
             }
-            
         })
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        let tbc = tabBarController as? AppTabBarController
+        appModel = tbc?.appModel
+        serverUrlOrig = appModel!.serverUrl
         
-        fetchDevicesTask.resume()
-        
+        fetchDevicesTask = createFetchTask()
+        fetchDevicesTask?.resume()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if serverUrlOrig != appModel!.serverUrl {
+            fetchDevicesTask = createFetchTask()
+            fetchDevicesTask?.resume()
+            serverUrlOrig = appModel!.serverUrl
+            print("fetching devices")
+        }
     }
     
     
@@ -71,7 +100,7 @@ class DevicesViewController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return devices.count
+        return deviceArr.count
     }
     
     
@@ -79,7 +108,7 @@ class DevicesViewController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: "DeviceCell", for: indexPath)
         
         // Configure the cell...
-        let device = devices[indexPath.row]
+        let device = deviceArr[indexPath.row]
         cell.textLabel?.text = device.name
         cell.detailTextLabel?.text = device.description
         return cell
@@ -87,7 +116,7 @@ class DevicesViewController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)
-        let device = devices[indexPath.row]
+        let device = deviceArr[indexPath.row]
         
         if appModel!.selectedDeviceArr.contains(device) {
             cell?.accessoryType = .none
@@ -96,7 +125,6 @@ class DevicesViewController: UITableViewController {
             cell?.accessoryType = .checkmark
             appModel!.selectedDeviceArr.append(device)
         }
-        print(appModel!.selectedDeviceArr)
     }
     
 }

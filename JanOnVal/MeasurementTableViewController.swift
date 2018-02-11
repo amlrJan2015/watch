@@ -2,7 +2,7 @@
 //  MeasurementTableViewController.swift
 //  JanOnVal
 //
-//  Created by Christian Stolz on 28.01.18.
+//  Created by Andreas Mueller on 28.01.18.
 //  Copyright © 2018 Andreas Mueller. All rights reserved.
 //
 
@@ -15,6 +15,7 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
     var measurements = Dictionary<Device, [Measurement]>()
     var currMeasurements = Dictionary<Device, [Measurement]>()
     var selectedMeasurement = Dictionary<Device, [Measurement]>()
+    var selectedDeviceArrOrig = [Device]()
     
     @IBOutlet weak var tableView: UITableView!
     
@@ -37,12 +38,7 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
             NSLog("%@", "Error sending data to watch: \(err)")
         }
     }
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.connectivityHandler = (UIApplication.shared.delegate as? AppDelegate)?.connectivityHandler
-        let tbc = tabBarController as? AppTabBarController
-        appModel = tbc?.appModel
-        
+    fileprivate func fetchDataForSelectedDevices() {
         for device in appModel!.selectedDeviceArr {
             
             measurements[device] = []
@@ -84,10 +80,37 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
             
             fetchDevicesTask.resume()
         }
+        
+        if appModel!.selectedDeviceArr.count == 0 {
+            tableView.reloadData()
+        }
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.connectivityHandler = (UIApplication.shared.delegate as? AppDelegate)?.connectivityHandler
+        let tbc = tabBarController as? AppTabBarController
+        appModel = tbc?.appModel
+        
+        selectedDeviceArrOrig = appModel!.selectedDeviceArr
+        
+        fetchDataForSelectedDevices()
+        
+        //delegates
         self.measurementSearchBar.delegate = self
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if selectedDeviceArrOrig != appModel!.selectedDeviceArr {
+            selectedDeviceArrOrig = appModel!.selectedDeviceArr
+            print("fetching measurement")
+            fetchDataForSelectedDevices()
+        }
+        
+        self.view.endEditing(true)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -96,12 +119,6 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
     
     // MARK: - SearchBar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        //        if searchText.count > 0 {
-        //            searchBar.showsScopeBar = false
-        //        } else {
-        //            searchBar.showsScopeBar = true
-        //        }
-        
         currMeasurements = [:]
         let selectedScope = searchBar.selectedScopeButtonIndex
         for (device, measurementArr) in measurements {
@@ -196,5 +213,7 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
             cell?.accessoryType = .checkmark
             selectedMeasurement[device]!.append(measurement)
         }
+        
+        self.view.endEditing(true);
     }
 }

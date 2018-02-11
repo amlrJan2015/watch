@@ -10,4 +10,10 @@ import WatchKit
 
 class AppTabBarController: UITabBarController {
     var appModel = AppModel()
+    
+    override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
+        if let serverView = viewControllers![0] as? ServerViewController {
+            serverView.saveServerConfig()
+        }
+    }
 }
