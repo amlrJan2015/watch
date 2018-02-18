@@ -22,18 +22,26 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
     @IBOutlet weak var measurementSearchBar: UISearchBar!
     
     @IBAction func sendMeasurementsToWatch(_ sender: UIButton) {
-        
-        var selectedMeasurementArr = [String]()
+        var dictArr = [[String:Any]]()
         for (device, measurementArr) in selectedMeasurement {
             for measurement in measurementArr {
-                selectedMeasurementArr.append("\(device.id);\(measurement.value);\(measurement.type);\(measurement.unit)")
+                dictArr.append([
+                    "watchTitle":measurement.watchTitle,
+                    "isOnline": measurement.isOnline,
+                    "start": measurement.start,
+                    "end": measurement.end,
+                    "unit": "\(measurement.unit)",
+                    "deviceId" : device.id,
+                    "measurementValue": measurement.value,
+                    "measurementType": measurement.type                    
+                    ])
             }
         }
         
         connectivityHandler.session.sendMessage(
             [
                 "serverUrl": appModel?.serverUrl,
-                "selectedMeasurementArr": selectedMeasurementArr
+                "measurementDataDictArr": dictArr
         ], replyHandler: nil) { (err) in
             NSLog("%@", "Error sending data to watch: \(err)")
         }
@@ -59,7 +67,7 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
                         DispatchQueue.main.async { // Correct
                             for measurement in measurementArr {
                                 var m = Measurement(json: measurement);
-                                m?.deviceId = device.id
+                                m?.device = device
                                 
                                 self.measurements[device]?.append(m!)
                                 if self.measurementSearchBar.scopeButtonTitles![self.measurementSearchBar.selectedScopeButtonIndex] == m?.value {
@@ -192,11 +200,11 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
         cell.textLabel?.text = measurement.valueName
         cell.detailTextLabel?.text = measurement.typeName
         
-        if selectedMeasurement[device]!.contains(measurement){
-            cell.accessoryType = .checkmark
-        } else {
-            cell.accessoryType = .none
-        }
+        //        if selectedMeasurement[device]!.contains(measurement){
+        //            cell.accessoryType = .checkmark
+        //        } else {
+        //            cell.accessoryType = .none
+        //        }
         return cell
     }
     
@@ -206,14 +214,70 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
         let measurement = currMeasurements[device]![indexPath.row]
         
         if selectedMeasurement[device]!.contains(measurement){
-            cell?.accessoryType = .none
+            //            cell?.accessoryType = .none
             let idxToRemove = selectedMeasurement[device]?.index(of: measurement)
             selectedMeasurement[device]?.remove(at: idxToRemove!)
         } else {
-            cell?.accessoryType = .checkmark
+            //            cell?.accessoryType = .checkmark
             selectedMeasurement[device]!.append(measurement)
         }
         
         self.view.endEditing(true);
     }
+    
+    @IBAction func unwindToMeasurementTable(sender: UIStoryboardSegue) {
+        if let sourceViewController = sender.source as? MeasurementDetailViewController,
+            let measurement = sourceViewController.measurement {
+            let device = measurement.device!
+            var mArr = selectedMeasurement[device]!
+            if let mIdx = mArr.index(of: measurement) {
+                if measurement.selected {
+                    print("Selected measurement: \(measurement)")
+                    mArr[mIdx] = measurement
+                } else {
+                    mArr.remove(at: mIdx)
+                }
+            } else {
+                if measurement.selected  {
+                    mArr.append(measurement)
+                }
+            }
+            
+            selectedMeasurement[device] = mArr
+            
+            print("Messwerte:\(selectedMeasurement)")
+            
+            if let selectedIndexPath = tableView.indexPathForSelectedRow {
+            }
+        }
+    }
+    
+    
+    // MARK: - Navigation
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        if segue.identifier == "ShowMeasurementDetail" {
+            guard let detailVC = segue.destination as? MeasurementDetailViewController
+                else {
+                    fatalError("Unexpected destination: \(segue.destination)")
+            }
+            guard let selectedMeasurementCell = sender as? UITableViewCell else {
+                fatalError("Unexpected sender: \(sender)")
+            }
+            guard let indexPath = tableView.indexPath(for: selectedMeasurementCell) else {
+                fatalError("The selected cell is not being displayed by the table")
+            }
+            
+            let device = appModel!.selectedDeviceArr[indexPath.section]
+            let measurement = currMeasurements[device]![indexPath.row]
+            var mArr = selectedMeasurement[measurement.device!]!
+            if let mIdx = mArr.index(of: measurement) {
+                detailVC.measurement = mArr[mIdx]
+            } else {
+                detailVC.measurement = measurement
+            }
+        }
+    }    
 }

@@ -12,10 +12,18 @@ import WatchConnectivity
 
 class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSessionDelegate {
     
+    let SERVER_CONFIG = "SERVER_CONFIG"
+    let MEASUREMENT_DATA = "MEASUREMENT_DATA"
+    
+    var serverUrl: String?
+    let defaults = UserDefaults.standard
+    
+//    var serverUrlOrig = ""
+//    var measurementDataDictArrOrig = [[String:Any]]()
     
     @IBOutlet var info: WKInterfaceLabel!
     
-    var selectedMeasurementArr = Array<String>()
+    var measurementDataDictArr: [[String: Any]]?
     
     @IBOutlet var table: WKInterfaceTable!
     
@@ -64,34 +72,20 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         NSLog("%@", "state: \(activationState) error:\(error)")
     }
     
-    var serverUrl: String?
-    let defaults = UserDefaults.standard
-    
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
-        selectedMeasurementArr = []
-        measurementValueArr = []
-        let arr = (message["selectedMeasurementArr"] as? [String])
-        for item in arr! {
-            let splitedStr = item.split(separator: ";")
-            selectedMeasurementArr.append("\(String(splitedStr[0]));\(String(splitedStr[1]));\(String(splitedStr[2]))")
-            measurementValueArr.append(MeasurementValue(value: nil, unit: String(splitedStr[3])))
-        }
         
-        table.setNumberOfRows(selectedMeasurementArr.count, withRowType: "measurementRowType")
+        measurementDataDictArr = (message["measurementDataDictArr"] as? [[String:Any]])!
+        
+        table.setNumberOfRows(measurementDataDictArr!.count, withRowType: "measurementRowType")
         
         serverUrl = (message["serverUrl"] as! String)
-        NSLog("%@", "server:\(self.serverUrl)")
+        
         //        startFetching.setBackgroundColor(UIColor.init(red: <#T##CGFloat#>, green: <#T##CGFloat#>, blue: <#T##CGFloat#>, alpha: <#T##CGFloat#>))
         
         defaults.set(serverUrl, forKey: SERVER_CONFIG)
-        defaults.set(selectedMeasurementArr, forKey: SELECT_MEASUREMENT_ARR)
-        defaults.set(measurementValueArr.map({ (measurementValue) -> String in
-            return measurementValue.unit ?? ""
-        }), forKey: SELECT_MEASUREMENT_VALUE_ARR)
-        
-        serverUrlOrig = serverUrl!
-        selectedMeasurementArrOrig = selectedMeasurementArr
-        
+        defaults.set(measurementDataDictArr, forKey: MEASUREMENT_DATA)
+
+        table.setNumberOfRows(measurementDataDictArr!.count, withRowType: "measurementRowType")
         getTemp()
     }
     
@@ -100,13 +94,6 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         
         // Configure interface objects here.
     }
-    
-    let SERVER_CONFIG = "SERVER_CONFIG"
-    let SELECT_MEASUREMENT_ARR = "SELECT_MEASUREMENT_ARR"
-    let SELECT_MEASUREMENT_VALUE_ARR = "SELECT_MEASUREMENT_VALUE_ARR"
-    
-    var serverUrlOrig = ""
-    var selectedMeasurementArrOrig = [String]()
     
     
     override func willActivate() {
@@ -118,76 +105,139 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         session?.activate()
         
         serverUrl = defaults.string(forKey: SERVER_CONFIG)
-        if serverUrl != nil {
-            selectedMeasurementArr = defaults.array(forKey: SELECT_MEASUREMENT_ARR) as! [String]
-            measurementValueArr = (defaults.array(forKey: SELECT_MEASUREMENT_VALUE_ARR) as! [String]).map({ (unit) -> MeasurementValue in
-                return MeasurementValue(value: nil, unit: unit)
-            })
+        measurementDataDictArr = defaults.array(forKey: MEASUREMENT_DATA) as? [[String:Any]]
+        if serverUrl != nil && measurementDataDictArr != nil {
             
-            if serverUrlOrig != serverUrl && selectedMeasurementArrOrig != selectedMeasurementArr {
-                table.setNumberOfRows(selectedMeasurementArr.count, withRowType: "measurementRowType")
-                serverUrlOrig = serverUrl!
-                selectedMeasurementArrOrig = selectedMeasurementArr
-                getTemp()
+            if table.numberOfRows != measurementDataDictArr?.count{
+                table.setNumberOfRows(measurementDataDictArr!.count, withRowType: "measurementRowType")
             }
+            
+            getTemp()
         } else {
             info.setText("No config")
         }
     }
     
-    var measurementValueArr = Array<MeasurementValue>()
-    
-    private func configureTableWithData() {
-        table.setNumberOfRows(selectedMeasurementArr.count, withRowType: "measurementRowType")
-        
-        for index in 0..<selectedMeasurementArr.count {
-            let row = table.rowController(at: index) as? MeasurementRowType
-            let measurement = selectedMeasurementArr[index]
-            
-            row?.value.setText("\(measurementValueArr[index].value)")
-            row?.unit.setText(String(measurement.split(separator: ";")[3]))
-        }
-    }
-    
+
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
     
+    private func logC(val: Double, forBase base: Double) -> Double {
+        return log(val)/log(base)
+    }
+
+    
+    private func getSiPrefix(_ value: Double) -> (String, Double) {
+        var result = ("",value)
+        
+        let pow10 = logC(val: value, forBase: 10.0)
+        
+        if pow10 >= 3.0 {
+            result = ("k", value / 1000.0)
+        }
+        if pow10 >= 6.0 {
+            result = ("M", value / 1000_000.0)
+        }
+        
+        return result
+    }
     
     var fetchTaskArr = Array<URLSessionDataTask>()
     
     
+    private func showOnlineValueInTable(_ json: [String : AnyObject], _ measurementData: [String: Any], tableRowIndex index: Int) {
+        let deviceId = measurementData["deviceId"] as! Int
+        let measurementValue = measurementData["measurementValue"] as! String
+        let measurementType = measurementData["measurementType"] as! String
+        let unit = measurementData["unit"] as! String
+        let title = measurementData["watchTitle"] as! String
+        
+        let valmeasurement = json["value"] as? [String: Any]
+        if let value = valmeasurement!["\(deviceId).\(measurementValue).\(measurementType)"] as? Double {
+            DispatchQueue.main.async { // Correct
+                let row = self.table.rowController(at: index) as? MeasurementRowType
+                
+                let (si, newValue) = self.getSiPrefix(value)
+                
+                row?.value.setText(String(format:"%.1f", newValue))
+                row?.unit.setText(si+unit)
+                row?.header.setText(title)
+            }
+        } else {
+            DispatchQueue.main.async { // Correct
+                let row = self.table.rowController(at: index) as? MeasurementRowType
+                row?.value.setText("NaN")
+                row?.unit.setText(unit)
+                row?.header.setText(title)
+            }
+        }
+    }
+    
+    private func showHistEnergyValueInTable(_ json: [String : AnyObject], _ measurementData: [String: Any], tableRowIndex index: Int) {
+        let unit = measurementData["unit"] as! String
+        let title = measurementData["watchTitle"] as! String
+        
+        if let value = json["energy"] as? Double {
+            DispatchQueue.main.async { // Correct
+                let row = self.table.rowController(at: index) as? MeasurementRowType
+                
+                let (si, newValue) = self.getSiPrefix(value)
+                
+                row?.value.setText(String(format:"%.1f", newValue))
+                row?.unit.setText(si+unit)
+                row?.header.setText(title)
+            }
+        } else {
+            DispatchQueue.main.async { // Correct
+                let row = self.table.rowController(at: index) as? MeasurementRowType
+                row?.value.setText("NaN")
+                row?.unit.setText(unit)
+                row?.header.setText(title)
+            }
+        }
+    }
+    
     private func doGetData(atSelectedMeasurementIndex index: Int) -> URLSessionDataTask {
         //        print("RequestTo:\(self.serverUrl!)onlinevalues?value=\(self.selectedMeasurementArr[index])")
-        var request = URLRequest(url: URL(string:"\(self.serverUrl!)onlinevalues?value=\(self.selectedMeasurementArr[index])")!)
+        let measurementData = self.measurementDataDictArr![index]
+        let deviceId = measurementData["deviceId"] as! Int
+        let measurementValue = measurementData["measurementValue"] as! String
+        let measurementType = measurementData["measurementType"] as! String
+        let isOnline = measurementData["isOnline"] as! Bool
+        let start = measurementData["start"] as! String
+        let end = measurementData["end"] as! String
+        
+        var requestData = ""
+        if isOnline {
+            requestData = "onlinevalues?value=\(deviceId);\(measurementValue);\(measurementType)"
+        } else {
+//            hist/energy/ActiveEnergyConsumed/SUM13?start=NAMED_Today&end=NAMED_Today
+            requestData = "devices/\(deviceId)/hist/energy/\(measurementValue)/\(measurementType)?start=\(start)&end=\(end)"
+        }
+        var request = URLRequest(url: URL(string:"\(self.serverUrl!)\(requestData)")!)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         let session = URLSession.shared
         return session.dataTask(with: request, completionHandler: { data, response, error -> Void in
             
             do {
-                let json = try JSONSerialization.jsonObject(with: data!) as! Dictionary<String, AnyObject>
-                DispatchQueue.main.async { // Correct
-                    let measurementStr = self.selectedMeasurementArr[index]
-                    let measurementStrSplited = measurementStr.split(separator: ";")
-                    let deviceId = String(measurementStrSplited[0])
-                    let value = String(measurementStrSplited[1])
-                    let type = String(measurementStrSplited[2])
-                    let unit = self.measurementValueArr[index].unit
+                if let measurementDataJson = data {
+                    //                    print(String(data: measurementData,encoding: String.Encoding.utf8) as! String)
+                    let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
                     
-                    guard let measurementValue = json["value"] as? [String: Any],
-                        let t = measurementValue["\(deviceId).\(value).\(type)"] as? Double else {
-                            return
+                    if isOnline {
+                        self.showOnlineValueInTable(json, measurementData, tableRowIndex: index)
+                    } else {
+                        self.showHistEnergyValueInTable(json, measurementData, tableRowIndex: index)
                     }
-                    //                    print("T:\(t)")
-                    //                    self.temperatureLbl.setText(String(format:"W[T]:%.1f˚", t))
-                    self.measurementValueArr[index] = MeasurementValue(value: t, unit: unit)
-                    
-                    let row = self.table.rowController(at: index) as? MeasurementRowType
-                    
-                    row?.value.setText(String(format:"%.1f", t))
-                    row?.unit.setText(unit)
+                } else {
+                    DispatchQueue.main.async { // Correct
+                        let row = self.table.rowController(at: index) as? MeasurementRowType
+                        row?.value.setText("--")
+                        row?.unit.setText("")
+                    }
                 }
             } catch {
                 print("error:\(error)")
@@ -200,18 +250,20 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     
     private func getTemp() {
         info.setText("Fetching[2s]...")
-        fetchTimer?.invalidate();
+//        fetchTimer?.invalidate();
         
         fetchTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { (timer) in
-            for index in 0..<self.selectedMeasurementArr.count {
+            for index in 0..<self.measurementDataDictArr!.count {
                 if self.fetchTaskArr.count == index || self.fetchTaskArr[index].state == URLSessionTask.State.completed {
+                    print("start task")
                     self.fetchTaskArr.insert(self.doGetData(atSelectedMeasurementIndex: index), at: index)
                     self.fetchTaskArr[index].resume()
                 }
+                print("task must be run")
             }
         }
-        if fetchTimer!.isValid {
-            fetchTimer!.fire()
-        }
+//        if fetchTimer!.isValid {
+//            fetchTimer!.fire()
+//        }
     }
 }

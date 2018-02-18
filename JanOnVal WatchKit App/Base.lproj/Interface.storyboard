@@ -17,14 +17,16 @@
                         <label width="136" height="26" alignment="center" verticalAlignment="bottom" text="No config" textAlignment="center" id="jTI-wC-eWP"/>
                         <table alignment="left" id="UXK-c9-bYL">
                             <items>
-                                <tableRow identifier="measurementRowType" id="T6f-m2-3ha" customClass="MeasurementRowType" customModule="JanOnVal_WatchKit_Extension">
+                                <tableRow identifier="measurementRowType" selectable="NO" id="T6f-m2-3ha" customClass="MeasurementRowType" customModule="JanOnVal_WatchKit_Extension">
                                     <group key="rootItem" width="1" alignment="left" id="wHg-nI-7o3">
                                         <items>
-                                            <label width="89" height="28" alignment="left" verticalAlignment="center" text="value" textAlignment="left" id="Xuj-k1-oYz"/>
+                                            <label width="23" height="52" alignment="left" verticalAlignment="center" text="💡" textAlignment="left" id="fJt-wu-iRm"/>
+                                            <label width="66" height="28" alignment="left" verticalAlignment="center" text="value" textAlignment="left" id="Xuj-k1-oYz"/>
                                             <label width="51" height="33" alignment="left" verticalAlignment="center" text="unit" textAlignment="right" id="75D-PF-H1c"/>
                                         </items>
                                     </group>
                                     <connections>
+                                        <outlet property="header" destination="fJt-wu-iRm" id="kAJ-Pg-Lm9"/>
                                         <outlet property="unit" destination="75D-PF-H1c" id="fbR-w9-jmu"/>
                                         <outlet property="value" destination="Xuj-k1-oYz" id="hcf-Rm-7Zt"/>
                                     </connections>

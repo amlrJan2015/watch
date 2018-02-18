@@ -9,8 +9,7 @@
 import WatchKit
 
 class MeasurementRowType: NSObject {
-
     @IBOutlet var value: WKInterfaceLabel!
-    @IBOutlet var unit: WKInterfaceLabel!
-    
+    @IBOutlet var unit: WKInterfaceLabel!    
+    @IBOutlet var header: WKInterfaceLabel!
 }

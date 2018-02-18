@@ -21,7 +21,14 @@ struct Measurement {
     let unit: String
     let value: String
     let valueName: String
-    var deviceId = 0
+    var device: Device?
+    
+    //MARK: Details
+    var selected = false
+    var watchTitle = "☀️"
+    var isOnline = true
+    var start = PickerData.NAMED + PickerData.startEndArr[0]
+    var end = PickerData.NAMED + PickerData.startEndArr[0]
 }
 
 extension Measurement: Hashable {
