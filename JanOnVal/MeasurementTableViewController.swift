@@ -27,11 +27,14 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
             for measurement in measurementArr {
                 dictArr.append([
                     "watchTitle":measurement.watchTitle,
-                    "isOnline": measurement.isOnline,
+                    "isOnline": measurement.mode,
                     "start": measurement.start,
                     "end": measurement.end,
                     "unit": "\(measurement.unit)",
+                    "unit2": "\(measurement.unit2)",
                     "deviceId" : device.id,
+                    "mode": measurement.mode,
+                    "timebase": measurement.timebase,
                     "measurementValue": measurement.value,
                     "measurementType": measurement.type                    
                     ])

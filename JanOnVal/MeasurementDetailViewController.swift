@@ -19,6 +19,8 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
     @IBOutlet weak var isOnlineOrHistorrical: UISegmentedControl!
     @IBOutlet weak var start: UIPickerView!
     @IBOutlet weak var end: UIPickerView!
+    @IBOutlet weak var timebase: UITextField!
+    @IBOutlet weak var unit2: UITextField!
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
@@ -37,18 +39,32 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
             typeName.text = measurement.typeName
             isSelected.isOn = measurement.selected
             watchTitle.text = measurement.watchTitle
-            isOnlineOrHistorrical.selectedSegmentIndex = measurement.isOnline ? 0 : 1
+            timebase.text = measurement.timebase
+            isOnlineOrHistorrical.selectedSegmentIndex = measurement.mode
+            unit2.text = measurement.unit2
             
-            if !measurement.isOnline {
-                
+            if measurement.mode == Measurement.HIST {
+                show()
                 if let indexOfStart = PickerData.startEndArr.index(of: String(measurement.start.split(separator: "_")[1])) {
                     start.selectRow(indexOfStart, inComponent: 0, animated: true)
                 }
                 if let indexOfEnd = PickerData.startEndArr.index(of: String(measurement.end.split(separator: "_")[1])) {
                     end.selectRow(indexOfEnd, inComponent: 0, animated: true)
                 }
+            } else {
+                hide()
             }
         }
+    }
+    
+    private func hide() {
+        start.isHidden = true
+        end.isHidden = true
+    }
+    
+    private func show() {
+        start.isHidden = false
+        end.isHidden = false
     }
     
     
@@ -69,7 +85,12 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
         measurement?.selected = sender.isOn
     }
     @IBAction func onOnlineOrHistoricalChange(_ sender: UISegmentedControl) {
-        measurement?.isOnline = sender.selectedSegmentIndex == 0
+        measurement?.mode = sender.selectedSegmentIndex
+        if measurement?.mode == Measurement.HIST {
+            show()
+        } else {
+            hide()
+        }
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
@@ -91,5 +112,7 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
         }
         
         measurement?.watchTitle = watchTitle.text!
+        measurement?.timebase = timebase.text!
+        measurement?.unit2 = unit2.text!
     }
 }

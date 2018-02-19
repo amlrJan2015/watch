@@ -304,11 +304,12 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="KsE-4W-hBV">
-                                <rect key="frame" x="0.0" y="195" width="141" height="29"/>
+                                <rect key="frame" x="0.0" y="195" width="375" height="29"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="Online"/>
-                                    <segment title="Historisch"/>
+                                    <segment title="Historisch Energie"/>
+                                    <segment title="Manual Input"/>
                                 </segments>
                                 <connections>
                                     <action selector="onOnlineOrHistoricalChange:" destination="rJP-qc-Lrg" eventType="valueChanged" id="egl-5h-Dv3"/>
@@ -331,6 +332,34 @@
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Ende" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KFG-xe-apz">
                                 <rect key="frame" x="266" y="238" width="39" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Timebase" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gGN-We-UMd">
+                                <rect key="frame" x="16" y="385" width="75" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="60" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Vya-8A-AhF">
+                                <rect key="frame" x="94" y="380" width="97" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n59-IC-CZz">
+                                <rect key="frame" x="94" y="414" width="97" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Unit" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3ws-Jn-X3M">
+                                <rect key="frame" x="16" y="419" width="32" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
@@ -367,7 +396,9 @@
                         <outlet property="isSelected" destination="KBz-TP-gD2" id="DDo-8G-e0n"/>
                         <outlet property="saveButton" destination="q2D-wn-NeW" id="1zU-UD-iQv"/>
                         <outlet property="start" destination="2dB-Dl-Si8" id="lvF-L5-2XR"/>
+                        <outlet property="timebase" destination="Vya-8A-AhF" id="qDS-Ed-QQ5"/>
                         <outlet property="typeName" destination="fK1-1H-Whf" id="BsA-hO-Zx0"/>
+                        <outlet property="unit2" destination="n59-IC-CZz" id="IKp-kS-7zg"/>
                         <outlet property="valueName" destination="M7j-LU-xvv" id="5xR-42-Iya"/>
                         <outlet property="watchTitle" destination="SeY-Ib-JKf" id="glV-UR-Uh8"/>
                     </connections>
@@ -375,7 +406,7 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="atb-lq-ZsA" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="MFs-du-qtN" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
-            <point key="canvasLocation" x="3225" y="528"/>
+            <point key="canvasLocation" x="3224.8000000000002" y="527.58620689655174"/>
         </scene>
         <!--App Tab Bar Controller-->
         <scene sceneID="3rz-Rz-vRU">

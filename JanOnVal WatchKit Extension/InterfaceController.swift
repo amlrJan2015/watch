@@ -146,12 +146,38 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     
     var fetchTaskArr = Array<URLSessionDataTask>()
     
+    private func showManualInputInTable(_ json: [String : AnyObject], _ measurementData: [String: Any], tableRowIndex index: Int) {
+        let unit = measurementData["unit"] as! String
+        let unit2 = measurementData["unit2"] as! String
+        let title = measurementData["watchTitle"] as! String
+        
+        let valmeasurement = json["details"] as? [String: Any]
+        if let value = valmeasurement!["lastValue"] as? Double {
+            DispatchQueue.main.async { // Correct
+                let row = self.table.rowController(at: index) as? MeasurementRowType
+                
+                let (si, newValue) = self.getSiPrefix(value)
+                
+                row?.value.setText(String(format:"%.1f", newValue))
+                row?.unit.setText(si+("" == unit2 ? unit : unit2))
+                row?.header.setText(title)
+            }
+        } else {
+            DispatchQueue.main.async { // Correct
+                let row = self.table.rowController(at: index) as? MeasurementRowType
+                row?.value.setText("NaN")
+                row?.unit.setText(("" == unit2 ? unit : unit2))
+                row?.header.setText(title)
+            }
+        }
+    }
     
     private func showOnlineValueInTable(_ json: [String : AnyObject], _ measurementData: [String: Any], tableRowIndex index: Int) {
         let deviceId = measurementData["deviceId"] as! Int
         let measurementValue = measurementData["measurementValue"] as! String
         let measurementType = measurementData["measurementType"] as! String
         let unit = measurementData["unit"] as! String
+        let unit2 = measurementData["unit2"] as! String
         let title = measurementData["watchTitle"] as! String
         
         let valmeasurement = json["value"] as? [String: Any]
@@ -162,14 +188,14 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
                 let (si, newValue) = self.getSiPrefix(value)
                 
                 row?.value.setText(String(format:"%.1f", newValue))
-                row?.unit.setText(si+unit)
+                row?.unit.setText(si+("" == unit2 ? unit : unit2))
                 row?.header.setText(title)
             }
         } else {
             DispatchQueue.main.async { // Correct
                 let row = self.table.rowController(at: index) as? MeasurementRowType
                 row?.value.setText("NaN")
-                row?.unit.setText(unit)
+                row?.unit.setText(("" == unit2 ? unit : unit2))
                 row?.header.setText(title)
             }
         }
@@ -177,6 +203,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     
     private func showHistEnergyValueInTable(_ json: [String : AnyObject], _ measurementData: [String: Any], tableRowIndex index: Int) {
         let unit = measurementData["unit"] as! String
+        let unit2 = measurementData["unit2"] as! String
         let title = measurementData["watchTitle"] as! String
         
         if let value = json["energy"] as? Double {
@@ -186,18 +213,20 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
                 let (si, newValue) = self.getSiPrefix(value)
                 
                 row?.value.setText(String(format:"%.1f", newValue))
-                row?.unit.setText(si+unit)
+                row?.unit.setText(si+("" == unit2 ? unit : unit2))
                 row?.header.setText(title)
             }
         } else {
             DispatchQueue.main.async { // Correct
                 let row = self.table.rowController(at: index) as? MeasurementRowType
                 row?.value.setText("NaN")
-                row?.unit.setText(unit)
+                row?.unit.setText(("" == unit2 ? unit : unit2))
                 row?.header.setText(title)
             }
         }
     }
+    
+    private let ONLINE = 0, HIST = 1, MI = 2
     
     private func doGetData(atSelectedMeasurementIndex index: Int) -> URLSessionDataTask {
         //        print("RequestTo:\(self.serverUrl!)onlinevalues?value=\(self.selectedMeasurementArr[index])")
@@ -205,17 +234,23 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         let deviceId = measurementData["deviceId"] as! Int
         let measurementValue = measurementData["measurementValue"] as! String
         let measurementType = measurementData["measurementType"] as! String
-        let isOnline = measurementData["isOnline"] as! Bool
+        let mode = measurementData["mode"] as! Int
+        let timebase = measurementData["timebase"] as! String
         let start = measurementData["start"] as! String
         let end = measurementData["end"] as! String
         
         var requestData = ""
-        if isOnline {
+        switch mode {
+        case ONLINE:
             requestData = "onlinevalues?value=\(deviceId);\(measurementValue);\(measurementType)"
-        } else {
-//            hist/energy/ActiveEnergyConsumed/SUM13?start=NAMED_Today&end=NAMED_Today
+        case HIST:
             requestData = "devices/\(deviceId)/hist/energy/\(measurementValue)/\(measurementType)?start=\(start)&end=\(end)"
+        case MI://
+            requestData = "devices/\(deviceId)/manualinput/\(measurementValue)/\(measurementType)/\(timebase)"
+        default:
+            requestData = "unknown mode"
         }
+        
         var request = URLRequest(url: URL(string:"\(self.serverUrl!)\(requestData)")!)
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -227,10 +262,15 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
                     //                    print(String(data: measurementData,encoding: String.Encoding.utf8) as! String)
                     let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
                     
-                    if isOnline {
+                    switch mode {
+                    case self.ONLINE:
                         self.showOnlineValueInTable(json, measurementData, tableRowIndex: index)
-                    } else {
+                    case self.HIST:
                         self.showHistEnergyValueInTable(json, measurementData, tableRowIndex: index)
+                    case self.MI:
+                        self.showManualInputInTable(json, measurementData, tableRowIndex: index)
+                    default:
+                        print("unknown mode")
                     }
                 } else {
                     DispatchQueue.main.async { // Correct

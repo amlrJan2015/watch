@@ -16,6 +16,9 @@ import Foundation
 //<valueName>Voltage effective</valueName>
 //</valuetype>
 struct Measurement {
+    
+    public static let ONLINE = 0, HIST = 1, MI = 2
+    
     let type: String
     let typeName: String
     let unit: String
@@ -26,9 +29,11 @@ struct Measurement {
     //MARK: Details
     var selected = false
     var watchTitle = "☀️"
-    var isOnline = true
+    var mode = 0
     var start = PickerData.NAMED + PickerData.startEndArr[0]
     var end = PickerData.NAMED + PickerData.startEndArr[0]
+    var timebase = "60"
+    var unit2 = ""
 }
 
 extension Measurement: Hashable {
