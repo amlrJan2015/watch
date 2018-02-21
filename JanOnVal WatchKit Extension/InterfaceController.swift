@@ -18,8 +18,8 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     var serverUrl: String?
     let defaults = UserDefaults.standard
     
-//    var serverUrlOrig = ""
-//    var measurementDataDictArrOrig = [[String:Any]]()
+    //    var serverUrlOrig = ""
+    //    var measurementDataDictArrOrig = [[String:Any]]()
     
     @IBOutlet var info: WKInterfaceLabel!
     
@@ -29,7 +29,9 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     
     var session: WCSession?
     
-    
+    override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
+        presentController(withName: "HistDetail", context: measurementDataDictArr![rowIndex])
+    }
     
     func applicationDidFinishLaunching() {
         // Perform any final initialization of your application.
@@ -84,7 +86,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         
         defaults.set(serverUrl, forKey: SERVER_CONFIG)
         defaults.set(measurementDataDictArr, forKey: MEASUREMENT_DATA)
-
+        
         table.setNumberOfRows(measurementDataDictArr!.count, withRowType: "measurementRowType")
         getTemp()
     }
@@ -118,31 +120,15 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         }
     }
     
-
+    
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
         super.didDeactivate()
     }
     
-    private func logC(val: Double, forBase base: Double) -> Double {
-        return log(val)/log(base)
-    }
-
     
-    private func getSiPrefix(_ value: Double) -> (String, Double) {
-        var result = ("",value)
-        
-        let pow10 = logC(val: value, forBase: 10.0)
-        
-        if pow10 >= 3.0 {
-            result = ("k", value / 1000.0)
-        }
-        if pow10 >= 6.0 {
-            result = ("M", value / 1000_000.0)
-        }
-        
-        return result
-    }
+    
+    
     
     var fetchTaskArr = Array<URLSessionDataTask>()
     
@@ -156,7 +142,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
             DispatchQueue.main.async { // Correct
                 let row = self.table.rowController(at: index) as? MeasurementRowType
                 
-                let (si, newValue) = self.getSiPrefix(value)
+                let (si, newValue) = TableUtil.getSiPrefix(value)
                 
                 row?.value.setText(String(format:"%.1f", newValue))
                 row?.unit.setText(si+("" == unit2 ? unit : unit2))
@@ -185,7 +171,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
             DispatchQueue.main.async { // Correct
                 let row = self.table.rowController(at: index) as? MeasurementRowType
                 
-                let (si, newValue) = self.getSiPrefix(value)
+                let (si, newValue) = TableUtil.getSiPrefix(value)
                 
                 row?.value.setText(String(format:"%.1f", newValue))
                 row?.unit.setText(si+("" == unit2 ? unit : unit2))
@@ -201,30 +187,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         }
     }
     
-    private func showHistEnergyValueInTable(_ json: [String : AnyObject], _ measurementData: [String: Any], tableRowIndex index: Int) {
-        let unit = measurementData["unit"] as! String
-        let unit2 = measurementData["unit2"] as! String
-        let title = measurementData["watchTitle"] as! String
-        
-        if let value = json["energy"] as? Double {
-            DispatchQueue.main.async { // Correct
-                let row = self.table.rowController(at: index) as? MeasurementRowType
-                
-                let (si, newValue) = self.getSiPrefix(value)
-                
-                row?.value.setText(String(format:"%.1f", newValue))
-                row?.unit.setText(si+("" == unit2 ? unit : unit2))
-                row?.header.setText(title)
-            }
-        } else {
-            DispatchQueue.main.async { // Correct
-                let row = self.table.rowController(at: index) as? MeasurementRowType
-                row?.value.setText("NaN")
-                row?.unit.setText(("" == unit2 ? unit : unit2))
-                row?.header.setText(title)
-            }
-        }
-    }
+    
     
     private let ONLINE = 0, HIST = 1, MI = 2
     
@@ -266,7 +229,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
                     case self.ONLINE:
                         self.showOnlineValueInTable(json, measurementData, tableRowIndex: index)
                     case self.HIST:
-                        self.showHistEnergyValueInTable(json, measurementData, tableRowIndex: index)
+                        TableUtil.showHistEnergyValueInTable(json, measurementData, self.table, tableRowIndex: index)
                     case self.MI:
                         self.showManualInputInTable(json, measurementData, tableRowIndex: index)
                     default:
@@ -289,21 +252,17 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     var fetchTimer: Timer?;
     
     private func getTemp() {
-        info.setText("Fetching[2s]...")
-//        fetchTimer?.invalidate();
-        
-        fetchTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { (timer) in
-            for index in 0..<self.measurementDataDictArr!.count {
-                if self.fetchTaskArr.count == index || self.fetchTaskArr[index].state == URLSessionTask.State.completed {
-                    print("start task")
-                    self.fetchTaskArr.insert(self.doGetData(atSelectedMeasurementIndex: index), at: index)
-                    self.fetchTaskArr[index].resume()
+        DispatchQueue.main.async {
+            self.info.setText("Fetching[2s]...")
+            self.fetchTimer?.invalidate();
+            self.fetchTimer = Timer.scheduledTimer(withTimeInterval: 2, repeats: true) { (timer) in
+                for index in 0..<self.measurementDataDictArr!.count {
+                    if self.fetchTaskArr.count == index || self.fetchTaskArr[index].state == URLSessionTask.State.completed {
+                        self.fetchTaskArr.insert(self.doGetData(atSelectedMeasurementIndex: index), at: index)
+                        self.fetchTaskArr[index].resume()
+                    }
                 }
-                print("task must be run")
             }
         }
-//        if fetchTimer!.isValid {
-//            fetchTimer!.fire()
-//        }
     }
 }
