@@ -16,13 +16,29 @@ class HistDetailInterfaceController: WKInterfaceController {
     @IBOutlet var tableTitle: WKInterfaceLabel!
     
     let periodArr = ["NAMED_Today", "NAMED_Yesterday", "NAMED_ThisWeek", "NAMED_LastWeek", "NAMED_ThisMonth", "NAMED_LastMonth", "NAMED_ThisYear", "NAMED_LastYear"]
+    var fetchTaskArr = Array<URLSessionDataTask>()
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         
-        if let dict = context as? [String: Any] {
-            self.tableTitle.setText(dict["watchTitle"] as! String)
+        if let tServerUrl_MeasurementDict = context as? (String,[String: Any]) {
+            self.tableTitle.setText(tServerUrl_MeasurementDict.1["watchTitle"] as! String)
             table.setNumberOfRows(periodArr.count, withRowType: "histMeasurementRowType")
+            
+            var histDict = tServerUrl_MeasurementDict.1            
+            
+            DispatchQueue.main.async {
+                for index in 0..<self.periodArr.count {
+                    histDict["start"] = self.periodArr[index]
+                    histDict["stop"] = self.periodArr[index]
+                    let task = RequestUtil.doGetData(
+                        tServerUrl_MeasurementDict.0,
+                        histDict,
+                        self.table,
+                        atSelectedMeasurementIndex: index)
+                    task.resume()
+                }
+            }
         }
     }
     
