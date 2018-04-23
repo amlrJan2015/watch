@@ -74,8 +74,10 @@ class DevicesViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         let tbc = tabBarController as? AppTabBarController
         appModel = tbc?.appModel
+        print("didLoad \(appModel!.serverUrl)")
         serverUrlOrig = appModel!.serverUrl
         
         fetchDevicesTask = createFetchTask()
@@ -83,6 +85,7 @@ class DevicesViewController: UITableViewController {
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        print("willAppear \(appModel!.serverUrl)")
         if serverUrlOrig != appModel!.serverUrl {
             fetchDevicesTask = createFetchTask()
             fetchDevicesTask?.resume()

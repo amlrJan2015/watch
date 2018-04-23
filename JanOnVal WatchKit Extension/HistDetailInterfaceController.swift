@@ -31,7 +31,7 @@ class HistDetailInterfaceController: WKInterfaceController {
                 for index in 0..<self.periodArr.count {
                     histDict["start"] = self.periodArr[index]
                     histDict["stop"] = self.periodArr[index]
-                    let task = RequestUtil.doGetData(
+                    let task = RequestUtil.doGetDataForMainTable(
                         tServerUrl_MeasurementDict.0,
                         histDict,
                         self.table,

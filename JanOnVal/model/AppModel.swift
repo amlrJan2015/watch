@@ -11,5 +11,5 @@ import Foundation
 class AppModel {
     var serverUrl = ""
     var selectedDeviceArr = Array<Device>()
-//    var selectedMeasurementArr = Array<Measurement>()
+    var refreshTime = 5
 }

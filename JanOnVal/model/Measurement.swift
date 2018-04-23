@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 
 //<valuetype>
 //<type>L1</type>
@@ -15,7 +16,7 @@ import Foundation
 //<value>U_Effective</value>
 //<valueName>Voltage effective</valueName>
 //</valuetype>
-struct Measurement {
+class Measurement: NSObject, NSCoding {
     
     public static let ONLINE = 0, HIST = 1, MI = 2
     
@@ -26,6 +27,38 @@ struct Measurement {
     let valueName: String
     var device: Device?
     
+    init(value: String, valueName:String, type: String, typeName: String, unit: String, device: Device?) {
+        self.value = value
+        self.valueName = valueName
+        self.type = type
+        self.typeName = typeName
+        self.unit = unit
+        self.device = device
+    }
+    
+    required convenience init?(coder aDecoder: NSCoder) {
+        guard let valueName = aDecoder.decodeObject(forKey: PropertyKey.name) as? String
+            else {
+                os_log("Unable to decode the valueName for a measurement object", log: OSLog.default, type: .debug)
+                return nil
+        }
+        guard let typeName = aDecoder.decodeObject(forKey: PropertyKey.type) as? String
+            else {
+                os_log("Unable to decode the typeName for a measurement object", log: OSLog.default, type: .debug)
+                return nil
+        }
+        guard let unit = aDecoder.decodeObject(forKey: PropertyKey.unit) as? String
+            else {
+                os_log("Unable to decode the unit for a measurement object", log: OSLog.default, type: .debug)
+                return nil
+        }
+        
+        self.init(value: "", valueName: valueName, type:"", typeName: typeName, unit: unit, device: nil)
+    }
+    
+    
+    
+    
     //MARK: Details
     var selected = false
     var watchTitle = "☀️"
@@ -34,10 +67,10 @@ struct Measurement {
     var end = PickerData.NAMED + PickerData.startEndArr[0]
     var timebase = "60"
     var unit2 = ""
-}
-
-extension Measurement: Hashable {
-    var hashValue: Int {
+    var min = 0
+    var max = 0
+    
+    override var hashValue: Int {
         return self.type.hashValue + self.value.hashValue
     }
     
@@ -62,4 +95,16 @@ extension Measurement: Hashable {
         self.valueName = valueName
         
     }
+    
+    //MARK: NSCoding
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(valueName, forKey: PropertyKey.name)
+        aCoder.encode(typeName, forKey: PropertyKey.type)
+        aCoder.encode(unit, forKey: PropertyKey.unit)
+    }
+    
+    //MARK: Archiving Paths
+    
+    static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
+    static let ArchiveURL = DocumentsDirectory.appendingPathComponent("selectedMeasurements")
 }

@@ -20,19 +20,33 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
     let HOST = "HOST"
     let PORT = "PORT"
     let PROJECT = "PROJECT"
+    let REFRESH_TIME = "REFRESH_TIME"
     
     private func loadServerConfig() {
         serverUrl.text = defaults.string(forKey: HOST) ?? "http://www.zum-eisenberg.de"
         port.text = defaults.string(forKey: PORT) ?? "8080"
         projectName.text = defaults.string(forKey: PROJECT) ?? "Eisenberg"
+        refreshTime.text = defaults.string(forKey: REFRESH_TIME) ?? "5"
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        print("viewWillAppear")
+        loadServerConfig()
+        
+        let tbc = tabBarController as? AppTabBarController
+        appModel = tbc?.appModel
+        appModel?.serverUrl = getWholeServerUrl()
     }
     
     func saveServerConfig() {
         appModel!.serverUrl = getWholeServerUrl()
-        
+        appModel!.refreshTime = Int((refreshTime.text)!) ?? 5
+ 
         defaults.set(serverUrl.text, forKey: HOST)
         defaults.set(port.text, forKey: PORT)
         defaults.set(projectName.text, forKey: PROJECT)
+        defaults.set(appModel!.refreshTime, forKey: REFRESH_TIME)
     }
     
     override func viewDidLoad() {
@@ -42,19 +56,9 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
         port.delegate = self
         projectName.delegate = self
         refreshTime.delegate = self
-        
-        loadServerConfig()
-
-        let tbc = tabBarController as? AppTabBarController
-        appModel = tbc?.appModel
-        appModel?.serverUrl = getWholeServerUrl()
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        saveServerConfig()
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
         saveServerConfig()
     }
     

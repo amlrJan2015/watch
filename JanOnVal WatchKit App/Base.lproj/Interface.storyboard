@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="13771" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14109" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
     <device id="watch42" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13772"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="13756"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14031"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
@@ -53,11 +53,13 @@
                                 <tableRow identifier="histMeasurementRowType" selectable="NO" id="NKq-Fa-BVe" customClass="HistMeasurementRowType" customModule="JanOnVal_WatchKit_Extension">
                                     <group key="rootItem" width="1" height="35" alignment="left" id="bX5-67-fY7">
                                         <items>
+                                            <label width="28" height="52" alignment="left" verticalAlignment="center" text="??" id="Nru-4n-RXL"/>
                                             <label width="75" height="88" alignment="left" verticalAlignment="center" text="..." id="426-cx-2bW"/>
-                                            <label width="37" height="75" alignment="right" text="unit" id="xn0-a3-5CX"/>
+                                            <label width="36" height="75" alignment="right" verticalAlignment="center" text="unit" textAlignment="right" id="xn0-a3-5CX"/>
                                         </items>
                                     </group>
                                     <connections>
+                                        <outlet property="dateDesc" destination="Nru-4n-RXL" id="SUK-Ks-ycQ"/>
                                         <outlet property="unit" destination="xn0-a3-5CX" id="Rqf-9Q-SDJ"/>
                                         <outlet property="value" destination="426-cx-2bW" id="V0e-49-eu0"/>
                                     </connections>
@@ -71,7 +73,32 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="161.2820512820513" y="-299.46153846153851"/>
+            <point key="canvasLocation" x="184.82051282051285" y="-374.43589743589746"/>
+        </scene>
+        <!--OnlineMeasurementBig-->
+        <scene sceneID="UeX-hm-gRG">
+            <objects>
+                <controller identifier="OnlineMeasurementBig" id="vjb-46-twT" customClass="OnlineMeasurementBig" customModule="JanOnVal_WatchKit_Extension">
+                    <items>
+                        <label width="44" height="42" alignment="center" text="☀️" textAlignment="center" id="hld-nO-NYd">
+                            <fontDescription key="font" type="system" pointSize="30"/>
+                        </label>
+                        <label width="136" height="45" alignment="center" verticalAlignment="center" text="..." textAlignment="center" id="qgP-ZO-m8r">
+                            <fontDescription key="font" type="system" pointSize="43"/>
+                        </label>
+                        <label width="136" height="43" alignment="center" verticalAlignment="bottom" text="unit" textAlignment="center" id="KGM-Yx-KaI">
+                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="font" type="system" pointSize="20"/>
+                        </label>
+                    </items>
+                    <connections>
+                        <outlet property="headerEmoji" destination="hld-nO-NYd" id="U9B-Pm-x4s"/>
+                        <outlet property="onlineValue" destination="qgP-ZO-m8r" id="Dya-rz-nfR"/>
+                        <outlet property="unit" destination="KGM-Yx-KaI" id="nXK-M5-yrk"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="201" y="-52"/>
         </scene>
     </scenes>
 </document>

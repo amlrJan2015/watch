@@ -16,6 +16,8 @@
 		256DE29F202729A2000D2549 /* MeasurementRowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DE29E202729A2000D2549 /* MeasurementRowType.swift */; };
 		2587F6CA203DEE89003DC730 /* HistMeasurementRowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2587F6C9203DEE89003DC730 /* HistMeasurementRowType.swift */; };
 		25952C09203DF83500B0AA33 /* TableUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25952C08203DF83500B0AA33 /* TableUtil.swift */; };
+		25A789A4208C753100A4BDE0 /* OnlineMeasurementBig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A789A3208C753100A4BDE0 /* OnlineMeasurementBig.swift */; };
+		25EB1D4E2046C3F800AF340B /* PropertyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EB1D4D2046C3F800AF340B /* PropertyKey.swift */; };
 		AA425AD0201E21A8001FA571 /* MeasurementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA425ACF201E21A8001FA571 /* MeasurementTableViewController.swift */; };
 		AA425AD4201E603D001FA571 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA425AD3201E603D001FA571 /* Measurement.swift */; };
 		AA43F50F1FDA6A5E00C879E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA43F50E1FDA6A5E00C879E0 /* AppDelegate.swift */; };
@@ -90,6 +92,8 @@
 		2598BC6A2028DF20000D646B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
 		2598BC6B2028DF20000D646B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		2598BC6C2028DF20000D646B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Interface.strings; sourceTree = "<group>"; };
+		25A789A3208C753100A4BDE0 /* OnlineMeasurementBig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineMeasurementBig.swift; sourceTree = "<group>"; };
+		25EB1D4D2046C3F800AF340B /* PropertyKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyKey.swift; sourceTree = "<group>"; };
 		AA425ACF201E21A8001FA571 /* MeasurementTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementTableViewController.swift; sourceTree = "<group>"; };
 		AA425AD3201E603D001FA571 /* Measurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
 		AA43F50B1FDA6A5E00C879E0 /* JanOnVal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JanOnVal.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -131,6 +135,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		25A789A2208C706700A4BDE0 /* row */ = {
+			isa = PBXGroup;
+			children = (
+				256DE29E202729A2000D2549 /* MeasurementRowType.swift */,
+				2587F6C9203DEE89003DC730 /* HistMeasurementRowType.swift */,
+			);
+			path = row;
+			sourceTree = "<group>";
+		};
+		25A789A5208C783700A4BDE0 /* util */ = {
+			isa = PBXGroup;
+			children = (
+				25952C08203DF83500B0AA33 /* TableUtil.swift */,
+				254DFD76203E102C0067E0A4 /* RequestUtil.swift */,
+			);
+			path = util;
+			sourceTree = "<group>";
+		};
 		AA425AD2201E601D001FA571 /* model */ = {
 			isa = PBXGroup;
 			children = (
@@ -138,6 +160,7 @@
 				AA665223201B7AF400E63CC1 /* AppModel.swift */,
 				AA425AD3201E603D001FA571 /* Measurement.swift */,
 				251724522036B19D000C5EEA /* PickerData.swift */,
+				25EB1D4D2046C3F800AF340B /* PropertyKey.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -197,12 +220,11 @@
 				AA43F5311FDA6A5E00C879E0 /* InterfaceController.swift */,
 				AA43F5351FDA6A5E00C879E0 /* Assets.xcassets */,
 				AA43F5371FDA6A5E00C879E0 /* Info.plist */,
-				256DE29E202729A2000D2549 /* MeasurementRowType.swift */,
+				25A789A2208C706700A4BDE0 /* row */,
 				250655BC2039F5A300B32CC6 /* ComplicationController.swift */,
 				252C87E4203CA3BA002E6CDF /* HistDetailInterfaceController.swift */,
-				2587F6C9203DEE89003DC730 /* HistMeasurementRowType.swift */,
-				25952C08203DF83500B0AA33 /* TableUtil.swift */,
-				254DFD76203E102C0067E0A4 /* RequestUtil.swift */,
+				25A789A5208C783700A4BDE0 /* util */,
+				25A789A3208C753100A4BDE0 /* OnlineMeasurementBig.swift */,
 			);
 			path = "JanOnVal WatchKit Extension";
 			sourceTree = "<group>";
@@ -352,6 +374,7 @@
 				AA43F50F1FDA6A5E00C879E0 /* AppDelegate.swift in Sources */,
 				AA425AD0201E21A8001FA571 /* MeasurementTableViewController.swift in Sources */,
 				251724532036B19D000C5EEA /* PickerData.swift in Sources */,
+				25EB1D4E2046C3F800AF340B /* PropertyKey.swift in Sources */,
 				AA4F10A8201B561300DDA380 /* Device.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -362,6 +385,7 @@
 			files = (
 				2587F6CA203DEE89003DC730 /* HistMeasurementRowType.swift in Sources */,
 				250655BD2039F5A300B32CC6 /* ComplicationController.swift in Sources */,
+				25A789A4208C753100A4BDE0 /* OnlineMeasurementBig.swift in Sources */,
 				256DE29F202729A2000D2549 /* MeasurementRowType.swift in Sources */,
 				252C87E5203CA3BA002E6CDF /* HistDetailInterfaceController.swift in Sources */,
 				25952C09203DF83500B0AA33 /* TableUtil.swift in Sources */,

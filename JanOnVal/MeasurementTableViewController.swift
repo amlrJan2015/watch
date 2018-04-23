@@ -36,15 +36,18 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
                     "mode": measurement.mode,
                     "timebase": measurement.timebase,
                     "measurementValue": measurement.value,
-                    "measurementType": measurement.type                    
+                    "measurementType": measurement.type,
+                    "min": measurement.min,
+                    "max": measurement.max
                     ])
             }
         }
         
         connectivityHandler.session.sendMessage(
             [
-                "serverUrl": appModel?.serverUrl,
-                "measurementDataDictArr": dictArr
+                "serverUrl": appModel!.serverUrl,
+                "measurementDataDictArr": dictArr,
+                "refreshTime": appModel!.refreshTime
         ], replyHandler: nil) { (err) in
             NSLog("%@", "Error sending data to watch: \(err)")
         }
