@@ -26,6 +26,13 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
             let template = CLKComplicationTemplateModularSmallSimpleImage()
             template.imageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "J_modular_small"))
             handler(template)
+        } else if complication.family == .graphicCircular {
+            //            let template = CLKComplicationTemplateModularSmallRingText()
+            //            template.textProvider = CLKSimpleTextProvider(text: "J")
+            //            template.fillFraction = 0.5
+            let template = CLKComplicationTemplateGraphicCircularImage()
+            template.imageProvider = CLKFullColorImageProvider(fullColorImage: #imageLiteral(resourceName: "J_circular"))
+            handler(template)
         } else if complication.family == .utilitarianSmall {
             let template = CLKComplicationTemplateUtilitarianSmallRingText()
             template.textProvider = CLKSimpleTextProvider(text: "J")
@@ -54,6 +61,16 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
             
             let template = CLKComplicationTemplateModularSmallSimpleImage()
             template.imageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "J_modular_small"))
+            
+            handler(CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template))
+            break
+        case .graphicCircular:
+            //            let template = CLKComplicationTemplateModularSmallRingText()
+            //            template.textProvider = CLKSimpleTextProvider(text: "J")
+            //            template.fillFraction = 1.0
+            
+            let template = CLKComplicationTemplateGraphicCircularImage()
+            template.imageProvider = CLKFullColorImageProvider(fullColorImage: #imageLiteral(resourceName: "J_circular"))
             
             handler(CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template))
             break

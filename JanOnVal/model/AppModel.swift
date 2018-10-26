@@ -11,5 +11,5 @@ import Foundation
 class AppModel {
     var serverUrl = ""
     var selectedDeviceArr = Array<Device>()
-    var refreshTime = 5
+    var refreshTime = 2
 }

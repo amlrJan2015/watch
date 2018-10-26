@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14109" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14313.18" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
     <device id="watch42" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14031"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14238.10"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
@@ -15,14 +14,18 @@
                 <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="JanOnVal_WatchKit_App" customModuleProvider="target">
                     <items>
                         <label width="136" height="26" alignment="center" verticalAlignment="bottom" text="No config" textAlignment="center" id="jTI-wC-eWP"/>
-                        <table alignment="left" id="UXK-c9-bYL">
+                        <table alignment="center" id="UXK-c9-bYL">
                             <items>
                                 <tableRow identifier="measurementRowType" id="T6f-m2-3ha" customClass="MeasurementRowType" customModule="JanOnVal_WatchKit_Extension">
-                                    <group key="rootItem" width="1" alignment="left" id="wHg-nI-7o3">
+                                    <group key="rootItem" width="1" height="35" alignment="left" id="wHg-nI-7o3">
                                         <items>
-                                            <label width="23" height="52" alignment="left" verticalAlignment="center" text="💡" textAlignment="left" id="fJt-wu-iRm"/>
-                                            <label width="66" height="28" alignment="left" verticalAlignment="center" text="value" textAlignment="left" id="Xuj-k1-oYz"/>
-                                            <label width="51" height="33" alignment="left" verticalAlignment="center" text="unit" textAlignment="right" id="75D-PF-H1c"/>
+                                            <label width="25" alignment="left" verticalAlignment="center" text="⏳" textAlignment="left" id="fJt-wu-iRm">
+                                                <fontDescription key="font" type="system" pointSize="20"/>
+                                            </label>
+                                            <label width="72" alignment="left" verticalAlignment="center" textAlignment="left" id="Xuj-k1-oYz">
+                                                <fontDescription key="font" type="system" pointSize="23"/>
+                                            </label>
+                                            <label width="40" height="33" alignment="right" verticalAlignment="center" textAlignment="right" id="75D-PF-H1c"/>
                                         </items>
                                     </group>
                                     <connections>
@@ -40,22 +43,30 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="-70.615384615384613" y="-196.58974358974359"/>
+            <point key="canvasLocation" x="-71.487179487179489" y="-197.89743589743591"/>
         </scene>
         <!--HistDetail-->
         <scene sceneID="jMW-31-Gmb">
             <objects>
                 <controller identifier="HistDetail" id="zXX-6X-8Qf" customClass="HistDetailInterfaceController" customModule="JanOnVal_WatchKit_Extension">
                     <items>
-                        <label width="136" alignment="center" text="Historische Werte" textAlignment="center" id="shU-52-gZv"/>
-                        <table alignment="left" id="aw4-Qx-zZd">
+                        <label alignment="center" text="Übersicht" textAlignment="center" id="shU-52-gZv">
+                            <fontDescription key="font" type="system" pointSize="23"/>
+                        </label>
+                        <table alignment="center" id="aw4-Qx-zZd">
                             <items>
                                 <tableRow identifier="histMeasurementRowType" selectable="NO" id="NKq-Fa-BVe" customClass="HistMeasurementRowType" customModule="JanOnVal_WatchKit_Extension">
                                     <group key="rootItem" width="1" height="35" alignment="left" id="bX5-67-fY7">
                                         <items>
-                                            <label width="28" height="52" alignment="left" verticalAlignment="center" text="??" id="Nru-4n-RXL"/>
-                                            <label width="75" height="88" alignment="left" verticalAlignment="center" text="..." id="426-cx-2bW"/>
-                                            <label width="36" height="75" alignment="right" verticalAlignment="center" text="unit" textAlignment="right" id="xn0-a3-5CX"/>
+                                            <label width="37" alignment="left" verticalAlignment="center" text="⏳" textAlignment="left" id="Nru-4n-RXL">
+                                                <fontDescription key="font" type="system" pointSize="23"/>
+                                            </label>
+                                            <label width="64" alignment="left" verticalAlignment="center" id="426-cx-2bW">
+                                                <fontDescription key="font" type="system" pointSize="22"/>
+                                            </label>
+                                            <label width="36" alignment="right" verticalAlignment="center" textAlignment="right" id="xn0-a3-5CX">
+                                                <fontDescription key="font" type="system" pointSize="15"/>
+                                            </label>
                                         </items>
                                     </group>
                                     <connections>
@@ -73,22 +84,22 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="184.82051282051285" y="-374.43589743589746"/>
+            <point key="canvasLocation" x="184.78260869565216" y="-374.91071428571428"/>
         </scene>
         <!--OnlineMeasurementBig-->
         <scene sceneID="UeX-hm-gRG">
             <objects>
-                <controller identifier="OnlineMeasurementBig" id="vjb-46-twT" customClass="OnlineMeasurementBig" customModule="JanOnVal_WatchKit_Extension">
+                <controller identifier="OnlineMeasurementBig" fullBounds="YES" id="vjb-46-twT" customClass="OnlineMeasurementBig" customModule="JanOnVal_WatchKit_Extension">
                     <items>
-                        <label width="44" height="42" alignment="center" text="☀️" textAlignment="center" id="hld-nO-NYd">
-                            <fontDescription key="font" type="system" pointSize="30"/>
+                        <label width="111" height="62" alignment="center" text="☀️" textAlignment="center" id="hld-nO-NYd">
+                            <fontDescription key="font" type="system" pointSize="45"/>
                         </label>
-                        <label width="136" height="45" alignment="center" verticalAlignment="center" text="..." textAlignment="center" id="qgP-ZO-m8r">
+                        <label width="136" height="45" alignment="center" verticalAlignment="center" text="⏳" textAlignment="center" id="qgP-ZO-m8r">
                             <fontDescription key="font" type="system" pointSize="43"/>
                         </label>
                         <label width="136" height="43" alignment="center" verticalAlignment="bottom" text="unit" textAlignment="center" id="KGM-Yx-KaI">
                             <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <fontDescription key="font" type="system" pointSize="20"/>
+                            <fontDescription key="font" type="system" pointSize="25"/>
                         </label>
                     </items>
                     <connections>
@@ -98,7 +109,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="201" y="-52"/>
+            <point key="canvasLocation" x="200.30434782608694" y="-52.366071428571431"/>
         </scene>
     </scenes>
 </document>

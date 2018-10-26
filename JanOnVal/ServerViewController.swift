@@ -23,10 +23,10 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
     let REFRESH_TIME = "REFRESH_TIME"
     
     private func loadServerConfig() {
-        serverUrl.text = defaults.string(forKey: HOST) ?? "http://www.zum-eisenberg.de"
+        serverUrl.text = defaults.string(forKey: HOST) ?? "http://gridvis-ems.srv"
         port.text = defaults.string(forKey: PORT) ?? "8080"
-        projectName.text = defaults.string(forKey: PROJECT) ?? "Eisenberg"
-        refreshTime.text = defaults.string(forKey: REFRESH_TIME) ?? "5"
+        projectName.text = defaults.string(forKey: PROJECT) ?? "EnergieManagementSystem Janitza"
+        refreshTime.text = defaults.string(forKey: REFRESH_TIME) ?? "2"
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -68,6 +68,7 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
     
     private func getWholeServerUrl() -> String {
         let portStr = "" == port.text! ? "" : ":\(port.text!)"
-        return "\(serverUrl.text!)\(portStr)/rest/1/projects/\(projectName.text!)/"
+        let encodedProjectName = projectName.text!.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)!
+        return "\(serverUrl.text!)\(portStr)/rest/1/projects/\(encodedProjectName)/"
     }
 }

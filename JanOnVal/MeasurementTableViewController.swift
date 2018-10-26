@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource {
+class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
     
     var connectivityHandler: ConnectivityHandler!
     var appModel: AppModel?
@@ -17,6 +17,10 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
     var selectedMeasurement = Dictionary<Device, [Measurement]>()
     var selectedDeviceArrOrig = [Device]()
     
+    @IBOutlet var gesture: UISwipeGestureRecognizer!
+    @IBAction func swipeDown(_ sender: UISwipeGestureRecognizer) {
+        self.view.endEditing(true)
+    }
     @IBOutlet weak var tableView: UITableView!
     
     @IBOutlet weak var measurementSearchBar: UISearchBar!
@@ -115,6 +119,12 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        
+        self.gesture.delegate = self
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
     }
     
     override func viewWillAppear(_ animated: Bool) {

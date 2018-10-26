@@ -102,7 +102,6 @@ class TableUtil {
     public static func showManualInput(_ json: [String : AnyObject], _ measurementData: [String: Any],_ valueLbl: WKInterfaceLabel, _ unitLbl: WKInterfaceLabel) {
         let unit = measurementData["unit"] as! String
         let unit2 = measurementData["unit2"] as! String
-        let title = measurementData["watchTitle"] as! String
         
         let valmeasurement = json["details"] as? [String: Any]
         if let value = valmeasurement!["lastValue"] as? Double {

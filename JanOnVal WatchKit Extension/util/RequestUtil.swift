@@ -41,7 +41,22 @@ class RequestUtil {
                     }
                 }
             } catch {
-                print("error:\(error)")
+//                print("error:\(error)")
+                DispatchQueue.main.async { // Correct
+                    if let row = table.rowController(at: index) as? HistMeasurementRowType {
+                        row.dateDesc.setText("🚫")
+                        row.value.setWidth(95.0)
+                        row.value.setText("no values")
+                        row.unit.setText("")
+                    } else if let row = table.rowController(at: index) as? MeasurementRowType {
+                        row.header.setText("🚫")
+                        row.value.sizeToFitWidth()
+                        row.value.setText("no values")
+                        row.unit.setText("")
+                    }
+                    
+                    
+                }
             }
             
         })
@@ -63,8 +78,8 @@ class RequestUtil {
                     switch mode {
                     case TableUtil.ONLINE:
                         TableUtil.showOnlineValue(json, measurementData, valueLbl, unitLbl)
-//                    case TableUtil.HIST:
-//                        TableUtil.showHistEnergyValueInTable(json, measurementData, table, tableRowIndex: index)
+                        //                    case TableUtil.HIST:
+                    //                        TableUtil.showHistEnergyValueInTable(json, measurementData, table, tableRowIndex: index)
                     case TableUtil.MI:
                         TableUtil.showManualInput(json, measurementData, valueLbl, unitLbl)
                     default:
@@ -72,12 +87,15 @@ class RequestUtil {
                     }
                 } else {
                     DispatchQueue.main.async { // Correct
-                        valueLbl.setText("--")
+                        valueLbl.setText("🚫")
                         unitLbl.setText("")
                     }
                 }
             } catch {
-                print("error:\(error)")
+                DispatchQueue.main.async { // Correct
+                        valueLbl.setText("🚫")
+                        unitLbl.setText("")
+                }
             }
             
         })
