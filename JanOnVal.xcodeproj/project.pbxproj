@@ -35,6 +35,7 @@
 		AA4F10A8201B561300DDA380 /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4F10A7201B561300DDA380 /* Device.swift */; };
 		AA665222201B78F800E63CC1 /* ServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA665221201B78F800E63CC1 /* ServerViewController.swift */; };
 		AA665224201B7AF400E63CC1 /* AppModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA665223201B7AF400E63CC1 /* AppModel.swift */; };
+		AA9A778221A7E4B0003B6045 /* ChartsInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9A778121A7E4B0003B6045 /* ChartsInterfaceController.swift */; };
 		AAC370E62015C8E800132087 /* ConnectivityHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC370E52015C8E800132087 /* ConnectivityHandler.swift */; };
 /* End PBXBuildFile section */
 
@@ -116,6 +117,7 @@
 		AA4F10A7201B561300DDA380 /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		AA665221201B78F800E63CC1 /* ServerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerViewController.swift; sourceTree = "<group>"; };
 		AA665223201B7AF400E63CC1 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
+		AA9A778121A7E4B0003B6045 /* ChartsInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsInterfaceController.swift; sourceTree = "<group>"; };
 		AAC370E52015C8E800132087 /* ConnectivityHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -228,6 +230,7 @@
 				AA43F5371FDA6A5E00C879E0 /* Info.plist */,
 				25A789A2208C706700A4BDE0 /* row */,
 				25A789A5208C783700A4BDE0 /* util */,
+				AA9A778121A7E4B0003B6045 /* ChartsInterfaceController.swift */,
 			);
 			path = "JanOnVal WatchKit Extension";
 			sourceTree = "<group>";
@@ -390,6 +393,7 @@
 			files = (
 				2587F6CA203DEE89003DC730 /* HistMeasurementRowType.swift in Sources */,
 				250655BD2039F5A300B32CC6 /* ComplicationController.swift in Sources */,
+				AA9A778221A7E4B0003B6045 /* ChartsInterfaceController.swift in Sources */,
 				25A789A4208C753100A4BDE0 /* OnlineMeasurementBig.swift in Sources */,
 				256DE29F202729A2000D2549 /* MeasurementRowType.swift in Sources */,
 				252C87E5203CA3BA002E6CDF /* HistDetailInterfaceController.swift in Sources */,
