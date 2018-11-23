@@ -19,12 +19,8 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     var serverUrl: String?
     var refreshTime: Int?
     
-    
     let defaults = UserDefaults.standard
-    
-    //    var serverUrlOrig = ""
-    //    var measurementDataDictArrOrig = [[String:Any]]()
-    
+   
     @IBOutlet var info: WKInterfaceLabel!
     
     var measurementDataDictArr: [[String: Any]]?
@@ -56,9 +52,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         
         serverUrl = message["serverUrl"] as? String
         refreshTime = message["refreshTime"] as? Int ?? 5
-        
-        //        startFetching.setBackgroundColor(UIColor.init(red: <#T##CGFloat#>, green: <#T##CGFloat#>, blue: <#T##CGFloat#>, alpha: <#T##CGFloat#>))
-        
+                
         defaults.set(serverUrl, forKey: SERVER_CONFIG)
         defaults.set(measurementDataDictArr, forKey: MEASUREMENT_DATA)
         defaults.set(refreshTime, forKey: REFRESH_TIME)

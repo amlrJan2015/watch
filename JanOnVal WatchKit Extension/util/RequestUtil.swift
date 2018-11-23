@@ -16,7 +16,7 @@ class RequestUtil {
         let request = TableUtil.createRequest(measurementData, serverUrl)
         let session = URLSession.shared
         
-        return session.dataTask(with: request, completionHandler: { data, response, error -> Void in
+        return session.dataTask(with: request) { data, response, error -> Void in
             
             do {
                 if let measurementDataJson = data {
@@ -59,7 +59,7 @@ class RequestUtil {
                 }
             }
             
-        })
+        }
     }
     
     public static func doGetData(_ serverUrl: String?, _ measurementData:[String:Any], _ valueLbl: WKInterfaceLabel, _ unitLbl: WKInterfaceLabel) -> URLSessionDataTask {
@@ -68,9 +68,10 @@ class RequestUtil {
         let request = TableUtil.createRequest(measurementData, serverUrl)
         let session = URLSession.shared
         
-        return session.dataTask(with: request, completionHandler: { data, response, error -> Void in
+        return session.dataTask(with: request) { data, response, error -> Void in
             
             do {
+                OnlineMeasurementBig.updateStateCounter = 0
                 if let measurementDataJson = data {
                     //                    print(String(data: measurementData,encoding: String.Encoding.utf8) as! String)
                     let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
@@ -98,6 +99,6 @@ class RequestUtil {
                 }
             }
             
-        })
+        }
     }
 }

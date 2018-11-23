@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14313.18" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
-    <device id="watch42" orientation="portrait">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14460.31" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch44" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14238.10"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14460.16"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
@@ -48,7 +48,7 @@
         <!--HistDetail-->
         <scene sceneID="jMW-31-Gmb">
             <objects>
-                <controller identifier="HistDetail" id="zXX-6X-8Qf" customClass="HistDetailInterfaceController" customModule="JanOnVal_WatchKit_Extension">
+                <controller identifier="HistDetail" fullScreen="YES" id="zXX-6X-8Qf" customClass="HistDetailInterfaceController" customModule="JanOnVal_WatchKit_Extension">
                     <items>
                         <label alignment="center" text="Übersicht" textAlignment="center" id="shU-52-gZv">
                             <fontDescription key="font" type="system" pointSize="23"/>
@@ -77,6 +77,14 @@
                                 </tableRow>
                             </items>
                         </table>
+                        <button width="35" height="35" alignment="center" title="i" id="5jN-46-YJN">
+                            <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <fontDescription key="font" type="system" weight="heavy" pointSize="27"/>
+                            <connections>
+                                <action selector="onInfoClick" destination="zXX-6X-8Qf" id="d45-Yq-ChC"/>
+                            </connections>
+                        </button>
                     </items>
                     <connections>
                         <outlet property="table" destination="aw4-Qx-zZd" id="no6-EX-cML"/>
@@ -97,19 +105,78 @@
                         <label width="136" height="45" alignment="center" verticalAlignment="center" text="⏳" textAlignment="center" id="qgP-ZO-m8r">
                             <fontDescription key="font" type="system" pointSize="43"/>
                         </label>
-                        <label width="136" height="43" alignment="center" verticalAlignment="bottom" text="unit" textAlignment="center" id="KGM-Yx-KaI">
-                            <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            <fontDescription key="font" type="system" pointSize="25"/>
-                        </label>
+                        <group width="1" alignment="center" verticalAlignment="bottom" id="vkV-Ci-noi">
+                            <items>
+                                <button width="30" height="30" alignment="left" verticalAlignment="center" title="i" id="y1g-SN-BTA">
+                                    <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <fontDescription key="font" type="system" weight="heavy" pointSize="19"/>
+                                    <connections>
+                                        <action selector="onInfoClick" destination="vjb-46-twT" id="n64-jB-kLi"/>
+                                    </connections>
+                                </button>
+                                <label width="80" height="43" alignment="center" verticalAlignment="center" text="unit" textAlignment="center" id="KGM-Yx-KaI">
+                                    <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <fontDescription key="font" type="system" pointSize="25"/>
+                                </label>
+                                <group alignment="right" verticalAlignment="center" radius="15" id="d6h-KS-umZ" userLabel="updateStateGroup">
+                                    <items>
+                                        <label width="30" height="30" alignment="right" verticalAlignment="center" text="0" textAlignment="center" id="tRE-sZ-Jeg" userLabel="updateState">
+                                            <fontDescription key="font" type="boldSystem" pointSize="17"/>
+                                        </label>
+                                    </items>
+                                    <color key="backgroundColor" red="0.0" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                </group>
+                            </items>
+                        </group>
                     </items>
+                    <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                    <variation key="device=watch44mm">
+                        <edgeInsets key="margins" left="9" right="6" top="0.0" bottom="0.0"/>
+                    </variation>
                     <connections>
                         <outlet property="headerEmoji" destination="hld-nO-NYd" id="U9B-Pm-x4s"/>
                         <outlet property="onlineValue" destination="qgP-ZO-m8r" id="Dya-rz-nfR"/>
                         <outlet property="unit" destination="KGM-Yx-KaI" id="nXK-M5-yrk"/>
+                        <outlet property="updateState" destination="tRE-sZ-Jeg" id="XeF-kg-FEl"/>
+                        <outlet property="updateStateGroup" destination="d6h-KS-umZ" id="wDV-gB-9t5"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="200.30434782608694" y="-52.366071428571431"/>
+            <point key="canvasLocation" x="199.56521739130434" y="-53.125"/>
+        </scene>
+        <!--MeasurementInfo-->
+        <scene sceneID="35U-Ds-Fyd">
+            <objects>
+                <controller identifier="MeasurementInfo" fullScreen="YES" id="Qe9-9G-DdQ" customClass="MeasurementInfoIC" customModule="JanOnVal_WatchKit_Extension">
+                    <items>
+                        <separator alignment="left" id="zwO-Nn-VcF">
+                            <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </separator>
+                        <label alignment="center" text="Device" textAlignment="center" id="7iY-ED-wOh" userLabel="lblDevice">
+                            <fontDescription key="font" type="system" weight="heavy" pointSize="16"/>
+                        </label>
+                        <separator alignment="left" id="fnQ-Gd-0Ih">
+                            <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </separator>
+                        <label alignment="left" text="devInfo" textAlignment="left" numberOfLines="3" id="dDl-rB-Su6"/>
+                        <separator alignment="left" id="6Bv-BV-Rvx">
+                            <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </separator>
+                        <label alignment="center" text="Measurement" textAlignment="center" id="ZJE-zA-d8h">
+                            <fontDescription key="font" type="system" weight="heavy" pointSize="16"/>
+                        </label>
+                        <separator alignment="left" id="9b9-go-Hlo">
+                            <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        </separator>
+                        <label alignment="left" text="mInfo" textAlignment="left" numberOfLines="3" id="oZE-t8-RrG"/>
+                    </items>
+                    <connections>
+                        <outlet property="devInfo" destination="dDl-rB-Su6" id="Tsc-CK-hlq"/>
+                        <outlet property="measurementInfo" destination="oZE-t8-RrG" id="IaH-Sk-UN9"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="460" y="-53"/>
         </scene>
     </scenes>
 </document>

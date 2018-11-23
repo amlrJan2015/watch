@@ -37,10 +37,13 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
                     "unit": "\(measurement.unit)",
                     "unit2": "\(measurement.unit2)",
                     "deviceId" : device.id,
+                    "deviceName" : device.name,
                     "mode": measurement.mode,
                     "timebase": measurement.timebase,
                     "measurementValue": measurement.value,
+                    "measurementValueName": measurement.valueName,
                     "measurementType": measurement.type,
+                    "measurementTypeName": measurement.typeName,
                     "min": measurement.min,
                     "max": measurement.max
                     ])

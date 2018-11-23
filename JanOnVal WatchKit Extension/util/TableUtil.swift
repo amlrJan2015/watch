@@ -198,7 +198,9 @@ class TableUtil {
             requestData = "unknown mode"
         }
         
-        var request = URLRequest(url: URL(string:"\(serverUrl!)\(requestData)")!)
+        var request = URLRequest(url: URL(string:"\(serverUrl!)\(requestData)")!)        
+        request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData
+        
         request.httpMethod = "GET"
         request.setValue("application/json", forHTTPHeaderField: "Accept")
         return request

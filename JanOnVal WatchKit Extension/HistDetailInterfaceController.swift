@@ -16,40 +16,61 @@ class HistDetailInterfaceController: WKInterfaceController {
     @IBOutlet var tableTitle: WKInterfaceLabel!
     
     let periodArr = ["NAMED_Today", "NAMED_Yesterday", "NAMED_ThisWeek", "NAMED_LastWeek", "NAMED_ThisMonth", "NAMED_LastMonth", "NAMED_ThisYear", "NAMED_LastYear"]
-    var fetchTaskArr = Array<URLSessionDataTask>()
+    
+    private var dict: [String: Any] = [:]
+    private var serverUrl = ""
+    private var taskArr:[URLSessionDataTask] = []
+    
+    fileprivate func fetchAndShowData() {
+        DispatchQueue.main.async {
+            for index in 0..<self.periodArr.count {
+                self.dict["start"] = self.periodArr[index]
+                self.dict["stop"] = self.periodArr[index]
+                let task = RequestUtil.doGetDataForMainTable(
+                    self.serverUrl,
+                    self.dict,
+                    self.table,
+                    atSelectedMeasurementIndex: index)
+                task.resume()
+                self.taskArr.append(task)
+            }
+        }
+    }
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         
         if let tServerUrl_MeasurementDict = context as? (String,[String: Any]) {
-            self.tableTitle.setText(tServerUrl_MeasurementDict.1["watchTitle"] as! String)
+            dict = tServerUrl_MeasurementDict.1
+            serverUrl = tServerUrl_MeasurementDict.0
+            
+            self.tableTitle.setText((dict["watchTitle"] as! String))
             table.setNumberOfRows(periodArr.count, withRowType: "histMeasurementRowType")
-            
-            var histDict = tServerUrl_MeasurementDict.1            
-            
-            DispatchQueue.main.async {
-                for index in 0..<self.periodArr.count {
-                    histDict["start"] = self.periodArr[index]
-                    histDict["stop"] = self.periodArr[index]
-                    let task = RequestUtil.doGetDataForMainTable(
-                        tServerUrl_MeasurementDict.0,
-                        histDict,
-                        self.table,
-                        atSelectedMeasurementIndex: index)
-                    task.resume()
-                }
-            }
         }
     }
     
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
+        
+        fetchAndShowData()
     }
     
-    override func didDeactivate() {
-        // This method is called when watch view controller is no longer visible
-        super.didDeactivate()
+    override func willDisappear() {
+        taskArr.forEach { (task) in
+            task.cancel()
+        }
+    }
+    
+    @IBAction func onInfoClick() {
+        var devName = "No info. Please config the value on iPhone again."
+        var mInfo = ""
+        if let devNameOpt = dict["deviceName"] as? String {
+            devName = devNameOpt
+            mInfo = "\(dict["measurementValueName"] as! String)\n\(dict["measurementTypeName"] as! String)"
+        }
+        
+        pushController(withName: "MeasurementInfo", context: (devName, mInfo))
     }
     
 }
