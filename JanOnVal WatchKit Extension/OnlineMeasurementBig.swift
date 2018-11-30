@@ -71,6 +71,8 @@ class OnlineMeasurementBig: WKInterfaceController {
         }
         
         pushController(withName: "MeasurementInfo", context: (devName, mInfo))
+        //pushController(withName: "ChartsView", context: "test")
+        
     }
     override func willDisappear() {
         fetchTimer?.invalidate()
