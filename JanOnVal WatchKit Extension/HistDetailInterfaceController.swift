@@ -25,7 +25,7 @@ class HistDetailInterfaceController: WKInterfaceController {
         DispatchQueue.main.async {
             for index in 0..<self.periodArr.count {
                 self.dict["start"] = self.periodArr[index]
-                self.dict["stop"] = self.periodArr[index]
+                self.dict["end"] = self.periodArr[index]
                 let task = RequestUtil.doGetDataForMainTable(
                     self.serverUrl,
                     self.dict,

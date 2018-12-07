@@ -226,11 +226,11 @@
 				25A789A3208C753100A4BDE0 /* OnlineMeasurementBig.swift */,
 				251B58DB219B4DC0004E4EAF /* MeasurementInfoIC.swift */,
 				250655BC2039F5A300B32CC6 /* ComplicationController.swift */,
+				AA9A778121A7E4B0003B6045 /* ChartsInterfaceController.swift */,
 				AA43F5351FDA6A5E00C879E0 /* Assets.xcassets */,
 				AA43F5371FDA6A5E00C879E0 /* Info.plist */,
 				25A789A2208C706700A4BDE0 /* row */,
 				25A789A5208C783700A4BDE0 /* util */,
-				AA9A778121A7E4B0003B6045 /* ChartsInterfaceController.swift */,
 			);
 			path = "JanOnVal WatchKit Extension";
 			sourceTree = "<group>";
