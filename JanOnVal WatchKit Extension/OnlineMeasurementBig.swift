@@ -26,6 +26,15 @@ class OnlineMeasurementBig: WKInterfaceController {
     
     static var updateStateCounter = 0
     
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
+        
+        if let tServerUrl_MeasurementDict = context as? (String,[String: Any]) {
+            serverUrl = tServerUrl_MeasurementDict.0
+            dict = tServerUrl_MeasurementDict.1
+        }
+    }
+    
     fileprivate func fetchAndShowData() {
         headerEmoji.setText((dict["watchTitle"] as! String))
         
@@ -53,14 +62,7 @@ class OnlineMeasurementBig: WKInterfaceController {
         }
     }
     
-    override func awake(withContext context: Any?) {
-        super.awake(withContext: context)
-        
-        if let tServerUrl_MeasurementDict = context as? (String,[String: Any]) {
-            serverUrl = tServerUrl_MeasurementDict.0
-            dict = tServerUrl_MeasurementDict.1
-        }
-    }
+    
     
     @IBAction func onInfoClick() {
         var devName = "No info. Please config the value on iPhone again."
@@ -71,7 +73,7 @@ class OnlineMeasurementBig: WKInterfaceController {
         }
         
         pushController(withName: "MeasurementInfo", context: (devName, mInfo))
-        //pushController(withName: "ChartsView", context: "test")
+//        pushController(withName: "ChartsView", context: (serverUrl, dict))
         
     }
     override func willDisappear() {

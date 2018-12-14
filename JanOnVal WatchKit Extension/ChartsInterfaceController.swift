@@ -12,39 +12,17 @@ import UIKit
 
 class ChartsInterfaceController: WKInterfaceController {
     
-    
     @IBOutlet weak var image: WKInterfaceImage!
     
-    let arrData = [(1.0,2.0), (2.0,2.0), (3.0,1.0),(4.0,2.0), (5.0,4.0),(6.0,3.0), (7.0,5.0),(8.0,3.0), (9.0,4.0),(10.0,5.0),
+    private var fetchTask: URLSessionDataTask?
+    private var dict: [String: Any] = [:]
+    private var serverUrl = ""
+    
+    var arrData = [(1.0,2.0), (2.0,2.0), (3.0,1.0),(4.0,2.0), (5.0,4.0),(6.0,3.0), (7.0,5.0),(8.0,3.0), (9.0,4.0),(10.0,5.0),
                    (11.0,6.0), (12.0,4.0),(13.0,7.0), (14.0,15.0),(15.0,3.0), (16.0,6.0),(17.0,7.0), (18.0,4.0),(19.0,6.0),
                    (20.0,6.0), (21.0,5.0),(22.0,9.0), (23.0,5.0),(24.0,13.0), (25.0,6.0),(26.0,9.0), (27.0,3.0),(28.0,6.0)]
     
-    fileprivate func calculateStepsizeFor(yRange ymax: Double, _ ymin: Double) -> Double {
-        // Bleibt noch der Fall ymax=ymin, muss noch behandelt werden
-        let ymarknumber = 50
-        let ymark_diff_temp = (ymax - ymin) / Double( ymarknumber)
-        var mag = log10( ymark_diff_temp)
-        mag.round(.down)
-        let magPow = pow( 10, mag)
-        var magMsd = (ymark_diff_temp / magPow + 0.5).rounded()
-        if( magMsd > 5.0)
-        {
-            magMsd = 10.0
-        }
-        else if( magMsd > 2.0)
-        {
-            magMsd = 5.0
-        }
-        else if( magMsd > 1.0)
-        {
-            magMsd = 2.0
-        }
-        let ymark_diff = magMsd*magPow
-        return ymark_diff
-    }
-    
-    override func awake(withContext context: Any?) {
-        super.awake(withContext: context)
+    fileprivate func showChart() {
         let size = CGSize( width: 160, height: 170)
         UIGraphicsBeginImageContext(size)
         let context = UIGraphicsGetCurrentContext()
@@ -79,7 +57,7 @@ class ChartsInterfaceController: WKInterfaceController {
         
         let ytickmarkarr = Array(stride(from: ystepsize * (ymin/ystepsize).rounded(.down), through: ystepsize * (ymax/ystepsize).rounded(.up), by: ystepsize))
         let ytickmarkpixelposarr = ytickmarkarr.map { (ymax - $0 )/(ymax-ymin) * graphicheight + coordoffsettop }
-        print(ytickmarkpixelposarr)
+        //        print(ytickmarkpixelposarr)
         let xminpixelpos = coordoffsetleft
         let xmaxpixelpos = graphicwidth - coordoffsetright
         let yminpixelpos = graphicheight - coordoffsetbottom
@@ -149,17 +127,102 @@ class ChartsInterfaceController: WKInterfaceController {
         
         // Show on WKInterfaceImage
         image.setImage(uiimage)
-
     }
-
-    override func willActivate() {
-        // This method is called when watch view controller is about to be visible to user
-        super.willActivate()
+    
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
+        
+        if let tServerUrl_MeasurementDict = context as? (String,[String: Any]) {
+            serverUrl = tServerUrl_MeasurementDict.0
+            dict = tServerUrl_MeasurementDict.1
+        }
+        
+        fetchAndShowData()
+        
     }
-
-    override func didDeactivate() {
-        // This method is called when watch view controller is no longer visible
-        super.didDeactivate()
+    
+    fileprivate func calculateStepsizeFor(yRange ymax: Double, _ ymin: Double) -> Double {
+        // Bleibt noch der Fall ymax=ymin, muss noch behandelt werden
+        let ymarknumber = 50
+        let ymark_diff_temp = (ymax - ymin) / Double( ymarknumber)
+        var mag = log10( ymark_diff_temp)
+        mag.round(.down)
+        let magPow = pow( 10, mag)
+        var magMsd = (ymark_diff_temp / magPow + 0.5).rounded()
+        if( magMsd > 5.0)
+        {
+            magMsd = 10.0
+        }
+        else if( magMsd > 2.0)
+        {
+            magMsd = 5.0
+        }
+        else if( magMsd > 1.0)
+        {
+            magMsd = 2.0
+        }
+        let ymark_diff = magMsd*magPow
+        return ymark_diff
     }
+    
 
+
+    fileprivate func fetchAndShowData() {
+        
+        
+        DispatchQueue.main.async {
+            
+            let request = TableUtil.createRequestForChart(self.dict, self.serverUrl)
+            let session = URLSession.shared
+            let deviceId = self.dict["deviceId"] as! Int
+            let measurementValue = self.dict["measurementValue"] as! String
+            let measurementType = self.dict["measurementType"] as! String
+            
+            let fetchTask = session.dataTask(with: request) { data, response, error -> Void in
+                
+                if error == nil {
+                
+                do {
+                    OnlineMeasurementBig.updateStateCounter = 0
+                    if let measurementDataJson = data {
+                        //                    print(String(data: measurementData,encoding: String.Encoding.utf8) as! String)
+                        let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
+                        print(json)
+                        
+                        self.arrData = []
+                        
+                        let valuesArrOpt = json["values"] as? [[String: Any]]
+                        if let valuesArr = valuesArrOpt {
+                        for value in valuesArr {
+                            let avgOpt = value["avg"] as? Double
+                            let startTimeOpt = value["startTime"] as? Double
+                            if let avg = avgOpt, let startTime = startTimeOpt {
+                                self.arrData.append((startTime, avg))
+                            }
+                        }
+                        
+                        self.showChart()
+                        }
+                        
+                    } else {
+                        print("data is invalid")
+                    }
+                } catch {
+                    print("error")
+                }
+                } else {
+                    print("Error: \(error)")
+                }
+                
+            }
+            
+            
+            fetchTask.resume()
+            
+            }
+        
+        
+        
+        
+    }
 }
