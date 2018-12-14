@@ -72,8 +72,8 @@ class OnlineMeasurementBig: WKInterfaceController {
             mInfo = "\(dict["measurementValueName"] as! String)\n\(dict["measurementTypeName"] as! String)"
         }
         
-        pushController(withName: "MeasurementInfo", context: (devName, mInfo))
-//        pushController(withName: "ChartsView", context: (serverUrl, dict))
+//        pushController(withName: "MeasurementInfo", context: (devName, mInfo))
+        pushController(withName: "ChartsView", context: (serverUrl, dict))
         
     }
     override func willDisappear() {

@@ -14,6 +14,8 @@ class ChartsInterfaceController: WKInterfaceController {
     
     @IBOutlet weak var image: WKInterfaceImage!
     
+    @IBOutlet weak var maxLbl: WKInterfaceLabel!
+    @IBOutlet weak var minLbl: WKInterfaceLabel!
     private var fetchTask: URLSessionDataTask?
     private var dict: [String: Any] = [:]
     private var serverUrl = ""
@@ -23,7 +25,14 @@ class ChartsInterfaceController: WKInterfaceController {
                    (20.0,6.0), (21.0,5.0),(22.0,9.0), (23.0,5.0),(24.0,13.0), (25.0,6.0),(26.0,9.0), (27.0,3.0),(28.0,6.0)]
     
     fileprivate func showChart() {
-        let size = CGSize( width: 160, height: 170)
+        
+        let currentDevice = WKInterfaceDevice.current()
+        let deviceWidth = currentDevice.screenBounds.width
+        let deviceHeight = currentDevice.screenBounds.height
+        
+        
+        let size = CGSize( width: deviceWidth, height: deviceHeight*0.78)
+        //let size = CGSize( width: 160, height: 170)
         UIGraphicsBeginImageContext(size)
         let context = UIGraphicsGetCurrentContext()
         
@@ -46,7 +55,7 @@ class ChartsInterfaceController: WKInterfaceController {
         let xminoffset = 0.0
         let xmaxoffset = 0.0
         let yminoffset = 0.0
-        let ymaxoffset = 0.0
+        let ymaxoffset = (Double( arrData.map({ $0.1}).max() ?? 0) - Double( arrData.map({ $0.1}).min() ?? 0)) / graphicheight * 10 //0.0
         
         let xmin = arrData.map({ $0.0}).min()!-xminoffset
         let xmax = arrData.map({ $0.0}).max()!+xmaxoffset
@@ -127,6 +136,9 @@ class ChartsInterfaceController: WKInterfaceController {
         
         // Show on WKInterfaceImage
         image.setImage(uiimage)
+        
+        maxLbl.setText("Max:\(arrData.map({ $0.1}).max()!)")
+        minLbl.setText("Min:\(arrData.map({ $0.1}).min()!)")
     }
     
     override func awake(withContext context: Any?) {
@@ -187,7 +199,7 @@ class ChartsInterfaceController: WKInterfaceController {
                     if let measurementDataJson = data {
                         //                    print(String(data: measurementData,encoding: String.Encoding.utf8) as! String)
                         let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
-                        print(json)
+                        //print(json)
                         
                         self.arrData = []
                         
@@ -195,9 +207,9 @@ class ChartsInterfaceController: WKInterfaceController {
                         if let valuesArr = valuesArrOpt {
                         for value in valuesArr {
                             let avgOpt = value["avg"] as? Double
-                            let startTimeOpt = value["startTime"] as? Double
+                            let startTimeOpt = value["startTime"] as? UInt64
                             if let avg = avgOpt, let startTime = startTimeOpt {
-                                self.arrData.append((startTime, avg))
+                                self.arrData.append((Double(startTime / 1_000_000_000), avg))
                             }
                         }
                         

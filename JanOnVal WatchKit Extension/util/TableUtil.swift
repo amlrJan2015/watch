@@ -211,13 +211,15 @@ class TableUtil {
         let measurementValue = measurementData["measurementValue"] as! String
         let measurementType = measurementData["measurementType"] as! String
 //        let mode = measurementData["mode"] as! Int
-        let timebase = measurementData["timebase"] as! String
+        let timebase = 600//measurementData["timebase"] as! String
         let start = "NAMED_Yesterday"//measurementData["start"] as! String
         let end = "NAMED_Yesterday"//measurementData["end"] as! String
+        let online = "false"
         //devices/7/hist/values/PowerActive/SUM13/60/?start=NAMED_Today&end=NAMED_Today&online=true
-        let requestData = "devices/\(deviceId)/hist/values/\(measurementValue)/\(measurementType)/\(timebase)?start=\(start)&end=\(end)&online=true"
-        
-        var request = URLRequest(url: URL(string:"\(serverUrl!)\(requestData)")!)
+        let requestData = "devices/\(deviceId)/hist/values/\(measurementValue)/\(measurementType)/\(timebase)?start=\(start)&end=\(end)&online=\(online)"
+        let requestStr = "\(serverUrl!)\(requestData)"
+        print(requestStr)
+        var request = URLRequest(url: URL(string:requestStr)!)
         request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData
         
         request.httpMethod = "GET"

@@ -147,16 +147,24 @@
         <!--ChartsView-->
         <scene sceneID="rNL-jP-E8t">
             <objects>
-                <controller identifier="ChartsView" id="Xo5-dA-Fg5" customClass="ChartsInterfaceController" customModule="JanOnVal_WatchKit_Extension">
+                <controller identifier="ChartsView" fullBounds="YES" id="Xo5-dA-Fg5" customClass="ChartsInterfaceController" customModule="JanOnVal_WatchKit_Extension">
                     <items>
                         <imageView alignment="left" id="Xb6-E9-VIf"/>
+                        <group alignment="center" verticalAlignment="bottom" id="a2l-za-JGT">
+                            <items>
+                                <label alignment="left" verticalAlignment="bottom" text="Min:" textAlignment="left" id="SKB-4v-hlT"/>
+                                <label alignment="right" verticalAlignment="bottom" text="Max:" textAlignment="left" id="ovD-bt-ckA"/>
+                            </items>
+                        </group>
                     </items>
                     <connections>
                         <outlet property="image" destination="Xb6-E9-VIf" id="IZw-ki-z12"/>
+                        <outlet property="maxLbl" destination="ovD-bt-ckA" id="6vu-7n-n1I"/>
+                        <outlet property="minLbl" destination="SKB-4v-hlT" id="YoV-oY-8xA"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="200" y="253"/>
+            <point key="canvasLocation" x="199.56521739130434" y="252.72321428571428"/>
         </scene>
         <!--MeasurementInfo-->
         <scene sceneID="35U-Ds-Fyd">
