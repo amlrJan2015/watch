@@ -12,4 +12,5 @@ struct PropertyKey {
     static let name = "name"
     static let type = "type"
     static let unit = "unit"
+    static let online = "online"
 }

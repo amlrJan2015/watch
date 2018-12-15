@@ -25,14 +25,16 @@ class Measurement: NSObject, NSCoding {
     let unit: String
     let value: String
     let valueName: String
+    let online: String
     var device: Device?
     
-    init(value: String, valueName:String, type: String, typeName: String, unit: String, device: Device?) {
+    init(value: String, valueName:String, type: String, typeName: String, unit: String, online: String, device: Device?) {
         self.value = value
         self.valueName = valueName
         self.type = type
         self.typeName = typeName
         self.unit = unit
+        self.online = online
         self.device = device
     }
     
@@ -52,8 +54,13 @@ class Measurement: NSObject, NSCoding {
                 os_log("Unable to decode the unit for a measurement object", log: OSLog.default, type: .debug)
                 return nil
         }
+        guard let online = aDecoder.decodeObject(forKey: PropertyKey.online) as? String
+            else {
+                os_log("Unable to decode the online for a measurement object", log: OSLog.default, type: .debug)
+                return nil
+        }
         
-        self.init(value: "", valueName: valueName, type:"", typeName: typeName, unit: unit, device: nil)
+        self.init(value: "", valueName: valueName, type:"", typeName: typeName, unit: unit, online: online, device: nil)
     }
     
     
@@ -67,8 +74,7 @@ class Measurement: NSObject, NSCoding {
     var end = PickerData.NAMED + PickerData.startEndArr[0]
     var timebase = "60"
     var unit2 = ""
-    var min = 0
-    var max = 0
+    
     
     override var hashValue: Int {
         return self.type.hashValue + self.value.hashValue
@@ -83,7 +89,8 @@ class Measurement: NSObject, NSCoding {
             let typeName = json["typeName"] as? String,
             let unit = json["unit"] as? String,
             let value = json["value"] as? String,
-            let valueName = json["valueName"] as? String
+            let valueName = json["valueName"] as? String,
+            let online = json["online"] as? String
             else {
                 return nil
         }
@@ -93,7 +100,7 @@ class Measurement: NSObject, NSCoding {
         self.unit = unit
         self.value = value
         self.valueName = valueName
-        
+        self.online = online
     }
     
     //MARK: NSCoding
@@ -101,6 +108,7 @@ class Measurement: NSObject, NSCoding {
         aCoder.encode(valueName, forKey: PropertyKey.name)
         aCoder.encode(typeName, forKey: PropertyKey.type)
         aCoder.encode(unit, forKey: PropertyKey.unit)
+        aCoder.encode(online, forKey: PropertyKey.online)
     }
     
     //MARK: Archiving Paths

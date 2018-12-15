@@ -21,8 +21,8 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
     @IBOutlet weak var end: UIPickerView!
     @IBOutlet weak var timebase: UITextField!
     @IBOutlet weak var unit2: UITextField!
-    @IBOutlet weak var max: UITextField!
-    @IBOutlet weak var min: UITextField!
+    
+    @IBOutlet weak var online: UISwitch!
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
@@ -44,8 +44,6 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
             timebase.text = measurement.timebase
             isOnlineOrHistorrical.selectedSegmentIndex = measurement.mode
             unit2.text = measurement.unit2
-            min.text = "\(measurement.min)"
-            max.text = "\(measurement.max)"
             
             if measurement.mode == Measurement.HIST {
                 show()
@@ -118,7 +116,5 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
         measurement?.watchTitle = watchTitle.text!
         measurement?.timebase = timebase.text!
         measurement?.unit2 = unit2.text!
-        measurement?.min = Int((min?.text)!)!
-        measurement?.max = Int((max?.text)!)!
     }
 }
