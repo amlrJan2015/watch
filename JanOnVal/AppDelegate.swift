@@ -23,6 +23,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         } else {
             NSLog("WCSession not supported (iPad?)")
         }
+        let initData:[Measurement] = []
+        do {
+            let data = try NSKeyedArchiver.archivedData(withRootObject: initData, requiringSecureCoding: false)
+            UserDefaults.standard.set(data, forKey: Measurement.KEY_FOR_USER_DEFAULTS)
+        } catch {
+            fatalError("Can't encode data: \(error)")
+        }
+        
         return true
     }
     

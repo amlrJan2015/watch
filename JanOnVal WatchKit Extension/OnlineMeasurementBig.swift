@@ -71,9 +71,9 @@ class OnlineMeasurementBig: WKInterfaceController {
             devName = devNameOpt
             mInfo = "\(dict["measurementValueName"] as! String)\n\(dict["measurementTypeName"] as! String)"
         }
+
+        pushController(withName: "MeasurementInfo", context: (devName, mInfo))
         
-//        pushController(withName: "MeasurementInfo", context: (devName, mInfo))
-        pushController(withName: "ChartsView", context: (serverUrl, dict))
         
     }
     override func willDisappear() {
@@ -107,4 +107,10 @@ class OnlineMeasurementBig: WKInterfaceController {
             return durationStr
         }
     }
+    
+    
+    @IBAction func onChartMenuItemClick() {
+        pushController(withName: "ChartsView", context: (serverUrl, dict))
+    }
+    
 }

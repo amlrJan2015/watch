@@ -73,4 +73,9 @@ class HistDetailInterfaceController: WKInterfaceController {
         pushController(withName: "MeasurementInfo", context: (devName, mInfo))
     }
     
+    
+    @IBAction func onChartMenuItemClick() {
+        pushController(withName: "ChartsView", context: (serverUrl, dict))
+    }
+    
 }

@@ -11,14 +11,17 @@
 		2517245120361E71000C5EEA /* MeasurementDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2517245020361E71000C5EEA /* MeasurementDetailViewController.swift */; };
 		251724532036B19D000C5EEA /* PickerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251724522036B19D000C5EEA /* PickerData.swift */; };
 		251B58DC219B4DC0004E4EAF /* MeasurementInfoIC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B58DB219B4DC0004E4EAF /* MeasurementInfoIC.swift */; };
+		25258B5721DD2E6900579FF9 /* SelectedMeasurementViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25258B5621DD2E6900579FF9 /* SelectedMeasurementViewController.swift */; };
 		252C87E5203CA3BA002E6CDF /* HistDetailInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 252C87E4203CA3BA002E6CDF /* HistDetailInterfaceController.swift */; };
 		254DFD77203E102C0067E0A4 /* RequestUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254DFD76203E102C0067E0A4 /* RequestUtil.swift */; };
+		2554BEEC21F1B5B60091DC95 /* DevicePropertyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2554BEEB21F1B5B60091DC95 /* DevicePropertyKey.swift */; };
+		2557962821D0A27A00FCAFAC /* ValueType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2557962721D0A27A00FCAFAC /* ValueType.swift */; };
 		256DE29D20248C0C000D2549 /* AppTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DE29C20248C0C000D2549 /* AppTabBarController.swift */; };
 		256DE29F202729A2000D2549 /* MeasurementRowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DE29E202729A2000D2549 /* MeasurementRowType.swift */; };
 		2587F6CA203DEE89003DC730 /* HistMeasurementRowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2587F6C9203DEE89003DC730 /* HistMeasurementRowType.swift */; };
 		25952C09203DF83500B0AA33 /* TableUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25952C08203DF83500B0AA33 /* TableUtil.swift */; };
 		25A789A4208C753100A4BDE0 /* OnlineMeasurementBig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A789A3208C753100A4BDE0 /* OnlineMeasurementBig.swift */; };
-		25EB1D4E2046C3F800AF340B /* PropertyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EB1D4D2046C3F800AF340B /* PropertyKey.swift */; };
+		25EB1D4E2046C3F800AF340B /* MeasurementPropertyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EB1D4D2046C3F800AF340B /* MeasurementPropertyKey.swift */; };
 		AA425AD0201E21A8001FA571 /* MeasurementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA425ACF201E21A8001FA571 /* MeasurementTableViewController.swift */; };
 		AA425AD4201E603D001FA571 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA425AD3201E603D001FA571 /* Measurement.swift */; };
 		AA43F50F1FDA6A5E00C879E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA43F50E1FDA6A5E00C879E0 /* AppDelegate.swift */; };
@@ -86,8 +89,11 @@
 		2517245020361E71000C5EEA /* MeasurementDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementDetailViewController.swift; sourceTree = "<group>"; };
 		251724522036B19D000C5EEA /* PickerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerData.swift; sourceTree = "<group>"; };
 		251B58DB219B4DC0004E4EAF /* MeasurementInfoIC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementInfoIC.swift; sourceTree = "<group>"; };
+		25258B5621DD2E6900579FF9 /* SelectedMeasurementViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedMeasurementViewController.swift; sourceTree = "<group>"; };
 		252C87E4203CA3BA002E6CDF /* HistDetailInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistDetailInterfaceController.swift; sourceTree = "<group>"; };
 		254DFD76203E102C0067E0A4 /* RequestUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestUtil.swift; sourceTree = "<group>"; };
+		2554BEEB21F1B5B60091DC95 /* DevicePropertyKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DevicePropertyKey.swift; sourceTree = "<group>"; };
+		2557962721D0A27A00FCAFAC /* ValueType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValueType.swift; sourceTree = "<group>"; };
 		256DE29C20248C0C000D2549 /* AppTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTabBarController.swift; sourceTree = "<group>"; };
 		256DE29E202729A2000D2549 /* MeasurementRowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementRowType.swift; sourceTree = "<group>"; };
 		2587F6C9203DEE89003DC730 /* HistMeasurementRowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistMeasurementRowType.swift; sourceTree = "<group>"; };
@@ -96,7 +102,7 @@
 		2598BC6B2028DF20000D646B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		2598BC6C2028DF20000D646B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Interface.strings; sourceTree = "<group>"; };
 		25A789A3208C753100A4BDE0 /* OnlineMeasurementBig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineMeasurementBig.swift; sourceTree = "<group>"; };
-		25EB1D4D2046C3F800AF340B /* PropertyKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PropertyKey.swift; sourceTree = "<group>"; };
+		25EB1D4D2046C3F800AF340B /* MeasurementPropertyKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementPropertyKey.swift; sourceTree = "<group>"; };
 		AA425ACF201E21A8001FA571 /* MeasurementTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementTableViewController.swift; sourceTree = "<group>"; };
 		AA425AD3201E603D001FA571 /* Measurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
 		AA43F50B1FDA6A5E00C879E0 /* JanOnVal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JanOnVal.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -164,7 +170,9 @@
 				AA665223201B7AF400E63CC1 /* AppModel.swift */,
 				AA425AD3201E603D001FA571 /* Measurement.swift */,
 				251724522036B19D000C5EEA /* PickerData.swift */,
-				25EB1D4D2046C3F800AF340B /* PropertyKey.swift */,
+				25EB1D4D2046C3F800AF340B /* MeasurementPropertyKey.swift */,
+				2557962721D0A27A00FCAFAC /* ValueType.swift */,
+				2554BEEB21F1B5B60091DC95 /* DevicePropertyKey.swift */,
 			);
 			path = model;
 			sourceTree = "<group>";
@@ -204,6 +212,7 @@
 				AA425ACF201E21A8001FA571 /* MeasurementTableViewController.swift */,
 				256DE29C20248C0C000D2549 /* AppTabBarController.swift */,
 				2517245020361E71000C5EEA /* MeasurementDetailViewController.swift */,
+				25258B5621DD2E6900579FF9 /* SelectedMeasurementViewController.swift */,
 			);
 			path = JanOnVal;
 			sourceTree = "<group>";
@@ -372,17 +381,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				25258B5721DD2E6900579FF9 /* SelectedMeasurementViewController.swift in Sources */,
 				AA4F10A6201B534000DDA380 /* DevicesViewController.swift in Sources */,
 				AA665224201B7AF400E63CC1 /* AppModel.swift in Sources */,
 				256DE29D20248C0C000D2549 /* AppTabBarController.swift in Sources */,
 				AAC370E62015C8E800132087 /* ConnectivityHandler.swift in Sources */,
 				2517245120361E71000C5EEA /* MeasurementDetailViewController.swift in Sources */,
+				2557962821D0A27A00FCAFAC /* ValueType.swift in Sources */,
 				AA665222201B78F800E63CC1 /* ServerViewController.swift in Sources */,
 				AA425AD4201E603D001FA571 /* Measurement.swift in Sources */,
 				AA43F50F1FDA6A5E00C879E0 /* AppDelegate.swift in Sources */,
+				2554BEEC21F1B5B60091DC95 /* DevicePropertyKey.swift in Sources */,
 				AA425AD0201E21A8001FA571 /* MeasurementTableViewController.swift in Sources */,
 				251724532036B19D000C5EEA /* PickerData.swift in Sources */,
-				25EB1D4E2046C3F800AF340B /* PropertyKey.swift in Sources */,
+				25EB1D4E2046C3F800AF340B /* MeasurementPropertyKey.swift in Sources */,
 				AA4F10A8201B561300DDA380 /* Device.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

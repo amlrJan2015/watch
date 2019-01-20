@@ -86,6 +86,15 @@
                             </connections>
                         </button>
                     </items>
+                    <menu key="menu" id="xWd-uB-HtY">
+                        <items>
+                            <menuItem title="Menu Item" icon="accept" id="7vG-7S-4hA">
+                                <connections>
+                                    <action selector="onChartMenuItemClick" destination="zXX-6X-8Qf" id="c9a-nY-RT7"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
                     <connections>
                         <outlet property="table" destination="aw4-Qx-zZd" id="no6-EX-cML"/>
                         <outlet property="tableTitle" destination="shU-52-gZv" id="uQW-mi-gWf"/>
@@ -129,6 +138,15 @@
                             </items>
                         </group>
                     </items>
+                    <menu key="menu" id="opz-YU-Msj">
+                        <items>
+                            <menuItem title="Chart" icon="accept" id="l83-0Y-MWo">
+                                <connections>
+                                    <action selector="onChartMenuItemClick" destination="vjb-46-twT" id="9TX-ah-rZh"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
                     <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                     <variation key="device=watch44mm">
                         <edgeInsets key="margins" left="9" right="6" top="0.0" bottom="0.0"/>
@@ -149,14 +167,29 @@
             <objects>
                 <controller identifier="ChartsView" fullBounds="YES" id="Xo5-dA-Fg5" customClass="ChartsInterfaceController" customModule="JanOnVal_WatchKit_Extension">
                     <items>
-                        <imageView alignment="left" id="Xb6-E9-VIf"/>
-                        <group alignment="center" verticalAlignment="bottom" id="a2l-za-JGT">
+                        <imageView alignment="center" id="Xb6-E9-VIf"/>
+                        <group alignment="center" radius="5" id="a2l-za-JGT">
                             <items>
-                                <label alignment="left" verticalAlignment="bottom" text="Min:" textAlignment="left" id="SKB-4v-hlT"/>
-                                <label alignment="right" verticalAlignment="bottom" text="Max:" textAlignment="left" id="ovD-bt-ckA"/>
+                                <label alignment="left" verticalAlignment="bottom" text="  Yesterday" textAlignment="left" id="SKB-4v-hlT"/>
+                                <label alignment="right" verticalAlignment="bottom" text="⏳ " textAlignment="left" id="ovD-bt-ckA"/>
                             </items>
+                            <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </group>
                     </items>
+                    <menu key="menu" id="hKA-XO-Y9m">
+                        <items>
+                            <menuItem title="Today" icon="accept" id="0MB-7D-c2P">
+                                <connections>
+                                    <action selector="onTodayMenuItemClick" destination="Xo5-dA-Fg5" id="LPx-8h-Gc5"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Yesterday" icon="accept" id="WQd-OF-Hf9">
+                                <connections>
+                                    <action selector="onYesterdayMenuItemClick" destination="Xo5-dA-Fg5" id="vyc-VW-GB6"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
                     <connections>
                         <outlet property="image" destination="Xb6-E9-VIf" id="IZw-ki-z12"/>
                         <outlet property="maxLbl" destination="ovD-bt-ckA" id="6vu-7n-n1I"/>

@@ -22,6 +22,7 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
     @IBOutlet weak var timebase: UITextField!
     @IBOutlet weak var unit2: UITextField!
     
+    @IBOutlet weak var favorite: UISwitch!
     @IBOutlet weak var online: UISwitch!
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
@@ -37,24 +38,31 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
         end.dataSource = self
         
         if let measurement = measurement {
-            valueName.text = measurement.valueName
-            typeName.text = measurement.typeName
-            isSelected.isOn = measurement.selected
-            watchTitle.text = measurement.watchTitle
-            timebase.text = measurement.timebase
-            isOnlineOrHistorrical.selectedSegmentIndex = measurement.mode
-            unit2.text = measurement.unit2
+            timebase.text = String(measurement.timebase)
+            online.setOn(measurement.online, animated: false)
             
-            if measurement.mode == Measurement.HIST {
-                show()
-                if let indexOfStart = PickerData.startEndArr.index(of: String(measurement.start.split(separator: "_")[1])) {
-                    start.selectRow(indexOfStart, inComponent: 0, animated: true)
+            if let valueType = measurement.valueType {
+            
+                valueName.text = valueType.valueName
+                typeName.text = valueType.typeName
+                isSelected.isOn = measurement.selected
+                watchTitle.text = measurement.watchTitle
+            
+                isOnlineOrHistorrical.selectedSegmentIndex = measurement.mode
+                unit2.text = measurement.unit2
+                favorite.isOn = measurement.favorite
+            
+                if measurement.mode == Measurement.HIST {
+                    show()
+                    if let indexOfStart = PickerData.startEndArr.index(of: String(measurement.start.split(separator: "_")[1])) {
+                        start.selectRow(indexOfStart, inComponent: 0, animated: true)
+                    }
+                    if let indexOfEnd = PickerData.startEndArr.index(of: String(measurement.end.split(separator: "_")[1])) {
+                        end.selectRow(indexOfEnd, inComponent: 0, animated: true)
+                    }
+                } else {
+                    hide()
                 }
-                if let indexOfEnd = PickerData.startEndArr.index(of: String(measurement.end.split(separator: "_")[1])) {
-                    end.selectRow(indexOfEnd, inComponent: 0, animated: true)
-                }
-            } else {
-                hide()
             }
         }
     }
@@ -114,7 +122,8 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
         }
         
         measurement?.watchTitle = watchTitle.text!
-        measurement?.timebase = timebase.text!
+        measurement?.timebase = Int(timebase.text!) ?? 60
         measurement?.unit2 = unit2.text!
+        measurement?.favorite = favorite.isOn
     }
 }

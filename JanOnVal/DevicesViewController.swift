@@ -61,7 +61,7 @@ class DevicesViewController: UITableViewController {
         // Configure the cell...
         let device = deviceArr[indexPath.row]
         cell.textLabel?.text = device.name
-        cell.detailTextLabel?.text = device.description
+        cell.detailTextLabel?.text = device.desc
         
         if appModel!.selectedDeviceArr.contains(device) {
             cell.accessoryType = .checkmark

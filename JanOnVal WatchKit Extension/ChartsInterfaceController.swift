@@ -16,13 +16,14 @@ class ChartsInterfaceController: WKInterfaceController {
     
     @IBOutlet weak var maxLbl: WKInterfaceLabel!
     @IBOutlet weak var minLbl: WKInterfaceLabel!
+        
     private var fetchTask: URLSessionDataTask?
     private var dict: [String: Any] = [:]
     private var serverUrl = ""
     
-    var arrData = [(1.0,2.0), (2.0,2.0), (3.0,1.0),(4.0,2.0), (5.0,4.0),(6.0,3.0), (7.0,5.0),(8.0,3.0), (9.0,4.0),(10.0,5.0),
-                   (11.0,6.0), (12.0,4.0),(13.0,7.0), (14.0,15.0),(15.0,3.0), (16.0,6.0),(17.0,7.0), (18.0,4.0),(19.0,6.0),
-                   (20.0,6.0), (21.0,5.0),(22.0,9.0), (23.0,5.0),(24.0,13.0), (25.0,6.0),(26.0,9.0), (27.0,3.0),(28.0,6.0)]
+    private var namedTime = "NAMED_Today"
+    
+    var arrData = [(1.0,2.0)]
     
     fileprivate func showChart() {
         
@@ -31,7 +32,7 @@ class ChartsInterfaceController: WKInterfaceController {
         let deviceHeight = currentDevice.screenBounds.height
         
         
-        let size = CGSize( width: deviceWidth, height: deviceHeight*0.78)
+        let size = CGSize( width: deviceWidth, height: deviceHeight*0.75)
         //let size = CGSize( width: 160, height: 170)
         UIGraphicsBeginImageContext(size)
         let context = UIGraphicsGetCurrentContext()
@@ -43,8 +44,8 @@ class ChartsInterfaceController: WKInterfaceController {
         // Draw lines
         //context!.beginPath ();
         
-        let coordoffsetleft = 5.0
-        let coordoffsetbottom = 5.0
+        let coordoffsetleft = 0.0
+        let coordoffsetbottom = 0.0
         let coordoffsetright = 0.0
         let coordoffsettop = 0.0
         
@@ -59,8 +60,10 @@ class ChartsInterfaceController: WKInterfaceController {
         
         let xmin = arrData.map({ $0.0}).min()!-xminoffset
         let xmax = arrData.map({ $0.0}).max()!+xmaxoffset
-        let ymin = arrData.map({ $0.1}).min()!-yminoffset
-        let ymax = arrData.map({ $0.1}).max()!+ymaxoffset
+        let minValue: Double? = arrData.map({ $0.1}).min()
+        let ymin = minValue!-yminoffset
+        let maxValue: Double? = arrData.map({ $0.1}).max()
+        let ymax = maxValue!+ymaxoffset
         
         let ystepsize = calculateStepsizeFor(yRange: ymax, ymin)
         
@@ -72,7 +75,7 @@ class ChartsInterfaceController: WKInterfaceController {
         let yminpixelpos = graphicheight - coordoffsetbottom
         let ymaxpixelpos = coordoffsettop
         
-        for var i in  1 ... (ytickmarkpixelposarr.endIndex-1){
+        for i in  1 ... (ytickmarkpixelposarr.endIndex-1){
             let ypixelpos = (ymax - ytickmarkarr[i] )/(ymax-ymin) * graphicheight
             if( (ypixelpos > ymaxpixelpos) && (ypixelpos < yminpixelpos)){
                 context?.beginPath()
@@ -113,7 +116,7 @@ class ChartsInterfaceController: WKInterfaceController {
         let PixelPositionArr = arrData.map { ( ($0.0 - xmin)/(xmax-xmin) * graphicwidth + coordoffsetleft , (ymax - $0.1 )/(ymax-ymin) * graphicheight + coordoffsettop)}
         
         context?.move( to: CGPoint( x: PixelPositionArr[0].0, y: PixelPositionArr[0].1))
-        for var i in  1 ... (PixelPositionArr.endIndex-1){
+        for i in  1 ... (PixelPositionArr.endIndex-1){
             context?.addLine( to: CGPoint( x: PixelPositionArr[i].0, y: PixelPositionArr[i].1))
             
         }
@@ -137,8 +140,10 @@ class ChartsInterfaceController: WKInterfaceController {
         // Show on WKInterfaceImage
         image.setImage(uiimage)
         
-        maxLbl.setText("Max:\(arrData.map({ $0.1}).max()!)")
-        minLbl.setText("Min:\(arrData.map({ $0.1}).min()!)")
+        let minValueFormated = TableUtil.getSiPrefix(minValue!)
+        let maxValueFormated = TableUtil.getSiPrefix(maxValue!)
+        minLbl.setText("↓:\(String(format:"%.1f", minValueFormated.1)) \(minValueFormated.0)")
+        maxLbl.setText("↑:\(String(format:"%.1f", maxValueFormated.1)) \(maxValueFormated.0)\(dict["unit"] ?? "")")
     }
     
     override func awake(withContext context: Any?) {
@@ -177,64 +182,87 @@ class ChartsInterfaceController: WKInterfaceController {
         return ymark_diff
     }
     
-
-
+    
+    
     fileprivate func fetchAndShowData() {
         
         
         DispatchQueue.main.async {
-            
-            let request = TableUtil.createRequestForChart(self.dict, self.serverUrl)
-            let session = URLSession.shared
-            let deviceId = self.dict["deviceId"] as! Int
-            let measurementValue = self.dict["measurementValue"] as! String
-            let measurementType = self.dict["measurementType"] as! String
-            
-            let fetchTask = session.dataTask(with: request) { data, response, error -> Void in
+            for var versuch in 1...2 {
                 
-                if error == nil {
+                if versuch == 2 {
+                    self.dict["isOnline"] = !(self.dict["isOnline"] as! Bool)
+                }
                 
-                do {
-                    OnlineMeasurementBig.updateStateCounter = 0
-                    if let measurementDataJson = data {
-                        //                    print(String(data: measurementData,encoding: String.Encoding.utf8) as! String)
-                        let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
-                        //print(json)
+                let request = TableUtil.createRequestForChart(self.dict, self.serverUrl, namedTime: self.namedTime)
+                let session = URLSession.shared
+                _ = self.dict["deviceId"] as! Int
+                _ = self.dict["measurementValue"] as! String
+                _ = self.dict["measurementType"] as! String
+                
+                let fetchTask = session.dataTask(with: request) { data, response, error -> Void in
+                    
+                    if error == nil {
                         
-                        self.arrData = []
-                        
-                        let valuesArrOpt = json["values"] as? [[String: Any]]
-                        if let valuesArr = valuesArrOpt {
-                        for value in valuesArr {
-                            let avgOpt = value["avg"] as? Double
-                            let startTimeOpt = value["startTime"] as? UInt64
-                            if let avg = avgOpt, let startTime = startTimeOpt {
-                                self.arrData.append((Double(startTime / 1_000_000_000), avg))
+                        do {
+                            OnlineMeasurementBig.updateStateCounter = 0
+                            if let measurementDataJson = data {
+                                //                    print(String(data: measurementData,encoding: String.Encoding.utf8) as! String)
+                                let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
+                                //print(json)
+                                
+                                self.arrData = []
+                                
+                                let valuesArrOpt = json["values"] as? [[String: Any]]
+                                if let valuesArr = valuesArrOpt {
+                                    for value in valuesArr {
+                                        let avgOpt = value["avg"] as? Double
+                                        let startTimeOpt = value["startTime"] as? UInt64
+                                        if let avg = avgOpt, let startTime = startTimeOpt {
+                                            self.arrData.append((Double(startTime / 1_000_000_000), avg))
+                                        }
+                                    }
+                                    
+                                    self.showChart()
+                                    versuch = 10
+                                }
+                                
+                            } else {
+                                print("data is invalid")
                             }
+                        } catch {
+                            print("error")
                         }
                         
-                        self.showChart()
-                        }
                         
                     } else {
-                        print("data is invalid")
+                        print("Error: \(error)")
                     }
-                } catch {
-                    print("error")
-                }
-                } else {
-                    print("Error: \(error)")
+                    
                 }
                 
+                
+                fetchTask.resume()
             }
             
-            
-            fetchTask.resume()
-            
-            }
+        }
         
-        
-        
-        
+    }
+    
+    
+    @IBAction func onTodayMenuItemClick() {
+        namedTime = "NAMED_Today"
+        fetchAndShowData()
+        image.setImage(nil)
+        minLbl.setText("  Today")
+        maxLbl.setText("⏳ ")
+    }
+    
+    @IBAction func onYesterdayMenuItemClick() {
+        namedTime = "NAMED_Yesterday"
+        fetchAndShowData()
+        image.setImage(nil)
+        minLbl.setText("  Yesterday")
+        maxLbl.setText("⏳ ")
     }
 }

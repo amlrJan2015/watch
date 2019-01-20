@@ -25,40 +25,6 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
     
     @IBOutlet weak var measurementSearchBar: UISearchBar!
     
-    @IBAction func sendMeasurementsToWatch(_ sender: UIButton) {
-        var dictArr = [[String:Any]]()
-        for (device, measurementArr) in selectedMeasurement {
-            for measurement in measurementArr {
-                dictArr.append([
-                    "watchTitle":measurement.watchTitle,
-                    "isOnline": measurement.mode,
-                    "start": measurement.start,
-                    "end": measurement.end,
-                    "unit": "\(measurement.unit)",
-                    "unit2": "\(measurement.unit2)",
-                    "deviceId" : device.id,
-                    "deviceName" : device.name,
-                    "mode": measurement.mode,
-                    "timebase": measurement.timebase,
-                    "measurementValue": measurement.value,
-                    "measurementValueName": measurement.valueName,
-                    "measurementType": measurement.type,
-                    "measurementTypeName": measurement.typeName,
-                    "min": measurement.min,
-                    "max": measurement.max
-                    ])
-            }
-        }
-        
-        connectivityHandler.session.sendMessage(
-            [
-                "serverUrl": appModel!.serverUrl,
-                "measurementDataDictArr": dictArr,
-                "refreshTime": appModel!.refreshTime
-        ], replyHandler: nil) { (err) in
-            NSLog("%@", "Error sending data to watch: \(err)")
-        }
-    }
     fileprivate func fetchDataForSelectedDevices() {
         for device in appModel!.selectedDeviceArr {
             
@@ -66,7 +32,7 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
             currMeasurements[device] = []
             selectedMeasurement[device] = []
             
-            var request = URLRequest(url: URL(string:"\(appModel!.serverUrl)devices/\(device.id)/online/values")!)
+            var request = URLRequest(url: URL(string:"\(appModel!.serverUrl)devices/\(device.id)/hist/values")!)
             
             request.httpMethod = "GET"
             request.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -76,15 +42,18 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
                     do {
                         let json = try JSONSerialization.jsonObject(with: measurementsData, options: []) //as! Dictionary<String, AnyObject>
                         
-                        let measurementArr = ((json as? [String: Any])!["valuetype"] as? [[String: Any]])!;
+                        let measurementArr = ((json as? [String: Any])!["value"] as? [[String: Any]])!;
                         DispatchQueue.main.async { // Correct
                             for measurement in measurementArr {
-                                var m = Measurement(json: measurement);
+                                let m = Measurement(json: measurement);
                                 m?.device = device
                                 
                                 self.measurements[device]?.append(m!)
-                                if self.measurementSearchBar.scopeButtonTitles![self.measurementSearchBar.selectedScopeButtonIndex] == m?.value {
-                                    self.currMeasurements[device]?.append(m!)
+                                if let measurement = m,
+                                    let valueType = measurement.valueType {
+                                    if self.measurementSearchBar.scopeButtonTitles![self.measurementSearchBar.selectedScopeButtonIndex] == valueType.value {
+                                        self.currMeasurements[device]?.append(m!)
+                                    }
                                 }
                             }
                             
@@ -151,13 +120,17 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
         for (device, measurementArr) in measurements {
             currMeasurements[device] = [Measurement]()
             for measurement in measurementArr {
-                if "" == searchText {
-                    if  "No Filter" == searchBar.scopeButtonTitles![selectedScope] ||
-                        searchBar.scopeButtonTitles![selectedScope] == measurement.value {
+                if let valueType = measurement.valueType {
+                    if "" == searchText {
+                        
+                        if  "No Filter" == searchBar.scopeButtonTitles![selectedScope] ||
+                            searchBar.scopeButtonTitles![selectedScope] == valueType.value {
+                            currMeasurements[device]!.append(measurement)
+                        }
+                        
+                    } else if valueType.valueName.contains(searchText) {
                         currMeasurements[device]!.append(measurement)
                     }
-                } else if measurement.valueName.contains(searchText) {
-                    currMeasurements[device]!.append(measurement)
                 }
             }
         }
@@ -174,8 +147,10 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
                 currMeasurements[device] = measurementArr
             } else {
                 for measurement in measurementArr {
-                    if measurementSearchBar.scopeButtonTitles![selectedScope] == measurement.value {
-                        currMeasurements[device]!.append(measurement)
+                    if let valueType = measurement.valueType {
+                        if measurementSearchBar.scopeButtonTitles![selectedScope] == valueType.value {
+                            currMeasurements[device]!.append(measurement)
+                        }
                     }
                 }
             }
@@ -216,8 +191,8 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
         // Configure the cell...
         let device = appModel!.selectedDeviceArr[indexPath.section]
         let measurement = currMeasurements[device]![indexPath.row]
-        cell.textLabel?.text = measurement.valueName
-        cell.detailTextLabel?.text = measurement.typeName
+        cell.textLabel?.text = measurement.valueType?.valueName ?? ""
+        cell.detailTextLabel?.text = measurement.valueType?.typeName ?? ""
         
         //        if selectedMeasurement[device]!.contains(measurement){
         //            cell.accessoryType = .checkmark
@@ -228,7 +203,7 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = tableView.cellForRow(at: indexPath)
+        
         let device = appModel!.selectedDeviceArr[indexPath.section]
         let measurement = currMeasurements[device]![indexPath.row]
         
@@ -251,7 +226,6 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
             var mArr = selectedMeasurement[device]!
             if let mIdx = mArr.index(of: measurement) {
                 if measurement.selected {
-                    print("Selected measurement: \(measurement)")
                     mArr[mIdx] = measurement
                 } else {
                     mArr.remove(at: mIdx)
@@ -264,10 +238,32 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
             
             selectedMeasurement[device] = mArr
             
-            print("Messwerte:\(selectedMeasurement)")
-            
-            if let selectedIndexPath = tableView.indexPathForSelectedRow {
+            if let unarchivedObject = UserDefaults.standard.data(forKey: Measurement.KEY_FOR_USER_DEFAULTS) {
+                do {
+                    var savedData = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(unarchivedObject) as! [Measurement]
+                    for selectedMeasurement in mArr {
+                        
+                        if !savedData.contains(where: { (m: Measurement) -> Bool in
+                            return m==selectedMeasurement
+                        })
+                        {
+                            savedData.append(selectedMeasurement)
+                        }
+                    }
+                    
+                    //SAVE
+                    do {
+                        let data = try NSKeyedArchiver.archivedData(withRootObject: savedData, requiringSecureCoding: false)
+                        
+                        UserDefaults.standard.set(data, forKey: Measurement.KEY_FOR_USER_DEFAULTS)
+                    } catch {
+                        fatalError("Can't encode data: \(error)")
+                    }
+                } catch {
+                    fatalError("loadWidgetDataArray - Can't encode data: \(error)")
+                }
             }
+            
         }
     }
     
