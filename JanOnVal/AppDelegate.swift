@@ -25,8 +25,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         }
         let initData:[Measurement] = []
         do {
-            let data = try NSKeyedArchiver.archivedData(withRootObject: initData, requiringSecureCoding: false)
-            UserDefaults.standard.set(data, forKey: Measurement.KEY_FOR_USER_DEFAULTS)
+            let unarchivedObject = UserDefaults.standard.data(forKey: Measurement.KEY_FOR_USER_DEFAULTS)
+            if unarchivedObject == nil {
+                let data = try NSKeyedArchiver.archivedData(withRootObject: initData, requiringSecureCoding: false)
+                UserDefaults.standard.set(data, forKey: Measurement.KEY_FOR_USER_DEFAULTS)
+            }
         } catch {
             fatalError("Can't encode data: \(error)")
         }
@@ -34,13 +37,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
-    func applicationWillTerminate(_ application: UIApplication) {
-        //TODO: save server config
-    }
-    
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        //TODO: save server config
-    }
-
 }
 

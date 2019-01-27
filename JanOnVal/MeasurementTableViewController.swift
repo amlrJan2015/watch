@@ -10,7 +10,6 @@ import UIKit
 
 class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UITableViewDelegate, UITableViewDataSource, UIGestureRecognizerDelegate {
     
-    var connectivityHandler: ConnectivityHandler!
     var appModel: AppModel?
     var measurements = Dictionary<Device, [Measurement]>()
     var currMeasurements = Dictionary<Device, [Measurement]>()
@@ -78,7 +77,7 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.connectivityHandler = (UIApplication.shared.delegate as? AppDelegate)?.connectivityHandler
+//        self.connectivityHandler = (UIApplication.shared.delegate as? AppDelegate)?.connectivityHandler
         let tbc = tabBarController as? AppTabBarController
         appModel = tbc?.appModel
         
@@ -122,13 +121,11 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
             for measurement in measurementArr {
                 if let valueType = measurement.valueType {
                     if "" == searchText {
-                        
                         if  "No Filter" == searchBar.scopeButtonTitles![selectedScope] ||
                             searchBar.scopeButtonTitles![selectedScope] == valueType.value {
                             currMeasurements[device]!.append(measurement)
                         }
-                        
-                    } else if valueType.valueName.contains(searchText) {
+                    } else if valueType.valueName.localizedCaseInsensitiveContains(searchText) {
                         currMeasurements[device]!.append(measurement)
                     }
                 }

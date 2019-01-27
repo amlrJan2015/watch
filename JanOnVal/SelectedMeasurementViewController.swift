@@ -16,6 +16,30 @@ class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, 
     
     @IBOutlet weak var tableView: UITableView!
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.connectivityHandler = (UIApplication.shared.delegate as? AppDelegate)?.connectivityHandler
+        let tbc = tabBarController as? AppTabBarController
+        appModel = tbc?.appModel
+        
+        tableView.dataSource = self
+        tableView.delegate = self
+        
+        tableView.setEditing(true, animated: true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        if let unarchivedObject = UserDefaults.standard.data(forKey: Measurement.KEY_FOR_USER_DEFAULTS) {
+            do {
+                data = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(unarchivedObject) as! [Measurement]
+                tableView.reloadData()
+            } catch {
+                fatalError("loadWidgetDataArray - Can't encode data: \(error)")
+            }
+        }
+    }
+    
     @IBAction func onSendToWatchClick(_ sender: UIButton) {
         var dictArr = [[String:Any]]()
         for measurement in data {
@@ -101,56 +125,5 @@ class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, 
             fatalError("Can't encode data: \(error)")
         }
     }
-    
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        self.connectivityHandler = (UIApplication.shared.delegate as? AppDelegate)?.connectivityHandler
-        let tbc = tabBarController as? AppTabBarController
-        appModel = tbc?.appModel
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        
-        tableView.setEditing(true, animated: true)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        if let unarchivedObject = UserDefaults.standard.data(forKey: Measurement.KEY_FOR_USER_DEFAULTS) {
-            do {
-                data = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(unarchivedObject) as! [Measurement]
-                tableView.reloadData()
-            } catch {
-                fatalError("loadWidgetDataArray - Can't encode data: \(error)")
-            }
-        }
-    }
-    
-    //    func contextualDeleteAction(forRowAtIndexPath indexPath: IndexPath) -> UIContextualAction {
-    //        let action = UIContextualAction(style: .destructive,
-    //                                        title: "Delete") {
-    //                                            (contextAction: UIContextualAction, sourceView: UIView, completionHandler: (Bool) -> Void) in
-    //
-    //                                            print("Deleting")
-    //                                            self.data.remove(at: indexPath.row)
-    //                                            self.tableView.deleteRows(at: [indexPath], with: .left)
-    //                                            completionHandler(true)
-    //        }
-    //
-    //        return action
-    //    }
-    
-    //    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    //        let deleteAction = self.contextualDeleteAction(forRowAtIndexPath: indexPath)
-    //        let swipeConfig = UISwipeActionsConfiguration(actions: [deleteAction])
-    //        return swipeConfig
-    //    }
-    
-    //    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-    //        let deleteAction = self.contextualDeleteAction(forRowAtIndexPath: indexPath)
-    //        let swipeConfig = UISwipeActionsConfiguration(actions: [deleteAction])
-    //        return swipeConfig
-    //    }
     
 }

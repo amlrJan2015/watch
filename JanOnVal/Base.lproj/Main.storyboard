@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -394,6 +395,7 @@
                             </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="M7j-LU-xvv" secondAttribute="trailing" id="AeB-1g-k5n"/>
                             <constraint firstItem="M7j-LU-xvv" firstAttribute="centerX" secondItem="lq4-Op-aTo" secondAttribute="centerX" id="G4g-NH-iZo"/>
@@ -404,6 +406,9 @@
                             <constraint firstItem="M7j-LU-xvv" firstAttribute="leading" secondItem="gUY-VH-XTv" secondAttribute="leading" id="yj1-8Z-Zzd"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="0tm-vc-OT4"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="ZhV-5u-DcL" appends="YES" id="n3M-Sy-iiB"/>
+                        </connections>
                     </view>
                     <navigationItem key="navigationItem" title="Messwert Info" id="p1G-4F-Xmn">
                         <barButtonItem key="leftBarButtonItem" systemItem="cancel" id="Umx-Zu-Vni">
@@ -420,6 +425,7 @@
                     <connections>
                         <outlet property="end" destination="2uy-Um-YFA" id="hrX-rT-uAB"/>
                         <outlet property="favorite" destination="hAG-5L-fuY" id="zfr-kz-qh3"/>
+                        <outlet property="gesture" destination="ZhV-5u-DcL" id="zr0-nY-g3j"/>
                         <outlet property="isOnlineOrHistorrical" destination="KsE-4W-hBV" id="lX9-ZV-aiz"/>
                         <outlet property="isSelected" destination="KBz-TP-gD2" id="DDo-8G-e0n"/>
                         <outlet property="online" destination="2cB-6L-8wh" id="NuS-Oa-pks"/>
@@ -434,6 +440,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="atb-lq-ZsA" userLabel="First Responder" sceneMemberID="firstResponder"/>
                 <exit id="MFs-du-qtN" userLabel="Exit" sceneMemberID="exit"/>
+                <swipeGestureRecognizer direction="down" id="ZhV-5u-DcL">
+                    <connections>
+                        <action selector="onSwipeDown:" destination="rJP-qc-Lrg" id="jCu-nt-1Lc"/>
+                    </connections>
+                </swipeGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="3224.8000000000002" y="527.58620689655174"/>
         </scene>

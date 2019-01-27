@@ -12,9 +12,9 @@ import WatchConnectivity
 
 class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSessionDelegate {
     
-    let SERVER_CONFIG = "SERVER_CONFIG"
-    let MEASUREMENT_DATA = "MEASUREMENT_DATA"
-    let REFRESH_TIME = "REFRESH_TIME"
+    public static let SERVER_CONFIG = "SERVER_CONFIG"
+    public static let MEASUREMENT_DATA = "MEASUREMENT_DATA"
+    public static let REFRESH_TIME = "REFRESH_TIME"
     
     var serverUrl: String?
     var refreshTime: Int?
@@ -41,7 +41,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        NSLog("%@", "state: \(activationState) error:\(error)")
+        NSLog("%@", "state: \(activationState.rawValue) error:\(error)")
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {
@@ -53,9 +53,9 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         serverUrl = message["serverUrl"] as? String
         refreshTime = message["refreshTime"] as? Int ?? 5
                 
-        defaults.set(serverUrl, forKey: SERVER_CONFIG)
-        defaults.set(measurementDataDictArr, forKey: MEASUREMENT_DATA)
-        defaults.set(refreshTime, forKey: REFRESH_TIME)
+        defaults.set(serverUrl, forKey: InterfaceController.SERVER_CONFIG)
+        defaults.set(measurementDataDictArr, forKey: InterfaceController.MEASUREMENT_DATA)
+        defaults.set(refreshTime, forKey: InterfaceController.REFRESH_TIME)
         
         table.setNumberOfRows(measurementDataDictArr!.count, withRowType: "measurementRowType")
         getTemp()
@@ -71,9 +71,9 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         session?.delegate = self
         session?.activate()
         
-        serverUrl = defaults.string(forKey: SERVER_CONFIG)
-        measurementDataDictArr = defaults.array(forKey: MEASUREMENT_DATA) as? [[String:Any]]
-        refreshTime = defaults.integer(forKey: REFRESH_TIME)
+        serverUrl = defaults.string(forKey: InterfaceController.SERVER_CONFIG)
+        measurementDataDictArr = defaults.array(forKey: InterfaceController.MEASUREMENT_DATA) as? [[String:Any]]
+        refreshTime = defaults.integer(forKey: InterfaceController.REFRESH_TIME)
         refreshTime = refreshTime == 0 ? 5 : refreshTime
         
         if serverUrl != nil && measurementDataDictArr != nil {
@@ -85,6 +85,13 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
             getTemp()
         } else {
             info.setText("No config")
+        }
+    }
+    
+    override func willDisappear() {
+        fetchTimer?.invalidate()
+        fetchTaskArr.forEach { (fetchTask) in
+            fetchTask.cancel()
         }
     }
     
@@ -119,4 +126,9 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         startTimer()
     }
     
+    
+    
+    @IBAction func onFavoritesMenuItemClick() {
+        pushController(withName: "FavoritesView", context: nil)
+    }
 }

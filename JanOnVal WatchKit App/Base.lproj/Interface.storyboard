@@ -4,6 +4,7 @@
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
+        <deployment identifier="watchOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14460.16"/>
     </dependencies>
@@ -37,6 +38,15 @@
                             </items>
                         </table>
                     </items>
+                    <menu key="menu" id="GWP-dQ-xMW">
+                        <items>
+                            <menuItem title="Favorites" icon="accept" id="zmN-Do-nQW">
+                                <connections>
+                                    <action selector="onFavoritesMenuItemClick" destination="AgC-eL-Hgc" id="azD-00-JgI"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
                     <connections>
                         <outlet property="info" destination="jTI-wC-eWP" id="LCs-aW-36w"/>
                         <outlet property="table" destination="UXK-c9-bYL" id="BcV-Nf-FFa"/>
@@ -88,7 +98,7 @@
                     </items>
                     <menu key="menu" id="xWd-uB-HtY">
                         <items>
-                            <menuItem title="Menu Item" icon="accept" id="7vG-7S-4hA">
+                            <menuItem title="Chart" icon="accept" id="7vG-7S-4hA">
                                 <connections>
                                     <action selector="onChartMenuItemClick" destination="zXX-6X-8Qf" id="c9a-nY-RT7"/>
                                 </connections>
@@ -170,7 +180,7 @@
                         <imageView alignment="center" id="Xb6-E9-VIf"/>
                         <group alignment="center" radius="5" id="a2l-za-JGT">
                             <items>
-                                <label alignment="left" verticalAlignment="bottom" text="  Yesterday" textAlignment="left" id="SKB-4v-hlT"/>
+                                <label alignment="left" verticalAlignment="bottom" text="  Today" textAlignment="left" id="SKB-4v-hlT"/>
                                 <label alignment="right" verticalAlignment="bottom" text="⏳ " textAlignment="left" id="ovD-bt-ckA"/>
                             </items>
                             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -198,6 +208,150 @@
                 </controller>
             </objects>
             <point key="canvasLocation" x="199.56521739130434" y="252.72321428571428"/>
+        </scene>
+        <!--FavoritesView-->
+        <scene sceneID="Urq-hv-yvC">
+            <objects>
+                <controller identifier="FavoritesView" fullBounds="YES" id="E6F-er-yBV" customClass="FavoritesInterfaceController" customModule="JanOnVal_WatchKit_Extension">
+                    <items>
+                        <group width="1" height="0.5" alignment="center" id="7ap-8A-Eyo">
+                            <items>
+                                <button alignment="left" id="lBO-50-qgv">
+                                    <group key="contentGroup" width="0.5" alignment="left" layout="vertical" id="5is-5C-xVE">
+                                        <items>
+                                            <label alignment="center" text=" " textAlignment="center" id="wOr-Wq-LIN">
+                                                <fontDescription key="font" type="system" pointSize="32"/>
+                                                <variation key="device=watch42mm">
+                                                    <fontDescription key="font" type="system" pointSize="28"/>
+                                                </variation>
+                                            </label>
+                                            <label alignment="center" verticalAlignment="center" text=" " textAlignment="center" id="n93-JZ-LB5">
+                                                <fontDescription key="font" type="system" weight="semibold" pointSize="24"/>
+                                                <variation key="device=watch42mm">
+                                                    <fontDescription key="font" type="system" weight="semibold" pointSize="23"/>
+                                                </variation>
+                                            </label>
+                                            <label alignment="center" verticalAlignment="bottom" text=" " textAlignment="center" id="D0P-mW-KQM">
+                                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="font" type="system" weight="medium" pointSize="16"/>
+                                                <variation key="device=watch42mm">
+                                                    <fontDescription key="font" type="system" weight="medium" pointSize="14"/>
+                                                </variation>
+                                            </label>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <action selector="onFav1Click" destination="E6F-er-yBV" id="XEk-RF-TiN"/>
+                                    </connections>
+                                </button>
+                                <button alignment="right" id="3aH-TB-gCY">
+                                    <group key="contentGroup" width="0.5" alignment="left" layout="vertical" id="STX-62-kFm">
+                                        <items>
+                                            <label alignment="center" text=" " textAlignment="center" id="CyJ-80-9Fg">
+                                                <fontDescription key="font" type="system" pointSize="32"/>
+                                                <variation key="device=watch42mm">
+                                                    <fontDescription key="font" type="system" pointSize="28"/>
+                                                </variation>
+                                            </label>
+                                            <label alignment="center" verticalAlignment="center" text=" " id="9yo-8C-H79">
+                                                <fontDescription key="font" type="system" weight="semibold" pointSize="24"/>
+                                                <variation key="device=watch42mm">
+                                                    <fontDescription key="font" type="system" weight="semibold" pointSize="23"/>
+                                                </variation>
+                                            </label>
+                                            <label alignment="center" verticalAlignment="bottom" text=" " textAlignment="center" id="eHx-vD-e5V">
+                                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="font" type="system" weight="medium" pointSize="16"/>
+                                                <variation key="device=watch42mm">
+                                                    <fontDescription key="font" type="system" weight="medium" pointSize="14"/>
+                                                </variation>
+                                            </label>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <action selector="onFav2Click" destination="E6F-er-yBV" id="2NW-W8-t29"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
+                        <group width="1" height="0.5" alignment="center" verticalAlignment="bottom" id="H5m-uR-CH1">
+                            <items>
+                                <button alignment="left" verticalAlignment="bottom" id="sPK-r7-btJ">
+                                    <group key="contentGroup" width="0.5" alignment="left" layout="vertical" id="XNW-cv-wkU">
+                                        <items>
+                                            <label alignment="center" text=" " textAlignment="center" id="dvf-up-7Wt">
+                                                <fontDescription key="font" type="system" pointSize="32"/>
+                                                <variation key="device=watch42mm">
+                                                    <fontDescription key="font" type="system" pointSize="28"/>
+                                                </variation>
+                                            </label>
+                                            <label alignment="center" verticalAlignment="center" text=" " id="6Dd-tA-wkr">
+                                                <fontDescription key="font" type="system" weight="semibold" pointSize="24"/>
+                                                <variation key="device=watch42mm">
+                                                    <fontDescription key="font" type="system" weight="semibold" pointSize="23"/>
+                                                </variation>
+                                            </label>
+                                            <label alignment="center" verticalAlignment="bottom" text=" " textAlignment="center" id="P4M-dj-STL">
+                                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="font" type="system" weight="medium" pointSize="16"/>
+                                                <variation key="device=watch42mm">
+                                                    <fontDescription key="font" type="system" weight="medium" pointSize="14"/>
+                                                </variation>
+                                            </label>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <action selector="onFav3Click" destination="E6F-er-yBV" id="9MU-Kw-X1R"/>
+                                    </connections>
+                                </button>
+                                <button alignment="right" verticalAlignment="bottom" id="ake-gk-xsb">
+                                    <group key="contentGroup" width="0.5" alignment="left" layout="vertical" id="LYX-dJ-qns">
+                                        <items>
+                                            <label alignment="center" text=" " textAlignment="center" id="LvQ-yu-5qJ">
+                                                <fontDescription key="font" type="system" pointSize="32"/>
+                                                <variation key="device=watch42mm">
+                                                    <fontDescription key="font" type="system" pointSize="28"/>
+                                                </variation>
+                                            </label>
+                                            <label alignment="center" verticalAlignment="center" text=" " id="pVA-cx-QYo">
+                                                <fontDescription key="font" type="system" weight="semibold" pointSize="24"/>
+                                                <variation key="device=watch42mm">
+                                                    <fontDescription key="font" type="system" weight="semibold" pointSize="23"/>
+                                                </variation>
+                                            </label>
+                                            <label alignment="center" verticalAlignment="bottom" text=" " textAlignment="center" id="eiL-jG-Ucg">
+                                                <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                <fontDescription key="font" type="system" weight="medium" pointSize="16"/>
+                                                <variation key="device=watch42mm">
+                                                    <fontDescription key="font" type="system" weight="medium" pointSize="14"/>
+                                                </variation>
+                                            </label>
+                                        </items>
+                                    </group>
+                                    <connections>
+                                        <action selector="onFav4Click" destination="E6F-er-yBV" id="DMd-U8-7fX"/>
+                                    </connections>
+                                </button>
+                            </items>
+                        </group>
+                    </items>
+                    <connections>
+                        <outlet property="title1" destination="wOr-Wq-LIN" id="DGO-NR-Ggu"/>
+                        <outlet property="title2" destination="CyJ-80-9Fg" id="GUv-Sa-dPP"/>
+                        <outlet property="title3" destination="dvf-up-7Wt" id="U5Q-QZ-G7H"/>
+                        <outlet property="title4" destination="LvQ-yu-5qJ" id="8tM-js-Euk"/>
+                        <outlet property="unit1" destination="D0P-mW-KQM" id="uXd-A8-55j"/>
+                        <outlet property="unit2" destination="eHx-vD-e5V" id="ETT-RP-72h"/>
+                        <outlet property="unit3" destination="P4M-dj-STL" id="HAS-pN-SZA"/>
+                        <outlet property="unit4" destination="eiL-jG-Ucg" id="be7-qs-DFp"/>
+                        <outlet property="value1" destination="n93-JZ-LB5" id="Y5L-TG-STf"/>
+                        <outlet property="value2" destination="9yo-8C-H79" id="ku5-cR-hBp"/>
+                        <outlet property="value3" destination="6Dd-tA-wkr" id="L0w-C8-2iV"/>
+                        <outlet property="value4" destination="pVA-cx-QYo" id="6Za-ct-eoi"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="-72" y="129"/>
         </scene>
         <!--MeasurementInfo-->
         <scene sceneID="35U-Ds-Fyd">

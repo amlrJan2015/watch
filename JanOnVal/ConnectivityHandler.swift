@@ -25,7 +25,7 @@ class ConnectivityHandler : NSObject, WCSessionDelegate {
     // MARK: - WCSessionDelegate
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        NSLog("%@", "activationDidCompleteWith activationState:\(activationState) error:\(error)")
+        NSLog("%@", "activationDidCompleteWith activationState:\(activationState.rawValue) error:\(error)")
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {

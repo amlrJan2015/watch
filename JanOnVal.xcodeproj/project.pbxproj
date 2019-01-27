@@ -21,6 +21,7 @@
 		2587F6CA203DEE89003DC730 /* HistMeasurementRowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2587F6C9203DEE89003DC730 /* HistMeasurementRowType.swift */; };
 		25952C09203DF83500B0AA33 /* TableUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25952C08203DF83500B0AA33 /* TableUtil.swift */; };
 		25A789A4208C753100A4BDE0 /* OnlineMeasurementBig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A789A3208C753100A4BDE0 /* OnlineMeasurementBig.swift */; };
+		25E9C19B21FB11AA00731F58 /* FavoritesInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E9C19A21FB11AA00731F58 /* FavoritesInterfaceController.swift */; };
 		25EB1D4E2046C3F800AF340B /* MeasurementPropertyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EB1D4D2046C3F800AF340B /* MeasurementPropertyKey.swift */; };
 		AA425AD0201E21A8001FA571 /* MeasurementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA425ACF201E21A8001FA571 /* MeasurementTableViewController.swift */; };
 		AA425AD4201E603D001FA571 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA425AD3201E603D001FA571 /* Measurement.swift */; };
@@ -102,6 +103,7 @@
 		2598BC6B2028DF20000D646B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		2598BC6C2028DF20000D646B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Interface.strings; sourceTree = "<group>"; };
 		25A789A3208C753100A4BDE0 /* OnlineMeasurementBig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineMeasurementBig.swift; sourceTree = "<group>"; };
+		25E9C19A21FB11AA00731F58 /* FavoritesInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesInterfaceController.swift; sourceTree = "<group>"; };
 		25EB1D4D2046C3F800AF340B /* MeasurementPropertyKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementPropertyKey.swift; sourceTree = "<group>"; };
 		AA425ACF201E21A8001FA571 /* MeasurementTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementTableViewController.swift; sourceTree = "<group>"; };
 		AA425AD3201E603D001FA571 /* Measurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
@@ -240,6 +242,7 @@
 				AA43F5371FDA6A5E00C879E0 /* Info.plist */,
 				25A789A2208C706700A4BDE0 /* row */,
 				25A789A5208C783700A4BDE0 /* util */,
+				25E9C19A21FB11AA00731F58 /* FavoritesInterfaceController.swift */,
 			);
 			path = "JanOnVal WatchKit Extension";
 			sourceTree = "<group>";
@@ -410,6 +413,7 @@
 				256DE29F202729A2000D2549 /* MeasurementRowType.swift in Sources */,
 				252C87E5203CA3BA002E6CDF /* HistDetailInterfaceController.swift in Sources */,
 				251B58DC219B4DC0004E4EAF /* MeasurementInfoIC.swift in Sources */,
+				25E9C19B21FB11AA00731F58 /* FavoritesInterfaceController.swift in Sources */,
 				25952C09203DF83500B0AA33 /* TableUtil.swift in Sources */,
 				AA43F5321FDA6A5E00C879E0 /* InterfaceController.swift in Sources */,
 				254DFD77203E102C0067E0A4 /* RequestUtil.swift in Sources */,
@@ -585,7 +589,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
@@ -598,7 +602,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 5.1;
 			};
 			name = Debug;
 		};
@@ -619,7 +623,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 5.1;
 			};
 			name = Release;
 		};
@@ -642,7 +646,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 5.1;
 			};
 			name = Debug;
 		};
@@ -665,7 +669,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 5.0;
+				WATCHOS_DEPLOYMENT_TARGET = 5.1;
 			};
 			name = Release;
 		};
@@ -679,7 +683,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = JanOnVal/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -698,7 +702,7 @@
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = JanOnVal/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource {
+class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIGestureRecognizerDelegate {
     
     var measurement: Measurement?
     
@@ -27,6 +27,15 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
     
     @IBOutlet weak var saveButton: UIBarButtonItem!
     
+    @IBOutlet var gesture: UISwipeGestureRecognizer!
+    
+    @IBAction func onSwipeDown(_ sender: UISwipeGestureRecognizer) {
+        self.view.endEditing(true)
+    }
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+        return true
+    }
     override func viewDidLoad() {
         super.viewDidLoad()
         watchTitle.delegate = self
@@ -36,6 +45,8 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
         
         end.delegate = self
         end.dataSource = self
+        
+        gesture.delegate = self
         
         if let measurement = measurement {
             timebase.text = String(measurement.timebase)
