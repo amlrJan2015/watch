@@ -58,8 +58,10 @@ class ChartsInterfaceController: WKInterfaceController {
         let yminoffset = 0.0
         let ymaxoffset = (Double( arrData.map({ $0.1}).max() ?? 0) - Double( arrData.map({ $0.1}).min() ?? 0)) / graphicheight * 10 //0.0
         
+        let tageslaenge = Double(24*60*60)
         let xmin = arrData.map({ $0.0}).min()!-xminoffset
-        let xmax = arrData.map({ $0.0}).max()!+xmaxoffset
+        //let xmax = max(Double(tageswertanzahl), arrData.map({ $0.0}).max()!)+xmaxoffset
+        let xmax = max( xmin + tageslaenge, arrData.map({ $0.0}).max()!+xmaxoffset)
         let minValue: Double? = arrData.map({ $0.1}).min()
         let ymin = minValue!-yminoffset
         let maxValue: Double? = arrData.map({ $0.1}).max()
@@ -75,6 +77,19 @@ class ChartsInterfaceController: WKInterfaceController {
         let yminpixelpos = graphicheight - coordoffsetbottom
         let ymaxpixelpos = coordoffsettop
         
+        let xtickmarkposarr = [ xmin + tageslaenge / 4, xmin + tageslaenge / 2, xmin + 3 * tageslaenge / 4]
+        let xtickmarkpixelposarr = xtickmarkposarr.map { ( ($0 - xmin)/(xmax-xmin) * graphicwidth + coordoffsetleft)}
+        context!.setLineWidth(0.3)
+        for i in  0 ... (xtickmarkpixelposarr.endIndex - 1){
+ 
+                context?.move( to: CGPoint( x: xtickmarkpixelposarr[i], y: ymaxpixelpos))
+                context?.addLine( to: CGPoint( x: xtickmarkpixelposarr[i], y: yminpixelpos))
+                context?.strokePath()
+                
+        }
+        context!.beginPath()
+        
+        
         for i in  1 ... (ytickmarkpixelposarr.endIndex-1){
             let ypixelpos = (ymax - ytickmarkarr[i] )/(ymax-ymin) * graphicheight
             if( (ypixelpos > ymaxpixelpos) && (ypixelpos < yminpixelpos)){
@@ -83,19 +98,14 @@ class ChartsInterfaceController: WKInterfaceController {
                 if( i % 10 == 0){
                     context!.setLineWidth(1.2)
                     
-                    //let paragraphStyle = NSMutableParagraphStyle()
-                    //paragraphStyle.alignment = .center
-                    //
-                    //let attributes = [
-                    //    NSAttributedString.Key.paragraphStyle: paragraphStyle,
-                    //    NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12.0),
-                    //    NSAttributedString.Key.foregroundColor: UIColor.blue
-                    //]
-                    //let myText = "HELLO"
-                    //let attributedString = NSAttributedString(string: myText, attributes: attributes)
-                    //
-                    //attributedString.draw(in: context)
-                    
+                    /*
+                        let paragraphStyle = NSMutableParagraphStyle()
+                        paragraphStyle.alignment = .center
+                        
+                    let attrs = [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Thin", size: 36)!, NSAttributedString.Key.paragraphStyle: paragraphStyle]
+                        
+                        let string = "Ente Ente Ente Ente Ente Ente Ente Ente Ente Ente Ente Ente Ente Ente "
+                        string.draw(with: CGRect(x: 32, y: 32, width: 448, height: 448), options: .usesLineFragmentOrigin, attributes: attrs, context: nil)*/
                 }else if( i % 5 == 0){
                     context!.setLineWidth(0.9)
                 }else{
@@ -152,6 +162,7 @@ class ChartsInterfaceController: WKInterfaceController {
         if let tServerUrl_MeasurementDict = context as? (String,[String: Any]) {
             serverUrl = tServerUrl_MeasurementDict.0
             dict = tServerUrl_MeasurementDict.1
+            //timebase = Int(dict["timebase"] as! String)!
         }
         
         fetchAndShowData()
