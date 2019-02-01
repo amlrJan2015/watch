@@ -14,7 +14,7 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
     
     @IBOutlet weak var valueName: UILabel!
     @IBOutlet weak var typeName: UILabel!
-    @IBOutlet weak var isSelected: UISwitch!
+    
     @IBOutlet weak var watchTitle: UITextField!
     @IBOutlet weak var isOnlineOrHistorrical: UISegmentedControl!
     @IBOutlet weak var start: UIPickerView!
@@ -25,9 +25,9 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
     @IBOutlet weak var favorite: UISwitch!
     @IBOutlet weak var online: UISwitch!
     
-    @IBOutlet weak var saveButton: UIBarButtonItem!
-    
     @IBOutlet var gesture: UISwipeGestureRecognizer!
+    
+    private var savedData = [Measurement]()
     
     @IBAction func onSwipeDown(_ sender: UISwipeGestureRecognizer) {
         self.view.endEditing(true)
@@ -48,21 +48,27 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
         
         gesture.delegate = self
         
-        if let measurement = measurement {
+        if let measurement = measurement,
+            let unarchivedObject = UserDefaults.standard.data(forKey: Measurement.KEY_FOR_USER_DEFAULTS) {
+            do{
+                savedData = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(unarchivedObject) as! [Measurement]
+            } catch {
+                fatalError("unarchivedObject - Can't encode data: \(error)")
+            }
             timebase.text = String(measurement.timebase)
             online.setOn(measurement.online, animated: false)
             
             if let valueType = measurement.valueType {
-            
-                valueName.text = valueType.valueName
+                
+                valueName.text = "\(valueType.valueName) [\(measurement.device?.name ?? "")]"
                 typeName.text = valueType.typeName
-                isSelected.isOn = measurement.selected
+                
                 watchTitle.text = measurement.watchTitle
-            
+                
                 isOnlineOrHistorrical.selectedSegmentIndex = measurement.mode
                 unit2.text = measurement.unit2
                 favorite.isOn = measurement.favorite
-            
+                
                 if measurement.mode == Measurement.HIST {
                     show()
                     if let indexOfStart = PickerData.startEndArr.index(of: String(measurement.start.split(separator: "_")[1])) {
@@ -101,10 +107,6 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
         return PickerData.startEndArr[row]
     }
     
-    
-    @IBAction func onSelectedChange(_ sender: UISwitch) {
-        measurement?.selected = sender.isOn
-    }
     @IBAction func onOnlineOrHistoricalChange(_ sender: UISegmentedControl) {
         measurement?.mode = sender.selectedSegmentIndex
         if measurement?.mode == Measurement.HIST {
@@ -122,19 +124,37 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
         }
     }
     
-    // MARK: - Navigation
+    @IBAction func onFavoriteChange(_ sender: UISwitch) {
+        measurement?.favorite = sender.isOn
+    }
     
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        super.prepare(for: segue, sender: sender)
-        
-        guard let button = sender as? UIBarButtonItem, button === saveButton else {
-            return
+    @IBAction func onWatchTilteChanged(_ sender: UITextField) {
+        measurement?.watchTitle = sender.text ?? ""
+    }
+    
+    @IBAction func onUnitChanged(_ sender: UITextField) {
+        measurement?.unit2 = sender.text ?? ""
+    }
+    
+    
+    @IBAction func onSaveClick(_ sender: UIButton) {
+        if let unarchivedObject = UserDefaults.standard.data(forKey: Measurement.KEY_FOR_USER_DEFAULTS) {
+            
+            if !savedData.contains(where: { (m: Measurement) -> Bool in return m == measurement!}) {
+                savedData.append(measurement!)
+            } else if let m = measurement, let idx = m.index {
+                savedData[idx] = m
+            }
+            
+            //SAVE
+            do {
+                let data = try NSKeyedArchiver.archivedData(withRootObject: savedData, requiringSecureCoding: false)
+                
+                UserDefaults.standard.set(data, forKey: Measurement.KEY_FOR_USER_DEFAULTS)
+            } catch {
+                fatalError("Can't encode data: \(error)")
+            }
+            
         }
-        
-        measurement?.watchTitle = watchTitle.text!
-        measurement?.timebase = Int(timebase.text!) ?? 60
-        measurement?.unit2 = unit2.text!
-        measurement?.favorite = favorite.isOn
     }
 }

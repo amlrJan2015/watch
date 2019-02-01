@@ -77,7 +77,7 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        self.connectivityHandler = (UIApplication.shared.delegate as? AppDelegate)?.connectivityHandler
+        //        self.connectivityHandler = (UIApplication.shared.delegate as? AppDelegate)?.connectivityHandler
         let tbc = tabBarController as? AppTabBarController
         appModel = tbc?.appModel
         
@@ -216,54 +216,6 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
         self.view.endEditing(true);
     }
     
-    @IBAction func unwindToMeasurementTable(sender: UIStoryboardSegue) {
-        if let sourceViewController = sender.source as? MeasurementDetailViewController,
-            let measurement = sourceViewController.measurement {
-            let device = measurement.device!
-            var mArr = selectedMeasurement[device]!
-            if let mIdx = mArr.index(of: measurement) {
-                if measurement.selected {
-                    mArr[mIdx] = measurement
-                } else {
-                    mArr.remove(at: mIdx)
-                }
-            } else {
-                if measurement.selected  {
-                    mArr.append(measurement)
-                }
-            }
-            
-            selectedMeasurement[device] = mArr
-            
-            if let unarchivedObject = UserDefaults.standard.data(forKey: Measurement.KEY_FOR_USER_DEFAULTS) {
-                do {
-                    var savedData = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(unarchivedObject) as! [Measurement]
-                    for selectedMeasurement in mArr {
-                        
-                        if !savedData.contains(where: { (m: Measurement) -> Bool in
-                            return m==selectedMeasurement
-                        })
-                        {
-                            savedData.append(selectedMeasurement)
-                        }
-                    }
-                    
-                    //SAVE
-                    do {
-                        let data = try NSKeyedArchiver.archivedData(withRootObject: savedData, requiringSecureCoding: false)
-                        
-                        UserDefaults.standard.set(data, forKey: Measurement.KEY_FOR_USER_DEFAULTS)
-                    } catch {
-                        fatalError("Can't encode data: \(error)")
-                    }
-                } catch {
-                    fatalError("loadWidgetDataArray - Can't encode data: \(error)")
-                }
-            }
-            
-        }
-    }
-    
     
     // MARK: - Navigation
     
@@ -291,5 +243,5 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
                 detailVC.measurement = measurement
             }
         }
-    }    
+    }
 }

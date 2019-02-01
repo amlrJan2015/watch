@@ -41,7 +41,7 @@ class RequestUtil {
                     }
                 }
             } catch {
-//                print("error:\(error)")
+                //                print("error:\(error)")
                 DispatchQueue.main.async { // Correct
                     if let row = table.rowController(at: index) as? HistMeasurementRowType {
                         row.dateDesc.setText("🚫")
@@ -79,8 +79,8 @@ class RequestUtil {
                     switch mode {
                     case TableUtil.ONLINE:
                         TableUtil.showOnlineValue(json, measurementData, valueLbl, unitLbl)
-                        //                    case TableUtil.HIST:
-                    //                        TableUtil.showHistEnergyValueInTable(json, measurementData, table, tableRowIndex: index)
+                    case TableUtil.HIST:
+                        TableUtil.showHistEnergyValue(json, measurementData, valueLbl, unitLbl)
                     case TableUtil.MI:
                         TableUtil.showManualInput(json, measurementData, valueLbl, unitLbl)
                     default:
@@ -94,8 +94,8 @@ class RequestUtil {
                 }
             } catch {
                 DispatchQueue.main.async { // Correct
-                        valueLbl.setText("🚫")
-                        unitLbl.setText("")
+                    valueLbl.setText("🚫")
+                    unitLbl.setText("")
                 }
             }
             

@@ -31,6 +31,26 @@ class TableUtil {
         return result
     }
     
+    public static func showHistEnergyValue(_ json: [String : AnyObject], _ measurementData: [String: Any], _ valueLbl: WKInterfaceLabel, _ unitLbl: WKInterfaceLabel) {
+        let unit = measurementData["unit"] as! String
+        let unit2 = measurementData["unit2"] as! String
+        let title = measurementData["watchTitle"] as! String
+        
+        unitLbl.setText(("" == unit2 ? unit : unit2))
+        
+        if let value = json["energy"] as? Double {
+            DispatchQueue.main.async { // Correct
+                let (si, newValue) = getSiPrefix(value)
+                    valueLbl.setText(String(format:"%.1f", newValue))
+                    unitLbl.setText(si+("" == unit2 ? unit : unit2))
+            }
+        } else {
+            DispatchQueue.main.async { // Correct
+                valueLbl.setText("NaN")
+            }
+        }
+    }
+    
     public static func showHistEnergyValueInTable(_ json: [String : AnyObject], _ measurementData: [String: Any], _ table: WKInterfaceTable, tableRowIndex index: Int) {
         let unit = measurementData["unit"] as! String
         let unit2 = measurementData["unit2"] as! String

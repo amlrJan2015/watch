@@ -126,4 +126,29 @@ class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, 
         }
     }
     
+    
+    // MARK: - prepare for segue
+    
+    // In a storyboard-based application, you will often want to do a little preparation before navigation
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        super.prepare(for: segue, sender: sender)
+        if segue.identifier == "EditMeasurement" {
+            guard let detailVC = segue.destination as? MeasurementDetailViewController
+                else {
+                    fatalError("Unexpected destination: \(segue.destination)")
+            }
+            guard let selectedMeasurementCell = sender as? UITableViewCell else {
+                fatalError("Unexpected sender: \(sender)")
+            }
+            guard let indexPath = tableView.indexPath(for: selectedMeasurementCell) else {
+                fatalError("The selected cell is not being displayed by the table")
+            }
+            
+            let measurement = data[indexPath.row]
+            measurement.index = data.index(of: measurement)
+            measurement.selected = true
+            
+            detailVC.measurement = measurement
+        }
+    }
 }

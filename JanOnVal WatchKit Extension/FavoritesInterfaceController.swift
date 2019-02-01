@@ -71,7 +71,11 @@ class FavoritesInterfaceController: WKInterfaceController {
         if serverUrl != nil && measurementDataDictArrAll != nil {
             var index = 0
             measurementDataDictArr = measurementDataDictArrAll!.filter({ (dict) -> Bool in
-                index = index + 1; return index < 5 && (dict["favorite"] != nil) && dict["favorite"] as! Bool ;
+                if let isFavorite = dict["favorite"] as? Bool, isFavorite {
+                    index = index + 1
+                    return index < 5
+                }
+                return false;
             })
             
             setPropertyAtAll(titleArr, "watchTitle")
@@ -143,5 +147,4 @@ class FavoritesInterfaceController: WKInterfaceController {
     @IBAction func onFav4Click() {
         pushToBigViewController(3)
     }
-    
 }

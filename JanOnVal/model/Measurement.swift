@@ -58,6 +58,7 @@ class Measurement: NSObject, NSCoding {
     
     //MARK: Details
     var selected = false
+    var index: Int? = nil
     
     override var hash: Int {
         return self.valueType!.type.hashValue + self.valueType!.value.hashValue + (self.device?.id.hashValue ?? 7)
