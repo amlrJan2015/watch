@@ -16,7 +16,7 @@ class ChartsInterfaceController: WKInterfaceController {
     
     @IBOutlet weak var maxLbl: WKInterfaceLabel!
     @IBOutlet weak var minLbl: WKInterfaceLabel!
-        
+    
     private var fetchTask: URLSessionDataTask?
     private var dict: [String: Any] = [:]
     private var serverUrl = ""
@@ -24,6 +24,19 @@ class ChartsInterfaceController: WKInterfaceController {
     private var namedTime = "NAMED_Today"
     
     var arrData = [(1.0,2.0)]
+    
+    override func awake(withContext context: Any?) {
+        super.awake(withContext: context)
+        
+        if let tServerUrl_MeasurementDict = context as? (String,[String: Any]) {
+            serverUrl = tServerUrl_MeasurementDict.0
+            dict = tServerUrl_MeasurementDict.1
+            //timebase = Int(dict["timebase"] as! String)!
+        }
+        
+        fetchAndShowData()
+        
+    }
     
     fileprivate func showChart() {
         
@@ -79,13 +92,13 @@ class ChartsInterfaceController: WKInterfaceController {
         
         let xtickmarkposarr = [ xmin + tageslaenge / 4, xmin + tageslaenge / 2, xmin + 3 * tageslaenge / 4]
         let xtickmarkpixelposarr = xtickmarkposarr.map { ( ($0 - xmin)/(xmax-xmin) * graphicwidth + coordoffsetleft)}
-        context!.setLineWidth(0.3)
+        context!.setLineWidth(0.4)
         for i in  0 ... (xtickmarkpixelposarr.endIndex - 1){
- 
-                context?.move( to: CGPoint( x: xtickmarkpixelposarr[i], y: ymaxpixelpos))
-                context?.addLine( to: CGPoint( x: xtickmarkpixelposarr[i], y: yminpixelpos))
-                context?.strokePath()
-                
+            
+            context?.move( to: CGPoint( x: xtickmarkpixelposarr[i], y: ymaxpixelpos))
+            context?.addLine( to: CGPoint( x: xtickmarkpixelposarr[i], y: yminpixelpos))
+            context?.strokePath()
+            
         }
         context!.beginPath()
         
@@ -95,22 +108,13 @@ class ChartsInterfaceController: WKInterfaceController {
             if( (ypixelpos > ymaxpixelpos) && (ypixelpos < yminpixelpos)){
                 context?.beginPath()
                 context!.setStrokeColor(UIColor.gray.cgColor)
-                if( i % 10 == 0){
-                    context!.setLineWidth(1.2)
-                    
-                    /*
-                        let paragraphStyle = NSMutableParagraphStyle()
-                        paragraphStyle.alignment = .center
-                        
-                    let attrs = [NSAttributedString.Key.font: UIFont(name: "HelveticaNeue-Thin", size: 36)!, NSAttributedString.Key.paragraphStyle: paragraphStyle]
-                        
-                        let string = "Ente Ente Ente Ente Ente Ente Ente Ente Ente Ente Ente Ente Ente Ente "
-                        string.draw(with: CGRect(x: 32, y: 32, width: 448, height: 448), options: .usesLineFragmentOrigin, attributes: attrs, context: nil)*/
-                }else if( i % 5 == 0){
-                    context!.setLineWidth(0.9)
-                }else{
-                    context!.setLineWidth(0.5)
-                }
+//                if( i % 10 == 0){
+//                    //                    context!.setLineWidth(1.2)
+//                }else if( i % 5 == 0){
+//                    //                    context!.setLineWidth(0.9)
+//                }else{
+//                    //                    context!.setLineWidth(0.5)
+//                }
                 context?.move( to: CGPoint( x: xminpixelpos, y: ytickmarkpixelposarr[i]))
                 context?.addLine( to: CGPoint( x: xmaxpixelpos, y: ytickmarkpixelposarr[i]))
                 context?.strokePath()
@@ -141,6 +145,11 @@ class ChartsInterfaceController: WKInterfaceController {
         
         context!.strokePath();
         
+        drawText(context: context, text: "6", centreX: deviceWidth / 4, centreY: 6)//4 44: 46 6
+        print("dyn Breite: \(46/deviceWidth)")
+        drawText(context: context, text: "12", centreX: deviceWidth / 2, centreY: 6)//4 44: 93 6
+        drawText(context: context, text: "18", centreX: deviceWidth / 1.32, centreY: 6)//4 44: 140 6
+        
         let cgimage = context!.makeImage();
         let uiimage = UIImage(cgImage: cgimage!)
         
@@ -156,17 +165,21 @@ class ChartsInterfaceController: WKInterfaceController {
         maxLbl.setText("↑:\(String(format:"%.1f", maxValueFormated.1)) \(maxValueFormated.0)\(dict["unit"] ?? "")")
     }
     
-    override func awake(withContext context: Any?) {
-        super.awake(withContext: context)
+    func drawText( context : CGContext?, text : String, centreX : CGFloat, centreY : CGFloat )
+    {
+        let attributes = [
+            NSAttributedString.Key.font : UIFont.boldSystemFont( ofSize: 18 ),
+            NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0, green: 0.4797353745, blue: 1, alpha: 1)
+            ] as [NSAttributedString.Key : Any]
         
-        if let tServerUrl_MeasurementDict = context as? (String,[String: Any]) {
-            serverUrl = tServerUrl_MeasurementDict.0
-            dict = tServerUrl_MeasurementDict.1
-            //timebase = Int(dict["timebase"] as! String)!
-        }
+        let textSize = text.size( withAttributes: attributes )
         
-        fetchAndShowData()
-        
+        text.draw(
+            in: CGRect( x: centreX - textSize.width / 2.0,
+                        y: centreY - textSize.height / 2.0,
+                        width: textSize.width,
+                        height: textSize.height ),
+            withAttributes : attributes )
     }
     
     fileprivate func calculateStepsizeFor(yRange ymax: Double, _ ymin: Double) -> Double {

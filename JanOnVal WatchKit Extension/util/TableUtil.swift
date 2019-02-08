@@ -27,6 +27,12 @@ class TableUtil {
         if pow10 >= 6.0 {
             result = ("M", value / 1000_000.0)
         }
+        if pow10 >= 9.0 {
+            result = ("G", value / 1000_000_000.0)
+        }
+        if pow10 >= 12.0 {
+            result = ("T", value / 1000_000_000_000.0)
+        }
 
         return result
     }
