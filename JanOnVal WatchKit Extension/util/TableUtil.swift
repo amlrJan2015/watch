@@ -19,8 +19,9 @@ class TableUtil {
     public static func getSiPrefix(_ value: Double) -> (String, Double) {
         var result = ("",value)
         
-        let pow10 = logC(val: abs(value), forBase: 10.0)
-
+        let pow10 = round(logC(val: abs(value), forBase: 10.0)*100000)/100000
+        
+        
         if pow10 >= 3.0 {
             result = ("k", value / 1000.0)
         }
@@ -33,8 +34,55 @@ class TableUtil {
         if pow10 >= 12.0 {
             result = ("T", value / 1000_000_000_000.0)
         }
-
+        
         return result
+    }
+    
+    private static func log10round(_ value: Double) -> ( Double) {
+        return round(logC(val: abs(value), forBase: 10.0)*100000)/100000
+    }
+    
+    public static func getCompactNumberAndSiriPrefix(_ value: Double) -> String {
+        var result = ("",value)
+        
+        let pow10 = log10round( abs(value))
+    
+    
+        // Dies hier ist Ausnahme, weil 500 kuerzer ist als 0.5k
+        // Ansonsten pow10 groesser gleich 2.0
+        if pow10 >= 3.0 {
+            result = ("k", value / 1000.0)
+        }
+        if pow10 >= 5.0 {
+            result = ("M", value / 1000_000.0)
+        }
+        if pow10 >= 8.0 {
+            result = ("G", value / 1000_000_000.0)
+        }
+        if pow10 >= 11.0 {
+            result = ("T", value / 1000_000_000_000.0)
+        }
+        if pow10 <= -3.0 {
+            result = ("m", value * 1000.0)
+        }
+        if pow10 <= -5.0 {
+            result = ("µ", value * 1000_000.0)//TODO
+        }
+        if pow10 <= -8.0 {
+            result = ("n", value * 1000_000_000.0)
+        }
+        if pow10 <= -11.0 {
+            result = ("p", value * 1000_000_000_000.0)
+        }
+        
+        var returnstring = String(format:"%.1f",result.1) + result.0
+        
+        if( abs( value) >= 10){
+            returnstring = String(format:"%.0f",result.1) + result.0
+         }
+        
+        return returnstring
+    
     }
     
     public static func showHistEnergyValue(_ json: [String : AnyObject], _ measurementData: [String: Any], _ valueLbl: WKInterfaceLabel, _ unitLbl: WKInterfaceLabel) {

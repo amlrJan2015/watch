@@ -78,7 +78,10 @@ class ChartsInterfaceController: WKInterfaceController {
         let minValue: Double? = arrData.map({ $0.1}).min()
         let ymin = minValue!-yminoffset
         let maxValue: Double? = arrData.map({ $0.1}).max()
-        let ymax = maxValue!+ymaxoffset
+        var ymax = maxValue!+ymaxoffset
+        if( ymax == ymin){
+            ymax = ymax + 1 // ymax * 1.1 haette Vorteil fuer sehr grosse ymax, aber dann sowas wie ymax = 0, ymax = -5
+        }
         
         let ystepsize = calculateStepsizeFor(yRange: ymax, ymin)
         
@@ -90,7 +93,9 @@ class ChartsInterfaceController: WKInterfaceController {
         let yminpixelpos = graphicheight - coordoffsetbottom
         let ymaxpixelpos = coordoffsettop
         
-        let xtickmarkposarr = [ xmin + tageslaenge / 4, xmin + tageslaenge / 2, xmin + 3 * tageslaenge / 4]
+        let stundentickmarkarr = [ 6, 12, 18]
+        let xtickmarkposarr = stundentickmarkarr.map( {xmin + tageslaenge * Double($0) / 24})
+        //let xtickmarkposarr = [ xmin + tageslaenge / 4, xmin + tageslaenge / 2, xmin + 3 * tageslaenge / 4]
         let xtickmarkpixelposarr = xtickmarkposarr.map { ( ($0 - xmin)/(xmax-xmin) * graphicwidth + coordoffsetleft)}
         context!.setLineWidth(0.4)
         for i in  0 ... (xtickmarkpixelposarr.endIndex - 1){
@@ -108,13 +113,19 @@ class ChartsInterfaceController: WKInterfaceController {
             if( (ypixelpos > ymaxpixelpos) && (ypixelpos < yminpixelpos)){
                 context?.beginPath()
                 context!.setStrokeColor(UIColor.gray.cgColor)
-//                if( i % 10 == 0){
-//                    //                    context!.setLineWidth(1.2)
-//                }else if( i % 5 == 0){
-//                    //                    context!.setLineWidth(0.9)
-//                }else{
-//                    //                    context!.setLineWidth(0.5)
-//                }
+                if( i % 10 == 0){
+                    //                    context!.setLineWidth(1.2)
+                    
+                    let yLabel = TableUtil.getCompactNumberAndSiriPrefix( ytickmarkarr[i])
+                    //let labelSize = NSString( string: yLabel).size
+                    //drawText(context: context, text: String( ytickmarkarr[i]), centreX: 4 + labelSize.Width / 2.0, centreY: CGFloat(CFloat(ytickmarkpixelposarr[i])))
+                    drawText(context: context, text: yLabel, centreX: 12, centreY: CGFloat(CFloat(ytickmarkpixelposarr[i])))
+
+                }else if( i % 5 == 0){
+                    //                    context!.setLineWidth(0.9)
+                }else{
+                    //                    context!.setLineWidth(0.5)
+                }
                 context?.move( to: CGPoint( x: xminpixelpos, y: ytickmarkpixelposarr[i]))
                 context?.addLine( to: CGPoint( x: xmaxpixelpos, y: ytickmarkpixelposarr[i]))
                 context?.strokePath()
@@ -145,10 +156,13 @@ class ChartsInterfaceController: WKInterfaceController {
         
         context!.strokePath();
         
-        drawText(context: context, text: "6", centreX: deviceWidth / 4, centreY: 6)//4 44: 46 6
-        print("dyn Breite: \(46/deviceWidth)")
-        drawText(context: context, text: "12", centreX: deviceWidth / 2, centreY: 6)//4 44: 93 6
-        drawText(context: context, text: "18", centreX: deviceWidth / 1.32, centreY: 6)//4 44: 140 6
+        for i in  0 ... (stundentickmarkarr.endIndex-1){
+            drawText(context: context, text: String(stundentickmarkarr[i]), centreX: CGFloat(xtickmarkpixelposarr[i]), centreY: 6)
+        }
+
+        //print("dyn Breite: \(46/deviceWidth)")
+        //drawText(context: context, text: "12", centreX: deviceWidth / 2, centreY: 6)//4 44: 93 6
+        //drawText(context: context, text: "18", centreX: deviceWidth / 1.32, centreY: 6)//4 44: 140 6
         
         let cgimage = context!.makeImage();
         let uiimage = UIImage(cgImage: cgimage!)
@@ -184,6 +198,10 @@ class ChartsInterfaceController: WKInterfaceController {
     
     fileprivate func calculateStepsizeFor(yRange ymax: Double, _ ymin: Double) -> Double {
         // Bleibt noch der Fall ymax=ymin, muss noch behandelt werden
+        if( ymin == ymax){
+            //
+            return 1.0
+        }
         let ymarknumber = 50
         let ymark_diff_temp = (ymax - ymin) / Double( ymarknumber)
         var mag = log10( ymark_diff_temp)
