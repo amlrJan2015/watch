@@ -77,7 +77,7 @@ class TableUtil {
         
         var returnstring = String(format:"%.1f",result.1) + result.0
         
-        if( abs( value) >= 10){
+        if( abs(value) >= 10){
             returnstring = String(format:"%.0f",result.1) + result.0
          }
         

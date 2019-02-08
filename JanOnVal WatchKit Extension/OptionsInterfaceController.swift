@@ -15,18 +15,30 @@ class OptionsInterfaceController: WKInterfaceController {
     public static let SHOW_6_12_18 = "SHOW_6_12_18"
     public static let SHOW_6_12_18_defaultValue = true
     
+    public static let SHOW_Values_On_Y_Axis = "SHOW_Values_On_Y_Axis"
+    public static let SHOW_Values_On_Y_Axis_defaultValue = true
+    
     let defaults = UserDefaults.standard
     
     @IBOutlet weak var show_6_12_18: WKInterfaceSwitch!
     
+    @IBOutlet weak var showValuesOnYAxis: WKInterfaceSwitch!
+    
+    
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         show_6_12_18.setOn(defaults.bool(forKey: OptionsInterfaceController.SHOW_6_12_18))
+        showValuesOnYAxis.setOn(defaults.bool(forKey: OptionsInterfaceController.SHOW_Values_On_Y_Axis))
     }
     
     
     @IBAction func onShow_6_12_18Change(_ value: Bool) {
         defaults.set(value, forKey: OptionsInterfaceController.SHOW_6_12_18)
     }
+    
+    @IBAction func onShowValuesOnYAxisChange(_ value: Bool) {
+        defaults.set(value, forKey: OptionsInterfaceController.SHOW_Values_On_Y_Axis)
+    }
+    
     
 }

@@ -33,7 +33,9 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         if defaults.object(forKey: OptionsInterfaceController.SHOW_6_12_18) == nil {
             defaults.set(OptionsInterfaceController.SHOW_6_12_18_defaultValue, forKey: OptionsInterfaceController.SHOW_6_12_18)
         }
-        
+        if defaults.object(forKey: OptionsInterfaceController.SHOW_Values_On_Y_Axis) == nil {
+            defaults.set(OptionsInterfaceController.SHOW_Values_On_Y_Axis_defaultValue, forKey: OptionsInterfaceController.SHOW_Values_On_Y_Axis)
+        }
     }
     
     override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {

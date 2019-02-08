@@ -126,10 +126,13 @@ class ChartsInterfaceController: WKInterfaceController {
                 context!.setStrokeColor(UIColor.gray.cgColor)
                 if( i % 10 == 0){
                     //                    context!.setLineWidth(1.2)
-                    context!.setLineWidth(0.4)
-                    let yLabel = TableUtil.getCompactNumberAndSiriPrefix( ytickmarkarr[i])
-                    drawYLabelText(context: context, text: yLabel, leftX: 6, centreY: CGFloat(CFloat(ytickmarkpixelposarr[i])))
-                    context!.setStrokeColor(UIColor.white.cgColor)
+//                    context!.setLineWidth(0.4)
+//                    context!.setLineDash(phase: 2.0, lengths: [1.0])
+                    if show_Values_On_Y_Axis() {
+                        let yLabel = TableUtil.getCompactNumberAndSiriPrefix( ytickmarkarr[i])
+                        drawYLabelText(context: context, text: yLabel, leftX: 6, centreY: CGFloat(CFloat(ytickmarkpixelposarr[i])))
+                    }
+//                    context!.setStrokeColor(UIColor.white.cgColor)
                     
                 }else if( i % 5 == 0){
                     //                    context!.setLineWidth(0.9)
@@ -137,7 +140,7 @@ class ChartsInterfaceController: WKInterfaceController {
                     //                    context!.setLineWidth(0.5)
                 }
                 context?.move( to: CGPoint( x: xminpixelpos, y: ytickmarkpixelposarr[i]))
-                context?.addLine( to: CGPoint( x: xmaxpixelpos, y: ytickmarkpixelposarr[i]))
+//                context?.addLine( to: CGPoint( x: xmaxpixelpos, y: ytickmarkpixelposarr[i]))
                 context?.strokePath()
                 
             }
@@ -166,17 +169,12 @@ class ChartsInterfaceController: WKInterfaceController {
         
         context!.strokePath();
         
-        for i in  0 ... (stundentickmarkarr.endIndex-1){
-            drawText(context: context, text: String(stundentickmarkarr[i]), centreX: CGFloat(xtickmarkpixelposarr[i]), centreY: 6)
+        
         if show_6_12_18() {
-            drawText(context: context, text: "6", centreX: deviceWidth / 4, centreY: 6)
-            drawText(context: context, text: "12", centreX: deviceWidth / 2, centreY: 6)
-            drawText(context: context, text: "18", centreX: deviceWidth / 1.32, centreY: 6)            
+            for i in  0 ... (stundentickmarkarr.endIndex-1){
+                drawText(context: context, text: String(stundentickmarkarr[i]), centreX: CGFloat(xtickmarkpixelposarr[i]), centreY: 6)
+            }
         }
-
-        //print("dyn Breite: \(46/deviceWidth)")
-        //drawText(context: context, text: "12", centreX: deviceWidth / 2, centreY: 6)//4 44: 93 6
-        //drawText(context: context, text: "18", centreX: deviceWidth / 1.32, centreY: 6)//4 44: 140 6
         
         let cgimage = context!.makeImage();
         let uiimage = UIImage(cgImage: cgimage!)
@@ -309,10 +307,13 @@ fileprivate func calculateStepsizeFor(yRange ymax: Double, _ ymin: Double) -> Do
         print("chart's fetch task cancled!")
     }
     
-    func show_6_12_18() -> Bool {
+    private func show_6_12_18() -> Bool {
         return defaults.bool(forKey: OptionsInterfaceController.SHOW_6_12_18)
     }
     
+    private func show_Values_On_Y_Axis() -> Bool {
+        return defaults.bool(forKey: OptionsInterfaceController.SHOW_Values_On_Y_Axis)
+    }
     
     @IBAction func onTodayMenuItemClick() {
         namedTime = "NAMED_Today"
