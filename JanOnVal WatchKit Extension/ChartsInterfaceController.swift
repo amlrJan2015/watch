@@ -22,6 +22,10 @@ class ChartsInterfaceController: WKInterfaceController {
     private var serverUrl = ""
     
     private var namedTime = "NAMED_Today"
+    private var namedTimeLbl = "Today"
+    
+    
+    let defaults = UserDefaults.standard
     
     var arrData = [(1.0,2.0)]
     
@@ -36,6 +40,13 @@ class ChartsInterfaceController: WKInterfaceController {
         
         fetchAndShowData()
         
+    }
+    
+    override func willActivate() {
+        super.willActivate()
+        
+        fetchAndShowData()
+        resetView()
     }
     
     fileprivate func showChart() {
@@ -157,6 +168,10 @@ class ChartsInterfaceController: WKInterfaceController {
         
         for i in  0 ... (stundentickmarkarr.endIndex-1){
             drawText(context: context, text: String(stundentickmarkarr[i]), centreX: CGFloat(xtickmarkpixelposarr[i]), centreY: 6)
+        if show_6_12_18() {
+            drawText(context: context, text: "6", centreX: deviceWidth / 4, centreY: 6)
+            drawText(context: context, text: "12", centreX: deviceWidth / 2, centreY: 6)
+            drawText(context: context, text: "18", centreX: deviceWidth / 1.32, centreY: 6)            
         }
 
         //print("dyn Breite: \(46/deviceWidth)")
@@ -243,84 +258,83 @@ fileprivate func calculateStepsizeFor(yRange ymax: Double, _ ymin: Double) -> Do
     
     
     fileprivate func fetchAndShowData() {
-        
-        
         DispatchQueue.main.async {
-            for var versuch in 1...2 {
+            let request = TableUtil.createRequestForChart(self.dict, self.serverUrl, namedTime: self.namedTime)
+            let session = URLSession.shared
+            _ = self.dict["deviceId"] as! Int
+            _ = self.dict["measurementValue"] as! String
+            _ = self.dict["measurementType"] as! String
+            
+            let fetchTask = session.dataTask(with: request) { data, response, error -> Void in
                 
-                if versuch == 2 {
-                    self.dict["isOnline"] = !(self.dict["isOnline"] as! Bool)
-                }
-                
-                let request = TableUtil.createRequestForChart(self.dict, self.serverUrl, namedTime: self.namedTime)
-                let session = URLSession.shared
-                _ = self.dict["deviceId"] as! Int
-                _ = self.dict["measurementValue"] as! String
-                _ = self.dict["measurementType"] as! String
-                
-                let fetchTask = session.dataTask(with: request) { data, response, error -> Void in
-                    
-                    if error == nil {
-                        
-                        do {
-                            OnlineMeasurementBig.updateStateCounter = 0
-                            if let measurementDataJson = data {
-                                //                    print(String(data: measurementData,encoding: String.Encoding.utf8) as! String)
-                                let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
-                                //print(json)
-                                
-                                self.arrData = []
-                                
-                                let valuesArrOpt = json["values"] as? [[String: Any]]
-                                if let valuesArr = valuesArrOpt {
-                                    for value in valuesArr {
-                                        let avgOpt = value["avg"] as? Double
-                                        let startTimeOpt = value["startTime"] as? UInt64
-                                        if let avg = avgOpt, let startTime = startTimeOpt {
-                                            self.arrData.append((Double(startTime / 1_000_000_000), avg))
-                                        }
+                if error == nil {
+                    do {
+                        OnlineMeasurementBig.updateStateCounter = 0
+                        if let measurementDataJson = data {
+                            //                    print(String(data: measurementData,encoding: String.Encoding.utf8) as! String)
+                            let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
+                            //print(json)
+                            
+                            self.arrData = []
+                            
+                            let valuesArrOpt = json["values"] as? [[String: Any]]
+                            if let valuesArr = valuesArrOpt {
+                                for value in valuesArr {
+                                    let avgOpt = value["avg"] as? Double
+                                    let startTimeOpt = value["startTime"] as? UInt64
+                                    if let avg = avgOpt, let startTime = startTimeOpt {
+                                        self.arrData.append((Double(startTime / 1_000_000_000), avg))
                                     }
-                                    
-                                    self.showChart()
-                                    versuch = 10
                                 }
                                 
-                            } else {
-                                print("data is invalid")
+                                self.showChart()
                             }
-                        } catch {
-                            print("error")
+                        } else {
+                            print("data is invalid")
                         }
-                        
-                        
-                    } else {
-                        print("Error: \(error)")
+                    } catch {
+                        print("error")
                     }
-                    
+                } else {
+                    print("Error: \(error)")
                 }
-                
-                
-                fetchTask.resume()
-            }
-            
+            }            
+            fetchTask.resume()
         }
         
+    }
+    
+    override func willDisappear() {
+        fetchTask?.cancel()
+        print("chart's fetch task cancled!")
+    }
+    
+    func show_6_12_18() -> Bool {
+        return defaults.bool(forKey: OptionsInterfaceController.SHOW_6_12_18)
     }
     
     
     @IBAction func onTodayMenuItemClick() {
         namedTime = "NAMED_Today"
+        namedTimeLbl = "Today"
         fetchAndShowData()
+        resetView()
+    }
+    
+    fileprivate func resetView() {
         image.setImage(nil)
-        minLbl.setText("  Today")
+        minLbl.setText("  \(namedTimeLbl)")
         maxLbl.setText("⏳ ")
     }
     
     @IBAction func onYesterdayMenuItemClick() {
         namedTime = "NAMED_Yesterday"
+        namedTimeLbl = "Yesterday"
         fetchAndShowData()
-        image.setImage(nil)
-        minLbl.setText("  Yesterday")
-        maxLbl.setText("⏳ ")
+        resetView()
+    }
+    
+    @IBAction func onOptionsMenuItemClick() {
+        pushController(withName: "OptionsView", context: nil)
     }
 }

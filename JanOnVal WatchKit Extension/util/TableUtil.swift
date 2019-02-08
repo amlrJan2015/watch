@@ -150,7 +150,7 @@ class TableUtil {
     public static func showManualInputInTable(_ json: [String : AnyObject], _ measurementData: [String: Any],_ table: WKInterfaceTable, tableRowIndex index: Int) {
         let unit = measurementData["unit"] as! String
         let unit2 = measurementData["unit2"] as! String
-        let title = measurementData["watchTitle"] as! String
+//        let title = measurementData["watchTitle"] as! String
         
         let valmeasurement = json["details"] as? [String: Any]
         if let value = valmeasurement!["lastValue"] as? Double {
@@ -161,14 +161,14 @@ class TableUtil {
                 
                 row?.value.setText(String(format:"%.1f", newValue))
                 row?.unit.setText(si+("" == unit2 ? unit : unit2))
-                row?.header.setText(title)
+//                row?.header.setText(title)
             }
         } else {
             DispatchQueue.main.async { // Correct
                 let row = table.rowController(at: index) as? MeasurementRowType
                 row?.value.setText("NaN")
                 row?.unit.setText(("" == unit2 ? unit : unit2))
-                row?.header.setText(title)
+//                row?.header.setText(title)
             }
         }
     }
@@ -201,7 +201,7 @@ class TableUtil {
         let measurementType = measurementData["measurementType"] as! String
         let unit = measurementData["unit"] as! String
         let unit2 = measurementData["unit2"] as! String
-        let title = measurementData["watchTitle"] as! String
+//        let title = measurementData["watchTitle"] as! String
         
         let valmeasurement = json["value"] as? [String: Any]
         if let value = valmeasurement!["\(deviceId).\(measurementValue).\(measurementType)"] as? Double {
@@ -217,14 +217,14 @@ class TableUtil {
                 
                 row?.value.setText(String(format:"%.1f", newValue))
                 row?.unit.setText(si+("" == unit2 ? unit : unit2))
-                row?.header.setText(title)
+//                row?.header.setText(title)
             }
         } else {
             DispatchQueue.main.async { // Correct
                 let row = table.rowController(at: index) as? MeasurementRowType
                 row?.value.setText("NaN")
                 row?.unit.setText(("" == unit2 ? unit : unit2))
-                row?.header.setText(title)
+//                row?.header.setText(title)
             }
         }
     }

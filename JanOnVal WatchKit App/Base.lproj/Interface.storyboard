@@ -20,10 +20,10 @@
                                 <tableRow identifier="measurementRowType" id="T6f-m2-3ha" customClass="MeasurementRowType" customModule="JanOnVal_WatchKit_Extension">
                                     <group key="rootItem" width="1" height="35" alignment="left" id="wHg-nI-7o3">
                                         <items>
-                                            <label width="25" alignment="left" verticalAlignment="center" text="⏳" textAlignment="left" id="fJt-wu-iRm">
+                                            <label width="25" alignment="left" verticalAlignment="center" textAlignment="left" id="fJt-wu-iRm">
                                                 <fontDescription key="font" type="system" pointSize="20"/>
                                             </label>
-                                            <label width="72" alignment="left" verticalAlignment="center" textAlignment="left" id="Xuj-k1-oYz">
+                                            <label width="72" alignment="left" verticalAlignment="center" text="⏳" textAlignment="left" id="Xuj-k1-oYz">
                                                 <fontDescription key="font" type="system" pointSize="23"/>
                                             </label>
                                             <label width="40" height="33" alignment="right" verticalAlignment="center" textAlignment="right" id="75D-PF-H1c"/>
@@ -198,6 +198,11 @@
                                     <action selector="onYesterdayMenuItemClick" destination="Xo5-dA-Fg5" id="vyc-VW-GB6"/>
                                 </connections>
                             </menuItem>
+                            <menuItem title="Options" icon="add" id="TyW-7P-T6O">
+                                <connections>
+                                    <action selector="onOptionsMenuItemClick" destination="Xo5-dA-Fg5" id="1nt-9Y-EAM"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                     <connections>
@@ -208,6 +213,24 @@
                 </controller>
             </objects>
             <point key="canvasLocation" x="199.56521739130434" y="252.72321428571428"/>
+        </scene>
+        <!--OptionsView-->
+        <scene sceneID="fxm-VX-I1I">
+            <objects>
+                <controller identifier="OptionsView" id="7fY-RV-Ugb" customClass="OptionsInterfaceController" customModule="JanOnVal_WatchKit_Extension">
+                    <items>
+                        <switch width="1" alignment="center" value="YES" title="Show 6,12,18" id="d0o-im-rn5">
+                            <connections>
+                                <action selector="onShow_6_12_18Change:" destination="7fY-RV-Ugb" id="Vnh-7h-5K8"/>
+                            </connections>
+                        </switch>
+                    </items>
+                    <connections>
+                        <outlet property="show_6_12_18" destination="d0o-im-rn5" id="sts-SI-7KZ"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="469" y="253"/>
         </scene>
         <!--FavoritesView-->
         <scene sceneID="Urq-hv-yvC">
@@ -225,7 +248,7 @@
                                                     <fontDescription key="font" type="system" pointSize="28"/>
                                                 </variation>
                                             </label>
-                                            <label alignment="center" verticalAlignment="center" text=" " textAlignment="center" id="n93-JZ-LB5">
+                                            <label alignment="center" verticalAlignment="center" textAlignment="center" id="n93-JZ-LB5">
                                                 <fontDescription key="font" type="system" weight="semibold" pointSize="24"/>
                                                 <variation key="device=watch42mm">
                                                     <fontDescription key="font" type="system" weight="semibold" pointSize="23"/>
@@ -385,7 +408,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="460" y="-53"/>
+            <point key="canvasLocation" x="469" y="-53"/>
         </scene>
     </scenes>
 </document>

@@ -36,7 +36,7 @@ class RequestUtil {
                 } else {
                     DispatchQueue.main.async { // Correct
                         let row = table.rowController(at: index) as? MeasurementRowType
-                        row?.value.setText("--")
+                        row?.value.setText("⏳")
                         row?.unit.setText("")
                     }
                 }

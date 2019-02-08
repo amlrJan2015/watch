@@ -20,7 +20,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     var refreshTime: Int?
     
     let defaults = UserDefaults.standard
-   
+    
     @IBOutlet var info: WKInterfaceLabel!
     
     var measurementDataDictArr: [[String: Any]]?
@@ -28,6 +28,13 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     @IBOutlet var table: WKInterfaceTable!
     
     var session: WCSession?
+    
+    override func awake(withContext context: Any?) {
+        if defaults.object(forKey: OptionsInterfaceController.SHOW_6_12_18) == nil {
+            defaults.set(OptionsInterfaceController.SHOW_6_12_18_defaultValue, forKey: OptionsInterfaceController.SHOW_6_12_18)
+        }
+        
+    }
     
     override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
         let dict = measurementDataDictArr![rowIndex]
@@ -39,7 +46,6 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         }
     }
     
-    
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         NSLog("%@", "state: \(activationState.rawValue) error:\(error)")
     }
@@ -48,11 +54,11 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         
         measurementDataDictArr = (message["measurementDataDictArr"] as? [[String:Any]])!
         
-        table.setNumberOfRows(measurementDataDictArr!.count, withRowType: "measurementRowType")
+//        table.setNumberOfRows(measurementDataDictArr!.count, withRowType: "measurementRowType")
         
         serverUrl = message["serverUrl"] as? String
         refreshTime = message["refreshTime"] as? Int ?? 5
-                
+        
         defaults.set(serverUrl, forKey: InterfaceController.SERVER_CONFIG)
         defaults.set(measurementDataDictArr, forKey: InterfaceController.MEASUREMENT_DATA)
         defaults.set(refreshTime, forKey: InterfaceController.REFRESH_TIME)
@@ -113,8 +119,16 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         }
     }
     
+    private func setHeaders() {
+        for index in 0..<table.numberOfRows {
+            let row = table.rowController(at: index) as? MeasurementRowType
+            row?.header.setText(measurementDataDictArr?[index]["watchTitle"] as? String)
+        }
+    }
+    
     private func getTemp() {
         self.info.setText("Fetching[\(refreshTime!)s]...")
+        setHeaders()
         if fetchTaskArr.count == 0 {
             //start fetching
             for index in 0..<self.measurementDataDictArr!.count {

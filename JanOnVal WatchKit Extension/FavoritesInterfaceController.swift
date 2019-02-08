@@ -46,11 +46,12 @@ class FavoritesInterfaceController: WKInterfaceController {
     private var valueArr : [WKInterfaceLabel] = []
     private var unitArr : [WKInterfaceLabel] = []
     
-    fileprivate func setPropertyAtAll(_ uiElementArr: [WKInterfaceLabel], _ propertyName: String, unitDefaultValue: String = "unit") {
+    fileprivate func setPropertyAtAll(_ uiElementArr: [WKInterfaceLabel], _ propertyName: String) {
         if let measurementDataDictArr = measurementDataDictArr {
             for favIndex in 0..<measurementDataDictArr.count {
                 let measurementDataDict = measurementDataDictArr[favIndex]
-                uiElementArr[favIndex].setText(measurementDataDict[propertyName] as! String)
+                uiElementArr[favIndex].setText(measurementDataDict[propertyName] as? String)
+                valueArr[favIndex].setText("⏳")
             }
         }
     }

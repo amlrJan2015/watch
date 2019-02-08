@@ -20,6 +20,7 @@
 		256DE29F202729A2000D2549 /* MeasurementRowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DE29E202729A2000D2549 /* MeasurementRowType.swift */; };
 		2587F6CA203DEE89003DC730 /* HistMeasurementRowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2587F6C9203DEE89003DC730 /* HistMeasurementRowType.swift */; };
 		25952C09203DF83500B0AA33 /* TableUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25952C08203DF83500B0AA33 /* TableUtil.swift */; };
+		259A9446220D66A40085A387 /* OptionsInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259A9445220D66A40085A387 /* OptionsInterfaceController.swift */; };
 		25A789A4208C753100A4BDE0 /* OnlineMeasurementBig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A789A3208C753100A4BDE0 /* OnlineMeasurementBig.swift */; };
 		25E9C19B21FB11AA00731F58 /* FavoritesInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E9C19A21FB11AA00731F58 /* FavoritesInterfaceController.swift */; };
 		25EB1D4E2046C3F800AF340B /* MeasurementPropertyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EB1D4D2046C3F800AF340B /* MeasurementPropertyKey.swift */; };
@@ -102,6 +103,7 @@
 		2598BC6A2028DF20000D646B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
 		2598BC6B2028DF20000D646B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		2598BC6C2028DF20000D646B /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Interface.strings; sourceTree = "<group>"; };
+		259A9445220D66A40085A387 /* OptionsInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsInterfaceController.swift; sourceTree = "<group>"; };
 		25A789A3208C753100A4BDE0 /* OnlineMeasurementBig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnlineMeasurementBig.swift; sourceTree = "<group>"; };
 		25E9C19A21FB11AA00731F58 /* FavoritesInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesInterfaceController.swift; sourceTree = "<group>"; };
 		25EB1D4D2046C3F800AF340B /* MeasurementPropertyKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementPropertyKey.swift; sourceTree = "<group>"; };
@@ -243,6 +245,7 @@
 				25A789A2208C706700A4BDE0 /* row */,
 				25A789A5208C783700A4BDE0 /* util */,
 				25E9C19A21FB11AA00731F58 /* FavoritesInterfaceController.swift */,
+				259A9445220D66A40085A387 /* OptionsInterfaceController.swift */,
 			);
 			path = "JanOnVal WatchKit Extension";
 			sourceTree = "<group>";
@@ -414,6 +417,7 @@
 				252C87E5203CA3BA002E6CDF /* HistDetailInterfaceController.swift in Sources */,
 				251B58DC219B4DC0004E4EAF /* MeasurementInfoIC.swift in Sources */,
 				25E9C19B21FB11AA00731F58 /* FavoritesInterfaceController.swift in Sources */,
+				259A9446220D66A40085A387 /* OptionsInterfaceController.swift in Sources */,
 				25952C09203DF83500B0AA33 /* TableUtil.swift in Sources */,
 				AA43F5321FDA6A5E00C879E0 /* InterfaceController.swift in Sources */,
 				254DFD77203E102C0067E0A4 /* RequestUtil.swift in Sources */,

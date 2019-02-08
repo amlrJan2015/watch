@@ -33,6 +33,7 @@ class OnlineMeasurementBig: WKInterfaceController {
             serverUrl = tServerUrl_MeasurementDict.0
             dict = tServerUrl_MeasurementDict.1
         }
+        OnlineMeasurementBig.updateStateCounter = 0
     }
     
     fileprivate func fetchAndShowData() {
@@ -82,6 +83,8 @@ class OnlineMeasurementBig: WKInterfaceController {
     }
     
     override func willActivate() {
+        OnlineMeasurementBig.updateStateCounter = 0
+//        fetchTask?.cancel()
         fetchAndShowData()
     }
     
