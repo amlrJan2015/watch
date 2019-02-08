@@ -115,12 +115,11 @@ class ChartsInterfaceController: WKInterfaceController {
                 context!.setStrokeColor(UIColor.gray.cgColor)
                 if( i % 10 == 0){
                     //                    context!.setLineWidth(1.2)
-                    
+                    context!.setLineWidth(0.4)
                     let yLabel = TableUtil.getCompactNumberAndSiriPrefix( ytickmarkarr[i])
-                    //let labelSize = NSString( string: yLabel).size
-                    //drawText(context: context, text: String( ytickmarkarr[i]), centreX: 4 + labelSize.Width / 2.0, centreY: CGFloat(CFloat(ytickmarkpixelposarr[i])))
-                    drawText(context: context, text: yLabel, centreX: 12, centreY: CGFloat(CFloat(ytickmarkpixelposarr[i])))
-
+                    drawYLabelText(context: context, text: yLabel, leftX: 6, centreY: CGFloat(CFloat(ytickmarkpixelposarr[i])))
+                    context!.setStrokeColor(UIColor.white.cgColor)
+                    
                 }else if( i % 5 == 0){
                     //                    context!.setLineWidth(0.9)
                 }else{
@@ -196,7 +195,24 @@ class ChartsInterfaceController: WKInterfaceController {
             withAttributes : attributes )
     }
     
-    fileprivate func calculateStepsizeFor(yRange ymax: Double, _ ymin: Double) -> Double {
+    func drawYLabelText( context : CGContext?, text : String, leftX : CGFloat, centreY : CGFloat )
+    {
+        let attributes = [
+            NSAttributedString.Key.font : UIFont.systemFont( ofSize: 12 ),
+            NSAttributedString.Key.foregroundColor : #colorLiteral(red: 0, green: 0.4797353745, blue: 1, alpha: 1)
+            ] as [NSAttributedString.Key : Any]
+        
+        let textSize = text.size( withAttributes: attributes )
+        
+        text.draw(
+            in: CGRect( x: leftX,
+                        y: centreY - textSize.height / 2.0,
+                        width: textSize.width,
+                        height: textSize.height ),
+            withAttributes : attributes )
+    }
+    
+fileprivate func calculateStepsizeFor(yRange ymax: Double, _ ymin: Double) -> Double {
         // Bleibt noch der Fall ymax=ymin, muss noch behandelt werden
         if( ymin == ymax){
             //
