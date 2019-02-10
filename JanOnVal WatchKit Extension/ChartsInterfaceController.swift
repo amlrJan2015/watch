@@ -35,11 +35,7 @@ class ChartsInterfaceController: WKInterfaceController {
         if let tServerUrl_MeasurementDict = context as? (String,[String: Any]) {
             serverUrl = tServerUrl_MeasurementDict.0
             dict = tServerUrl_MeasurementDict.1
-            //timebase = Int(dict["timebase"] as! String)!
         }
-        
-        fetchAndShowData()
-        
     }
     
     override func willActivate() {
@@ -185,10 +181,28 @@ class ChartsInterfaceController: WKInterfaceController {
         // Show on WKInterfaceImage
         image.setImage(uiimage)
         
-        let minValueFormated = TableUtil.getSiPrefix(minValue!)
-        let maxValueFormated = TableUtil.getSiPrefix(maxValue!)
+        
+        let unit = dict["unit"] as! String
+        let unit2 = dict["unit2"] as! String
+        
+        var minValueFormated = ("", 0.0)
+        var maxValueFormated = ("", 0.0)
+        
+        if unit.contains("Wh") || unit.isEmpty {
+            if var minV = minValue, var maxV = maxValue {
+                maxV = maxV - minV
+                minV = 0
+                
+                minValueFormated = TableUtil.getSiPrefix(minV)
+                maxValueFormated = TableUtil.getSiPrefix(maxV)
+            }
+        } else {
+            minValueFormated = TableUtil.getSiPrefix(minValue!)
+            maxValueFormated = TableUtil.getSiPrefix(maxValue!)
+        }
+        
         minLbl.setText("↓:\(String(format:"%.1f", minValueFormated.1)) \(minValueFormated.0)")
-        maxLbl.setText("↑:\(String(format:"%.1f", maxValueFormated.1)) \(maxValueFormated.0)\(dict["unit"] ?? "")")
+        maxLbl.setText("↑:\(String(format:"%.1f", maxValueFormated.1)) \(maxValueFormated.0)\("" == unit2 ? unit : unit2)")
     }
     
     func drawText( context : CGContext?, text : String, centreX : CGFloat, centreY : CGFloat )
