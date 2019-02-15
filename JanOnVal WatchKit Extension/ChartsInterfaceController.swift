@@ -51,7 +51,6 @@ class ChartsInterfaceController: WKInterfaceController {
         let deviceWidth = currentDevice.screenBounds.width
         let deviceHeight = currentDevice.screenBounds.height
         
-        let ableiten = false; //Ob bei kWh Ableitung verwendet werden soll
         //Bei dimensionslosen Größen schwieriger, da nicht klar ob Stundenwerte (h), wir machen trotzdem einfach als Stundenbasis
         
         let size = CGSize( width: deviceWidth, height: deviceHeight*0.75)
@@ -87,7 +86,7 @@ class ChartsInterfaceController: WKInterfaceController {
         
         var y_delta = false
         if unit.contains("Wh") || unit.isEmpty {
-            if( ableiten == true){
+            if( show_DerivativeChart() ) { //Ob bei kWh Ableitung verwendet werden soll
                 let timeScale = Double( 60*60)
                 for i in 0 ... (arrData.endIndex - 2){
                     arrData[i].1 = ( arrData[i+1].1 - arrData[i].1) / ( arrData[i+1].0 - arrData[i].0) * timeScale
@@ -103,7 +102,7 @@ class ChartsInterfaceController: WKInterfaceController {
             }
         }
         
-
+        
         
         let tageslaenge = Double(24*60*60)
         let timestamp_min = arrData.map({ $0.0}).min()!
@@ -157,8 +156,8 @@ class ChartsInterfaceController: WKInterfaceController {
                 context!.setStrokeColor(UIColor.gray.cgColor)
                 if( i % 10 == 0){
                     //                    context!.setLineWidth(1.2)
-//                    context!.setLineWidth(0.4)
-//                    context!.setLineDash(phase: 2.0, lengths: [1.0])
+                    //                    context!.setLineWidth(0.4)
+                    //                    context!.setLineDash(phase: 2.0, lengths: [1.0])
                     if show_Values_On_Y_Axis() {
                         var plus_prefix = ""
                         if( y_delta && ytickmarkarr[i] > 0){
@@ -167,7 +166,7 @@ class ChartsInterfaceController: WKInterfaceController {
                         let yLabel = plus_prefix +  TableUtil.getCompactNumberAndSiriPrefix( ytickmarkarr[i])
                         drawYLabelText(context: context, text: yLabel, leftX: 6, centreY: CGFloat(CFloat(ytickmarkpixelposarr[i])))
                     }
-//                    context!.setStrokeColor(UIColor.white.cgColor)
+                    //                    context!.setStrokeColor(UIColor.white.cgColor)
                     
                 }else if( i % 5 == 0){
                     //                    context!.setLineWidth(0.9)
@@ -175,7 +174,7 @@ class ChartsInterfaceController: WKInterfaceController {
                     //                    context!.setLineWidth(0.5)
                 }
                 context?.move( to: CGPoint( x: xminpixelpos, y: ytickmarkpixelposarr[i]))
-//                context?.addLine( to: CGPoint( x: xmaxpixelpos, y: ytickmarkpixelposarr[i]))
+                //                context?.addLine( to: CGPoint( x: xmaxpixelpos, y: ytickmarkpixelposarr[i]))
                 context?.strokePath()
                 
             }
@@ -224,21 +223,13 @@ class ChartsInterfaceController: WKInterfaceController {
         var minValueFormated = ("", 0.0)
         var maxValueFormated = ("", 0.0)
         
-        //if unit.contains("Wh") || unit.isEmpty {
-        //    if var minV = minValue, var maxV = maxValue {
-        //        maxV = maxV - minV
-        //        minV = 0
-        //
-        //        minValueFormated = TableUtil.getSiPrefix(minV)
-        //        maxValueFormated = TableUtil.getSiPrefix(maxV)
-        //    }
-        //} else {
-            minValueFormated = TableUtil.getSiPrefix(minValue!)
-            maxValueFormated = TableUtil.getSiPrefix(maxValue!)
-        //}
+        
+        minValueFormated = TableUtil.getSiPrefix(minValue!)
+        maxValueFormated = TableUtil.getSiPrefix(maxValue!)
+        
         
         minLbl.setText("↓:\(String(format:"%.1f", minValueFormated.1)) \(minValueFormated.0)")
-        maxLbl.setText("↑:\(String(format:"%.1f", maxValueFormated.1)) \(maxValueFormated.0)\("" == unit2 ? unit : unit2)")
+        maxLbl.setText("↑:\(String(format:"%.1f", maxValueFormated.1)) \(maxValueFormated.0)\("" == unit2 ? unit : unit2) ")
     }
     
     func drawText( context : CGContext?, text : String, centreX : CGFloat, centreY : CGFloat )
@@ -275,7 +266,7 @@ class ChartsInterfaceController: WKInterfaceController {
             withAttributes : attributes )
     }
     
-fileprivate func calculateStepsizeFor(yRange ymax: Double, _ ymin: Double) -> Double {
+    fileprivate func calculateStepsizeFor(yRange ymax: Double, _ ymin: Double) -> Double {
         // Bleibt noch der Fall ymax=ymin, muss noch behandelt werden
         if( ymin == ymax){
             //
@@ -363,6 +354,10 @@ fileprivate func calculateStepsizeFor(yRange ymax: Double, _ ymin: Double) -> Do
     
     private func show_Values_On_Y_Axis() -> Bool {
         return defaults.bool(forKey: OptionsInterfaceController.SHOW_Values_On_Y_Axis)
+    }
+    
+    private func show_DerivativeChart() -> Bool {
+        return defaults.bool(forKey: OptionsInterfaceController.SHOW_DERIVATIVE_CHART)
     }
     
     @IBAction func onTodayMenuItemClick() {

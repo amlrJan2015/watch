@@ -219,7 +219,7 @@
             <objects>
                 <controller identifier="OptionsView" id="7fY-RV-Ugb" customClass="OptionsInterfaceController" customModule="JanOnVal_WatchKit_Extension">
                     <items>
-                        <switch width="1" alignment="center" value="YES" title="Show 6,12,18" id="d0o-im-rn5">
+                        <switch width="1" alignment="center" value="YES" title="Show 6,12,18" numberOfLines="1" id="d0o-im-rn5">
                             <connections>
                                 <action selector="onShow_6_12_18Change:" destination="7fY-RV-Ugb" id="Vnh-7h-5K8"/>
                             </connections>
@@ -229,8 +229,14 @@
                                 <action selector="onShowValuesOnYAxisChange:" destination="7fY-RV-Ugb" id="1MF-Sf-5Oe"/>
                             </connections>
                         </switch>
+                        <switch width="1" alignment="left" title="Derivative chart" numberOfLines="2" id="OG8-yZ-5cj">
+                            <connections>
+                                <action selector="onShowDerivativeChartChange:" destination="7fY-RV-Ugb" id="U6J-hn-xUH"/>
+                            </connections>
+                        </switch>
                     </items>
                     <connections>
+                        <outlet property="showDerivativeChart" destination="OG8-yZ-5cj" id="0mk-wv-Tgf"/>
                         <outlet property="showValuesOnYAxis" destination="cL6-1H-tgr" id="qUv-pb-q3f"/>
                         <outlet property="show_6_12_18" destination="d0o-im-rn5" id="sts-SI-7KZ"/>
                     </connections>
