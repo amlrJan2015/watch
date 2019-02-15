@@ -51,6 +51,8 @@ class ChartsInterfaceController: WKInterfaceController {
         let deviceWidth = currentDevice.screenBounds.width
         let deviceHeight = currentDevice.screenBounds.height
         
+        let ableiten = false; //Ob bei kWh Ableitung verwendet werden soll
+        //Bei dimensionslosen Größen schwieriger, da nicht klar ob Stundenwerte (h), wir machen trotzdem einfach als Stundenbasis
         
         let size = CGSize( width: deviceWidth, height: deviceHeight*0.75)
         //let size = CGSize( width: 160, height: 170)
@@ -80,15 +82,25 @@ class ChartsInterfaceController: WKInterfaceController {
         let yminoffset = 0.0
         let ymaxoffset = (Double( arrData.map({ $0.1}).max() ?? 0) - Double( arrData.map({ $0.1}).min() ?? 0)) / graphicheight * 10 //0.0
         
-        let unit = dict["unit"] as! String
+        var unit = dict["unit"] as! String
         let unit2 = dict["unit2"] as! String
         
         var y_delta = false
         if unit.contains("Wh") || unit.isEmpty {
-            let start_wert = arrData.first?.1
-            
-            arrData = arrData.map( { ($0.0, $0.1 - (start_wert ?? 0))})
-            y_delta = true
+            if( ableiten == true){
+                let timeScale = Double( 60*60)
+                for i in 0 ... (arrData.endIndex - 2){
+                    arrData[i].1 = ( arrData[i+1].1 - arrData[i].1) / ( arrData[i+1].0 - arrData[i].0) * timeScale
+                    //print( ( arrData[i+1].1 - arrData[i].1) / ( arrData[i+1].0 - arrData[i].0) * timeScale)
+                }
+                unit = unit.replacingOccurrences(of: "Wh", with: "W")
+                arrData = Array(arrData.dropLast(1))
+            }else{
+                let start_wert = arrData.first?.1
+                
+                arrData = arrData.map( { ($0.0, $0.1 - (start_wert ?? 0))})
+                y_delta = true
+            }
         }
         
 
