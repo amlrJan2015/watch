@@ -69,6 +69,8 @@ class ChartsInterfaceController: WKInterfaceController {
         let coordoffsetright = 0.0
         let coordoffsettop = 0.0
         
+        //Zum Testen von dem Fall, dass die Daten erst später am Tag anfangen
+        //arrData = Array( arrData.dropFirst(15))
         
         let graphicheight = Double(size.height) - coordoffsetbottom - coordoffsettop
         let graphicwidth = Double(size.width) - coordoffsetleft - coordoffsetright
@@ -78,8 +80,29 @@ class ChartsInterfaceController: WKInterfaceController {
         let yminoffset = 0.0
         let ymaxoffset = (Double( arrData.map({ $0.1}).max() ?? 0) - Double( arrData.map({ $0.1}).min() ?? 0)) / graphicheight * 10 //0.0
         
+        let unit = dict["unit"] as! String
+        let unit2 = dict["unit2"] as! String
+        
+        var y_delta = false
+        if unit.contains("Wh") || unit.isEmpty {
+            let start_wert = arrData.first?.1
+            
+            arrData = arrData.map( { ($0.0, $0.1 - (start_wert ?? 0))})
+            y_delta = true
+        }
+        
+
+        
         let tageslaenge = Double(24*60*60)
-        let xmin = arrData.map({ $0.0}).min()!-xminoffset
+        let timestamp_min = arrData.map({ $0.0}).min()!
+        let hour = Calendar.current.component(.hour, from: Date(timeIntervalSince1970: timestamp_min))
+        let minute = Calendar.current.component(.minute, from: Date(timeIntervalSince1970: timestamp_min))
+        let second = Calendar.current.component(.second, from: Date(timeIntervalSince1970: timestamp_min))
+        let data_start_time = hour*60*60 + minute*60 + second
+        
+        let day_start = timestamp_min - Double( data_start_time)
+        
+        let xmin = day_start - xminoffset
         //let xmax = max(Double(tageswertanzahl), arrData.map({ $0.0}).max()!)+xmaxoffset
         let xmax = max( xmin + tageslaenge, arrData.map({ $0.0}).max()!+xmaxoffset)
         let minValue: Double? = arrData.map({ $0.1}).min()
@@ -125,7 +148,11 @@ class ChartsInterfaceController: WKInterfaceController {
 //                    context!.setLineWidth(0.4)
 //                    context!.setLineDash(phase: 2.0, lengths: [1.0])
                     if show_Values_On_Y_Axis() {
-                        let yLabel = TableUtil.getCompactNumberAndSiriPrefix( ytickmarkarr[i])
+                        var plus_prefix = ""
+                        if( y_delta && ytickmarkarr[i] > 0){
+                            plus_prefix = "+"
+                        }
+                        let yLabel = plus_prefix +  TableUtil.getCompactNumberAndSiriPrefix( ytickmarkarr[i])
                         drawYLabelText(context: context, text: yLabel, leftX: 6, centreY: CGFloat(CFloat(ytickmarkpixelposarr[i])))
                     }
 //                    context!.setStrokeColor(UIColor.white.cgColor)
@@ -182,24 +209,21 @@ class ChartsInterfaceController: WKInterfaceController {
         image.setImage(uiimage)
         
         
-        let unit = dict["unit"] as! String
-        let unit2 = dict["unit2"] as! String
-        
         var minValueFormated = ("", 0.0)
         var maxValueFormated = ("", 0.0)
         
-        if unit.contains("Wh") || unit.isEmpty {
-            if var minV = minValue, var maxV = maxValue {
-                maxV = maxV - minV
-                minV = 0
-                
-                minValueFormated = TableUtil.getSiPrefix(minV)
-                maxValueFormated = TableUtil.getSiPrefix(maxV)
-            }
-        } else {
+        //if unit.contains("Wh") || unit.isEmpty {
+        //    if var minV = minValue, var maxV = maxValue {
+        //        maxV = maxV - minV
+        //        minV = 0
+        //
+        //        minValueFormated = TableUtil.getSiPrefix(minV)
+        //        maxValueFormated = TableUtil.getSiPrefix(maxV)
+        //    }
+        //} else {
             minValueFormated = TableUtil.getSiPrefix(minValue!)
             maxValueFormated = TableUtil.getSiPrefix(maxValue!)
-        }
+        //}
         
         minLbl.setText("↓:\(String(format:"%.1f", minValueFormated.1)) \(minValueFormated.0)")
         maxLbl.setText("↑:\(String(format:"%.1f", maxValueFormated.1)) \(maxValueFormated.0)\("" == unit2 ? unit : unit2)")

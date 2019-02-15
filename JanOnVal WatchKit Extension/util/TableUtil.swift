@@ -62,22 +62,22 @@ class TableUtil {
         if pow10 >= 11.0 {
             result = ("T", value / 1000_000_000_000.0)
         }
-        if pow10 <= -3.0 {
+        if pow10 <= -2.0 {
             result = ("m", value * 1000.0)
         }
-        if pow10 <= -5.0 {
-            result = ("µ", value * 1000_000.0)//TODO
+        if pow10 <= -4.0 {
+            result = ("µ", value * 1000_000.0)
         }
-        if pow10 <= -8.0 {
+        if pow10 <= -7.0 {
             result = ("n", value * 1000_000_000.0)
         }
-        if pow10 <= -11.0 {
+        if pow10 <= -10.0 {
             result = ("p", value * 1000_000_000_000.0)
         }
         
         var returnstring = String(format:"%.1f",result.1) + result.0
         
-        if( abs(result.1) >= 10){
+        if( ( abs(result.1) >= 10) || ((round( result.1 * 10) - 10 * round( result.1)) == 0)){
             returnstring = String(format:"%.0f",result.1) + result.0
          }
         
