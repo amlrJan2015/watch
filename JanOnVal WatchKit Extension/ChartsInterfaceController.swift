@@ -82,19 +82,37 @@ class ChartsInterfaceController: WKInterfaceController {
         let ymaxoffset = (Double( arrData.map({ $0.1}).max() ?? 0) - Double( arrData.map({ $0.1}).min() ?? 0)) / graphicheight * 10 //0.0
         
         var unit = dict["unit"] as! String
-        let unit2 = dict["unit2"] as! String
+        var unit2 = dict["unit2"] as! String
         
         var y_delta = false
-        if unit.contains("Wh") || unit.isEmpty {
-            if( show_DerivativeChart() ) { //Ob bei kWh Ableitung verwendet werden soll
-                let timeScale = Double( 60*60)
-                for i in 0 ... (arrData.endIndex - 2){
-                    arrData[i].1 = ( arrData[i+1].1 - arrData[i].1) / ( arrData[i+1].0 - arrData[i].0) * timeScale
-                    //print( ( arrData[i+1].1 - arrData[i].1) / ( arrData[i+1].0 - arrData[i].0) * timeScale)
-                }
+        if( show_DerivativeChart() ) { //Ob bei kWh Ableitung verwendet werden soll
+            let timeScale = Double( 60*60)
+            for i in 0 ... (arrData.endIndex - 2){
+                arrData[i].1 = ( arrData[i+1].1 - arrData[i].1) / ( arrData[i+1].0 - arrData[i].0) * timeScale
+                arrData[i].0 = ( arrData[i+1].0 + arrData[i].0) / 2
+                //print( ( arrData[i+1].1 - arrData[i].1) / ( arrData[i+1].0 - arrData[i].0) * timeScale)
+            }
+            arrData = Array(arrData.dropLast(1))
+            if( unit.contains("Wh")){
                 unit = unit.replacingOccurrences(of: "Wh", with: "W")
-                arrData = Array(arrData.dropLast(1))
             }else{
+                if( unit.isEmpty){
+                    unit = "1/h"
+                }else{
+                    unit = unit + "/h"
+                }
+            }
+            if( unit2.contains("Wh")){
+                unit2 = unit2.replacingOccurrences(of: "Wh", with: "W")
+            }else{
+                if( unit2.isEmpty){
+                    unit2 = "1/h"
+                }else{
+                    unit2 = unit2 + "/h"
+                }
+            }
+        }else{
+            if unit.contains("Wh") || unit.isEmpty {
                 let start_wert = arrData.first?.1
                 
                 arrData = arrData.map( { ($0.0, $0.1 - (start_wert ?? 0))})
