@@ -62,7 +62,7 @@ class RequestUtil {
         }
     }
     
-    public static func doGetData(_ serverUrl: String?, _ measurementData:[String:Any], _ valueLbl: WKInterfaceLabel, _ unitLbl: WKInterfaceLabel) -> URLSessionDataTask {
+    public static func doGetData(_ serverUrl: String?, _ measurementData:[String:Any], _ valueLbl: WKInterfaceLabel, _ unitLbl: WKInterfaceLabel, _ waitLbl: WKInterfaceLabel? = nil) -> URLSessionDataTask {
         //        print("RequestTo:\(self.serverUrl!)onlinevalues?value=\(self.selectedMeasurementArr[index])")
         let mode = measurementData["mode"] as! Int
         let request = TableUtil.createRequest(measurementData, serverUrl)
@@ -78,11 +78,11 @@ class RequestUtil {
                     
                     switch mode {
                     case TableUtil.ONLINE:
-                        TableUtil.showOnlineValue(json, measurementData, valueLbl, unitLbl)
+                        TableUtil.showOnlineValue(json, measurementData, valueLbl, unitLbl, waitLbl)
                     case TableUtil.HIST:
-                        TableUtil.showHistEnergyValue(json, measurementData, valueLbl, unitLbl)
+                        TableUtil.showHistEnergyValue(json, measurementData, valueLbl, unitLbl, waitLbl)
                     case TableUtil.MI:
-                        TableUtil.showManualInput(json, measurementData, valueLbl, unitLbl)
+                        TableUtil.showManualInput(json, measurementData, valueLbl, unitLbl, waitLbl)
                     default:
                         print("unknown mode")
                     }

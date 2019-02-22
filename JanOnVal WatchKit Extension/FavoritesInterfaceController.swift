@@ -21,11 +21,15 @@ class FavoritesInterfaceController: WKInterfaceController {
     
     @IBOutlet weak var unit1: WKInterfaceLabel!
     
+    @IBOutlet weak var wait1: WKInterfaceLabel!
+    
     @IBOutlet weak var title2: WKInterfaceLabel!
     
     @IBOutlet weak var value2: WKInterfaceLabel!
     
     @IBOutlet weak var unit2: WKInterfaceLabel!
+    
+    @IBOutlet weak var wait2: WKInterfaceLabel!
     
     @IBOutlet weak var title3: WKInterfaceLabel!
     
@@ -33,11 +37,15 @@ class FavoritesInterfaceController: WKInterfaceController {
     
     @IBOutlet weak var unit3: WKInterfaceLabel!
     
+    @IBOutlet weak var wait3: WKInterfaceLabel!
+    
     @IBOutlet weak var title4: WKInterfaceLabel!
     
     @IBOutlet weak var value4: WKInterfaceLabel!
     
     @IBOutlet weak var unit4: WKInterfaceLabel!
+    
+    @IBOutlet weak var wait4: WKInterfaceLabel!
     
     private var measurementDataDictArr: [[String: Any]]?
     private var serverUrl: String?
@@ -45,13 +53,25 @@ class FavoritesInterfaceController: WKInterfaceController {
     private var titleArr : [WKInterfaceLabel] = []
     private var valueArr : [WKInterfaceLabel] = []
     private var unitArr : [WKInterfaceLabel] = []
+    private var waitArr : [WKInterfaceLabel] = []
+    
+    private var valueCache: [String:Double] = [:]
     
     fileprivate func setPropertyAtAll(_ uiElementArr: [WKInterfaceLabel], _ propertyName: String) {
         if let measurementDataDictArr = measurementDataDictArr {
             for favIndex in 0..<measurementDataDictArr.count {
                 let measurementDataDict = measurementDataDictArr[favIndex]
                 uiElementArr[favIndex].setText(measurementDataDict[propertyName] as? String)
-                valueArr[favIndex].setText("⏳")
+                let deviceId = measurementDataDict["deviceId"] as! Int
+                let measurementValue = measurementDataDict["measurementValue"] as! String
+                let measurementType = measurementDataDict["measurementType"] as! String
+                if let value = TableUtil.VALUE_CACHE["\(deviceId)|\(measurementValue)|\(measurementType)"] {
+                    valueArr[favIndex].setText(value)
+                    waitArr[favIndex].setText("⏳")
+                } else {
+                    valueArr[favIndex].setText("⏳")
+                }
+                
             }
         }
     }
@@ -63,6 +83,7 @@ class FavoritesInterfaceController: WKInterfaceController {
         titleArr = [title1, title2, title3, title4]
         valueArr = [value1, value2, value3, value4]
         unitArr = [unit1, unit2, unit3, unit4]
+        waitArr = [wait1, wait2, wait3, wait4]
         
         serverUrl = defaults.string(forKey: InterfaceController.SERVER_CONFIG)
         let measurementDataDictArrAll = defaults.array(forKey: InterfaceController.MEASUREMENT_DATA) as? [[String:Any]]
@@ -101,7 +122,7 @@ class FavoritesInterfaceController: WKInterfaceController {
             self.fetchTimer = Timer.scheduledTimer(withTimeInterval: Double(self.refreshTime!), repeats: true) { (timer) in
                 for index in 0..<self.measurementDataDictArr!.count {
                     if self.fetchTaskArr.count == index || self.fetchTaskArr[index].state == URLSessionTask.State.completed {
-                        self.fetchTaskArr.insert(RequestUtil.doGetData(self.serverUrl, self.measurementDataDictArr![index], self.valueArr[index], self.unitArr[index]), at: index)
+                        self.fetchTaskArr.insert(RequestUtil.doGetData(self.serverUrl, self.measurementDataDictArr![index], self.valueArr[index], self.unitArr[index], self.waitArr[index]), at: index)
                         self.fetchTaskArr[index].resume()
                     }
                 }

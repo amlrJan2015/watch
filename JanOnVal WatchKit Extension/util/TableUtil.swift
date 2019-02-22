@@ -12,6 +12,8 @@ import Foundation
 class TableUtil {
     public static let ONLINE = 0, HIST = 1, MI = 2
     
+    public static var VALUE_CACHE: [String:String] = [:]
+    
     private static func logC(val: Double, forBase base: Double) -> Double {
         return log(val)/log(base)
     }    
@@ -85,22 +87,32 @@ class TableUtil {
     
     }
     
-    public static func showHistEnergyValue(_ json: [String : AnyObject], _ measurementData: [String: Any], _ valueLbl: WKInterfaceLabel, _ unitLbl: WKInterfaceLabel) {
+    private static func addValueCache(measurementValue: String, measurementType: String, deviceId: Int, value: String) {
+        VALUE_CACHE["\(deviceId)|\(measurementValue)|\(measurementType)"] = value
+    }
+    
+    public static func showHistEnergyValue(_ json: [String : AnyObject], _ measurementData: [String: Any], _ valueLbl: WKInterfaceLabel, _ unitLbl: WKInterfaceLabel, _ waitLbl: WKInterfaceLabel? = nil) {
         let unit = measurementData["unit"] as! String
         let unit2 = measurementData["unit2"] as! String
-        let title = measurementData["watchTitle"] as! String
+        let deviceId = measurementData["deviceId"] as! Int
+        let measurementValue = measurementData["measurementValue"] as! String
+        let measurementType = measurementData["measurementType"] as! String
         
         unitLbl.setText(("" == unit2 ? unit : unit2))
         
         if let value = json["energy"] as? Double {
             DispatchQueue.main.async { // Correct
                 let (si, newValue) = getSiPrefix(value)
-                    valueLbl.setText(String(format:"%.1f", newValue))
+                let value: String = String(format:"%.1f", newValue)
+                valueLbl.setText(value)
+                waitLbl?.setText("")
+                addValueCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value)
                     unitLbl.setText(si+("" == unit2 ? unit : unit2))
             }
         } else {
             DispatchQueue.main.async { // Correct
                 valueLbl.setText("NaN")
+                waitLbl?.setText("")
             }
         }
     }
@@ -109,12 +121,17 @@ class TableUtil {
         let unit = measurementData["unit"] as! String
         let unit2 = measurementData["unit2"] as! String
         let title = measurementData["watchTitle"] as! String
+        let deviceId = measurementData["deviceId"] as! Int
+        let measurementValue = measurementData["measurementValue"] as! String
+        let measurementType = measurementData["measurementType"] as! String        
         
         if let value = json["energy"] as? Double {
             DispatchQueue.main.async { // Correct
                 let (si, newValue) = getSiPrefix(value)
                 if let row = table.rowController(at: index) as? MeasurementRowType {
-                    row.value.setText(String(format:"%.1f", newValue))
+                    let value: String = String(format:"%.1f", newValue)
+                    row.value.setText(value)
+                    addValueCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value)
                     row.unit.setText(si+("" == unit2 ? unit : unit2))
                     row.header.setText(title)
                 } else if let row = table.rowController(at: index) as? HistMeasurementRowType {
@@ -150,44 +167,50 @@ class TableUtil {
     public static func showManualInputInTable(_ json: [String : AnyObject], _ measurementData: [String: Any],_ table: WKInterfaceTable, tableRowIndex index: Int) {
         let unit = measurementData["unit"] as! String
         let unit2 = measurementData["unit2"] as! String
-//        let title = measurementData["watchTitle"] as! String
+        let deviceId = measurementData["deviceId"] as! Int
+        let measurementValue = measurementData["measurementValue"] as! String
+        let measurementType = measurementData["measurementType"] as! String
         
         let valmeasurement = json["details"] as? [String: Any]
         if let value = valmeasurement!["lastValue"] as? Double {
             DispatchQueue.main.async { // Correct
                 let row = table.rowController(at: index) as? MeasurementRowType
-                
                 let (si, newValue) = TableUtil.getSiPrefix(value)
-                
-                row?.value.setText(String(format:"%.1f", newValue))
+                let value: String = String(format:"%.1f", newValue)
+                row?.value.setText(value)
+                addValueCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value)
                 row?.unit.setText(si+("" == unit2 ? unit : unit2))
-//                row?.header.setText(title)
             }
         } else {
             DispatchQueue.main.async { // Correct
                 let row = table.rowController(at: index) as? MeasurementRowType
                 row?.value.setText("NaN")
                 row?.unit.setText(("" == unit2 ? unit : unit2))
-//                row?.header.setText(title)
             }
         }
     }
     
-    public static func showManualInput(_ json: [String : AnyObject], _ measurementData: [String: Any],_ valueLbl: WKInterfaceLabel, _ unitLbl: WKInterfaceLabel) {
+    public static func showManualInput(_ json: [String : AnyObject], _ measurementData: [String: Any],_ valueLbl: WKInterfaceLabel, _ unitLbl: WKInterfaceLabel, _ waitLbl: WKInterfaceLabel? = nil) {
         let unit = measurementData["unit"] as! String
         let unit2 = measurementData["unit2"] as! String
+        let deviceId = measurementData["deviceId"] as! Int
+        let measurementValue = measurementData["measurementValue"] as! String
+        let measurementType = measurementData["measurementType"] as! String
         
         let valmeasurement = json["details"] as? [String: Any]
         if let value = valmeasurement!["lastValue"] as? Double {
             DispatchQueue.main.async { // Correct
                 let (si, newValue) = TableUtil.getSiPrefix(value)
-                
-                valueLbl.setText(String(format:"%.1f", newValue))
+                let value: String = String(format:"%.1f", newValue)
+                valueLbl.setText(value)
+                waitLbl?.setText("")
+                addValueCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value)
                 unitLbl.setText(si+("" == unit2 ? unit : unit2))
             }
         } else {
             DispatchQueue.main.async { // Correct
                 valueLbl.setText("NaN")
+                waitLbl?.setText("")
                 unitLbl.setText(("" == unit2 ? unit : unit2))
             }
         }
@@ -201,7 +224,6 @@ class TableUtil {
         let measurementType = measurementData["measurementType"] as! String
         let unit = measurementData["unit"] as! String
         let unit2 = measurementData["unit2"] as! String
-//        let title = measurementData["watchTitle"] as! String
         
         let valmeasurement = json["value"] as? [String: Any]
         if let value = valmeasurement!["\(deviceId).\(measurementValue).\(measurementType)"] as? Double {
@@ -215,21 +237,21 @@ class TableUtil {
                     defaults.set(value, forKey: "VAL")
                 }
                 
-                row?.value.setText(String(format:"%.1f", newValue))
+                let value: String = String(format:"%.1f", newValue)
+                row?.value.setText(value)
+                addValueCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value)
                 row?.unit.setText(si+("" == unit2 ? unit : unit2))
-//                row?.header.setText(title)
             }
         } else {
             DispatchQueue.main.async { // Correct
                 let row = table.rowController(at: index) as? MeasurementRowType
                 row?.value.setText("NaN")
                 row?.unit.setText(("" == unit2 ? unit : unit2))
-//                row?.header.setText(title)
             }
         }
     }
     
-    public static func showOnlineValue(_ json: [String : AnyObject], _ measurementData: [String: Any],_ valueLbl: WKInterfaceLabel, _ unitLbl: WKInterfaceLabel) {
+    public static func showOnlineValue(_ json: [String : AnyObject], _ measurementData: [String: Any],_ valueLbl: WKInterfaceLabel, _ unitLbl: WKInterfaceLabel, _ waitLbl: WKInterfaceLabel? = nil) {
         let deviceId = measurementData["deviceId"] as! Int
         let measurementValue = measurementData["measurementValue"] as! String
         let measurementType = measurementData["measurementType"] as! String
@@ -240,12 +262,16 @@ class TableUtil {
         if let value = valmeasurement!["\(deviceId).\(measurementValue).\(measurementType)"] as? Double {
             DispatchQueue.main.async { // Correct
                 let (si, newValue) = TableUtil.getSiPrefix(value)
-                valueLbl.setText(String(format:"%.1f", newValue))
+                let value: String = String(format:"%.1f", newValue)
+                valueLbl.setText(value)
+                waitLbl?.setText("")
+                addValueCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value)
                 unitLbl.setText(si+("" == unit2 ? unit : unit2))
             }
         } else {
             DispatchQueue.main.async { // Correct
                 valueLbl.setText("NaN")
+                waitLbl?.setText("")
                 unitLbl.setText(("" == unit2 ? unit : unit2))
             }
         }
@@ -284,12 +310,8 @@ class TableUtil {
         let deviceId = measurementData["deviceId"] as! Int
         let measurementValue = measurementData["measurementValue"] as! String
         let measurementType = measurementData["measurementType"] as! String
-//        let mode = measurementData["mode"] as! Int
         let timebase = measurementData["timebase"] as! String
-//        let start = "NAMED_Yesterday"//measurementData["start"] as! String
-//        let end = "NAMED_Yesterday"//measurementData["end"] as! String
         let online = measurementData["isOnline"] as! Bool
-        //devices/7/hist/values/PowerActive/SUM13/60/?start=NAMED_Today&end=NAMED_Today&online=true
         let requestData = "devices/\(deviceId)/hist/values/\(measurementValue)/\(measurementType)/\(timebase)?start=\(namedTime)&end=\(namedTime)&online=\(online)"
         let requestStr = "\(serverUrl!)\(requestData)"
         print(requestStr)
