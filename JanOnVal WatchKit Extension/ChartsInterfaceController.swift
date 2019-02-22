@@ -102,13 +102,15 @@ class ChartsInterfaceController: WKInterfaceController {
                     unit = unit + "/h"
                 }
             }
-            if( unit2.contains("Wh")){
-                unit2 = unit2.replacingOccurrences(of: "Wh", with: "W")
-            }else{
-                if( unit2.isEmpty){
-                    unit2 = "1/h"
+            if (!unit2.isEmpty) {
+                if( unit2.contains("Wh")){
+                    unit2 = unit2.replacingOccurrences(of: "Wh", with: "W")
                 }else{
-                    unit2 = unit2 + "/h"
+                    if( unit2.isEmpty){
+                        unit2 = "1/h"
+                    }else{
+                        unit2 = unit2 + "/h"
+                    }
                 }
             }
         }else{

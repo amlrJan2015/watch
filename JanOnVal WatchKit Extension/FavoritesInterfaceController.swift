@@ -70,8 +70,8 @@ class FavoritesInterfaceController: WKInterfaceController {
                     waitArr[favIndex].setText("⏳")
                 } else {
                     valueArr[favIndex].setText("⏳")
+                    waitArr[favIndex].setText("")
                 }
-                
             }
         }
     }
