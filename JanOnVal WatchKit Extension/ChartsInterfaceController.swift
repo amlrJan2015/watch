@@ -2,7 +2,7 @@
 //  ChartsInterfaceController.swift
 //  JanOnVal WatchKit Extension
 //
-//  Created by Christian Stolz on 23.11.18.
+//  Created by Andreas Mueller on 23.11.18.
 //  Copyright © 2018 Andreas Mueller. All rights reserved.
 //
 
