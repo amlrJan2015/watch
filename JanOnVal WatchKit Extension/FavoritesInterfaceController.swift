@@ -65,8 +65,10 @@ class FavoritesInterfaceController: WKInterfaceController {
                 let deviceId = measurementDataDict["deviceId"] as! Int
                 let measurementValue = measurementDataDict["measurementValue"] as! String
                 let measurementType = measurementDataDict["measurementType"] as! String
-                if let value = TableUtil.VALUE_CACHE["\(deviceId)|\(measurementValue)|\(measurementType)"] {
+                if let value = TableUtil.VALUE_CACHE["\(deviceId)|\(measurementValue)|\(measurementType)"],
+                   let unit = TableUtil.UNIT_CACHE["\(deviceId)|\(measurementValue)|\(measurementType)"] {
                     valueArr[favIndex].setText(value)
+                    unitArr[favIndex].setText(unit)
                     waitArr[favIndex].setText("⏳")
                 } else {
                     valueArr[favIndex].setText("⏳")

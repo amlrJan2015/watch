@@ -13,6 +13,7 @@ class TableUtil {
     public static let ONLINE = 0, HIST = 1, MI = 2
     
     public static var VALUE_CACHE: [String:String] = [:]
+    public static var UNIT_CACHE: [String:String] = [:]
     
     private static func logC(val: Double, forBase base: Double) -> Double {
         return log(val)/log(base)
@@ -87,8 +88,9 @@ class TableUtil {
     
     }
     
-    private static func addValueCache(measurementValue: String, measurementType: String, deviceId: Int, value: String) {
+    private static func addToCache(measurementValue: String, measurementType: String, deviceId: Int, value: String, unit:String) {
         VALUE_CACHE["\(deviceId)|\(measurementValue)|\(measurementType)"] = value
+        UNIT_CACHE["\(deviceId)|\(measurementValue)|\(measurementType)"] = unit
     }
     
     public static func showHistEnergyValue(_ json: [String : AnyObject], _ measurementData: [String: Any], _ valueLbl: WKInterfaceLabel, _ unitLbl: WKInterfaceLabel, _ waitLbl: WKInterfaceLabel? = nil) {
@@ -98,16 +100,15 @@ class TableUtil {
         let measurementValue = measurementData["measurementValue"] as! String
         let measurementType = measurementData["measurementType"] as! String
         
-        unitLbl.setText(("" == unit2 ? unit : unit2))
-        
         if let value = json["energy"] as? Double {
             DispatchQueue.main.async { // Correct
                 let (si, newValue) = getSiPrefix(value)
                 let value: String = String(format:"%.1f", newValue)
+                let unitStr: String = si+("" == unit2 ? unit : unit2)
                 valueLbl.setText(value)
                 waitLbl?.setText("")
-                addValueCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value)
-                    unitLbl.setText(si+("" == unit2 ? unit : unit2))
+                unitLbl.setText(unitStr)
+                addToCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value, unit: unitStr)
             }
         } else {
             DispatchQueue.main.async { // Correct
@@ -128,15 +129,16 @@ class TableUtil {
         if let value = json["energy"] as? Double {
             DispatchQueue.main.async { // Correct
                 let (si, newValue) = getSiPrefix(value)
+                let unitStr: String = si+("" == unit2 ? unit : unit2)
                 if let row = table.rowController(at: index) as? MeasurementRowType {
                     let value: String = String(format:"%.1f", newValue)
                     row.value.setText(value)
-                    addValueCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value)
                     row.unit.setText(si+("" == unit2 ? unit : unit2))
                     row.header.setText(title)
+                    addToCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value, unit: unitStr)
                 } else if let row = table.rowController(at: index) as? HistMeasurementRowType {
                     row.value.setText(String(format:"%.1f", newValue))
-                    row.unit.setText(si+("" == unit2 ? unit : unit2))
+                    row.unit.setText(unitStr)
                     switch index {
                         case 0: row.dateDesc.setText("H ")
                         case 1: row.dateDesc.setText("G ")
@@ -154,11 +156,9 @@ class TableUtil {
             DispatchQueue.main.async { // Correct
                 if let row = table.rowController(at: index) as? MeasurementRowType {
                     row.value.setText("NaN")
-                    row.unit.setText(("" == unit2 ? unit : unit2))
                     row.header.setText(title)
                 } else if let row = table.rowController(at: index) as? HistMeasurementRowType {
                     row.value.setText("NaN")
-                    row.unit.setText(("" == unit2 ? unit : unit2))
                 }
             }
         }
@@ -177,15 +177,15 @@ class TableUtil {
                 let row = table.rowController(at: index) as? MeasurementRowType
                 let (si, newValue) = TableUtil.getSiPrefix(value)
                 let value: String = String(format:"%.1f", newValue)
+                let unitStr: String = si+("" == unit2 ? unit : unit2)
                 row?.value.setText(value)
-                addValueCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value)
-                row?.unit.setText(si+("" == unit2 ? unit : unit2))
+                row?.unit.setText(unitStr)
+                addToCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value, unit: unitStr)
             }
         } else {
             DispatchQueue.main.async { // Correct
                 let row = table.rowController(at: index) as? MeasurementRowType
                 row?.value.setText("NaN")
-                row?.unit.setText(("" == unit2 ? unit : unit2))
             }
         }
     }
@@ -202,16 +202,16 @@ class TableUtil {
             DispatchQueue.main.async { // Correct
                 let (si, newValue) = TableUtil.getSiPrefix(value)
                 let value: String = String(format:"%.1f", newValue)
+                let unitStr: String = si+("" == unit2 ? unit : unit2)
                 valueLbl.setText(value)
                 waitLbl?.setText("")
-                addValueCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value)
-                unitLbl.setText(si+("" == unit2 ? unit : unit2))
+                unitLbl.setText(unitStr)
+                addToCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value, unit: unitStr)
             }
         } else {
             DispatchQueue.main.async { // Correct
                 valueLbl.setText("NaN")
                 waitLbl?.setText("")
-                unitLbl.setText(("" == unit2 ? unit : unit2))
             }
         }
     }
@@ -232,21 +232,22 @@ class TableUtil {
                 
                 let (si, newValue) = TableUtil.getSiPrefix(value)
                 
+                //for Complication Controller
                 if index == 0 {
                     defaults.set("" == unit2 ? unit : unit2, forKey: "UNIT")
                     defaults.set(value, forKey: "VAL")
                 }
                 
                 let value: String = String(format:"%.1f", newValue)
+                let unitStr: String = si+("" == unit2 ? unit : unit2)
                 row?.value.setText(value)
-                addValueCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value)
-                row?.unit.setText(si+("" == unit2 ? unit : unit2))
+                row?.unit.setText(unitStr)
+                addToCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value, unit: unitStr)
             }
         } else {
             DispatchQueue.main.async { // Correct
                 let row = table.rowController(at: index) as? MeasurementRowType
                 row?.value.setText("NaN")
-                row?.unit.setText(("" == unit2 ? unit : unit2))
             }
         }
     }
@@ -263,16 +264,16 @@ class TableUtil {
             DispatchQueue.main.async { // Correct
                 let (si, newValue) = TableUtil.getSiPrefix(value)
                 let value: String = String(format:"%.1f", newValue)
+                let unitStr: String = si+("" == unit2 ? unit : unit2)
                 valueLbl.setText(value)
                 waitLbl?.setText("")
-                addValueCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value)
-                unitLbl.setText(si+("" == unit2 ? unit : unit2))
+                unitLbl.setText(unitStr)
+                addToCache(measurementValue: measurementValue, measurementType: measurementType, deviceId: deviceId, value: value, unit: unitStr)
             }
         } else {
             DispatchQueue.main.async { // Correct
                 valueLbl.setText("NaN")
                 waitLbl?.setText("")
-                unitLbl.setText(("" == unit2 ? unit : unit2))
             }
         }
     }

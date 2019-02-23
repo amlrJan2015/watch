@@ -90,12 +90,14 @@ class RequestUtil {
                     DispatchQueue.main.async { // Correct
                         valueLbl.setText("🚫")
                         unitLbl.setText("")
+                        waitLbl?.setText("")
                     }
                 }
             } catch {
                 DispatchQueue.main.async { // Correct
                     valueLbl.setText("🚫")
                     unitLbl.setText("")
+                    waitLbl?.setText("")
                 }
             }
             

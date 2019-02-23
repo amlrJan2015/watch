@@ -268,15 +268,15 @@
                                             </label>
                                             <group width="1" alignment="center" verticalAlignment="bottom" id="XLK-PN-Zil">
                                                 <items>
-                                                    <label alignment="center" verticalAlignment="bottom" textAlignment="center" id="D0P-mW-KQM">
+                                                    <label alignment="center" textAlignment="center" id="D0P-mW-KQM">
                                                         <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="font" type="system" weight="medium" pointSize="16"/>
                                                         <variation key="device=watch42mm">
                                                             <fontDescription key="font" type="system" weight="medium" pointSize="14"/>
                                                         </variation>
                                                     </label>
-                                                    <label alignment="right" verticalAlignment="bottom" id="oBn-Q2-jTp">
-                                                        <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                                    <label alignment="right" id="oBn-Q2-jTp">
+                                                        <fontDescription key="font" style="UICTFontTextStyleCaption1"/>
                                                     </label>
                                                 </items>
                                             </group>
@@ -303,14 +303,16 @@
                                             </label>
                                             <group width="1" alignment="center" verticalAlignment="bottom" id="CI3-pX-xfj">
                                                 <items>
-                                                    <label alignment="center" verticalAlignment="bottom" text=" " textAlignment="center" id="eHx-vD-e5V">
+                                                    <label alignment="center" text=" " textAlignment="center" id="eHx-vD-e5V">
                                                         <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="font" type="system" weight="medium" pointSize="16"/>
                                                         <variation key="device=watch42mm">
                                                             <fontDescription key="font" type="system" weight="medium" pointSize="14"/>
                                                         </variation>
                                                     </label>
-                                                    <label alignment="right" verticalAlignment="bottom" id="CND-lt-H4D"/>
+                                                    <label alignment="right" id="CND-lt-H4D">
+                                                        <fontDescription key="font" style="UICTFontTextStyleCaption1"/>
+                                                    </label>
                                                 </items>
                                             </group>
                                         </items>
@@ -326,13 +328,13 @@
                                 <button alignment="left" verticalAlignment="bottom" id="sPK-r7-btJ">
                                     <group key="contentGroup" width="0.5" alignment="left" layout="vertical" id="XNW-cv-wkU">
                                         <items>
-                                            <label alignment="center" text=" " textAlignment="center" id="dvf-up-7Wt">
+                                            <label alignment="center" textAlignment="center" id="dvf-up-7Wt">
                                                 <fontDescription key="font" type="system" pointSize="32"/>
                                                 <variation key="device=watch42mm">
                                                     <fontDescription key="font" type="system" pointSize="28"/>
                                                 </variation>
                                             </label>
-                                            <label alignment="center" verticalAlignment="center" text=" " id="6Dd-tA-wkr">
+                                            <label alignment="center" verticalAlignment="center" id="6Dd-tA-wkr">
                                                 <fontDescription key="font" type="system" weight="semibold" pointSize="24"/>
                                                 <variation key="device=watch42mm">
                                                     <fontDescription key="font" type="system" weight="semibold" pointSize="23"/>
@@ -340,14 +342,16 @@
                                             </label>
                                             <group width="1" alignment="center" verticalAlignment="bottom" id="Dal-vA-Fze">
                                                 <items>
-                                                    <label alignment="center" verticalAlignment="bottom" text=" " textAlignment="center" id="P4M-dj-STL">
+                                                    <label alignment="center" textAlignment="center" id="P4M-dj-STL">
                                                         <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="font" type="system" weight="medium" pointSize="16"/>
                                                         <variation key="device=watch42mm">
                                                             <fontDescription key="font" type="system" weight="medium" pointSize="14"/>
                                                         </variation>
                                                     </label>
-                                                    <label alignment="right" verticalAlignment="bottom" id="avJ-6o-fVY"/>
+                                                    <label alignment="right" id="avJ-6o-fVY">
+                                                        <fontDescription key="font" style="UICTFontTextStyleCaption1"/>
+                                                    </label>
                                                 </items>
                                             </group>
                                         </items>
@@ -373,14 +377,16 @@
                                             </label>
                                             <group width="1" alignment="center" verticalAlignment="bottom" id="hFY-gY-ZMT">
                                                 <items>
-                                                    <label alignment="center" verticalAlignment="bottom" textAlignment="center" id="eiL-jG-Ucg">
+                                                    <label alignment="center" textAlignment="center" id="eiL-jG-Ucg">
                                                         <color key="textColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="font" type="system" weight="medium" pointSize="16"/>
                                                         <variation key="device=watch42mm">
                                                             <fontDescription key="font" type="system" weight="medium" pointSize="14"/>
                                                         </variation>
                                                     </label>
-                                                    <label alignment="right" verticalAlignment="bottom" id="9fW-G7-s6V"/>
+                                                    <label alignment="right" id="9fW-G7-s6V">
+                                                        <fontDescription key="font" style="UICTFontTextStyleCaption1"/>
+                                                    </label>
                                                 </items>
                                             </group>
                                         </items>
