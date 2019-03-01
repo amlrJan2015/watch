@@ -45,7 +45,7 @@ class TableUtil {
         return round(logC(val: abs(value), forBase: 10.0)*100000)/100000
     }
     
-    public static func getCompactNumberAndSiriPrefix(_ value: Double) -> String {
+    public static func getCompactNumberAndSiriPrefix(_ value: Double, forceDecimals: Int? = nil) -> String {
         var result = ("",value)
         
         let pow10 = log10round( abs(value))
@@ -56,13 +56,13 @@ class TableUtil {
         if pow10 >= 3.0 {
             result = ("k", value / 1000.0)
         }
-        if pow10 >= 5.0 {
+        if pow10 >= 6.0 { //5.0
             result = ("M", value / 1000_000.0)
         }
-        if pow10 >= 8.0 {
+        if pow10 >= 9.0 { //8.0
             result = ("G", value / 1000_000_000.0)
         }
-        if pow10 >= 11.0 {
+        if pow10 >= 12.0 { //11.0
             result = ("T", value / 1000_000_000_000.0)
         }
         if pow10 <= -2.0 {
@@ -84,6 +84,13 @@ class TableUtil {
             returnstring = String(format:"%.0f",result.1) + result.0
          }
         
+        if( forceDecimals != nil){
+            let show_factor = Int( log10( value / result.1))
+            let decimals_needed = show_factor - forceDecimals!
+            if( decimals_needed > 0 ){
+                returnstring = String(format:"%." + String(decimals_needed+1) + "f",result.1) + result.0
+            }
+        }
         return returnstring
     
     }

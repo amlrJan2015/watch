@@ -183,7 +183,8 @@ class ChartsInterfaceController: WKInterfaceController {
                         if( y_delta && ytickmarkarr[i] > 0){
                             plus_prefix = "+"
                         }
-                        let yLabel = plus_prefix +  TableUtil.getCompactNumberAndSiriPrefix( ytickmarkarr[i])
+                        let sig_decimal =  Int(ceil(log10( ystepsize))) + 1 // +1 wegen dem i % 10 -- nur jedes zehnte Mal
+                        let yLabel = plus_prefix +  TableUtil.getCompactNumberAndSiriPrefix( ytickmarkarr[i], forceDecimals:  sig_decimal)
                         drawYLabelText(context: context, text: yLabel, leftX: 6, centreY: CGFloat(CFloat(ytickmarkpixelposarr[i])))
                     }
                     //                    context!.setStrokeColor(UIColor.white.cgColor)
