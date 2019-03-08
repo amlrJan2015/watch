@@ -10,6 +10,8 @@ import UIKit
 
 class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
+    public static let MAX_VALUES_COUNT = 30
+    
     var data:[Measurement] = []
     var connectivityHandler: ConnectivityHandler!
     var appModel: AppModel?
@@ -42,8 +44,9 @@ class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, 
     
     @IBAction func onSendToWatchClick(_ sender: UIButton) {
         var dictArr = [[String:Any]]()
+        var index = 0
         for measurement in data {
-            
+            if index < SelectedMeasurementViewController.MAX_VALUES_COUNT {
                 dictArr.append([
                     "watchTitle":measurement.watchTitle,
                     "isOnline": measurement.online,
@@ -61,7 +64,8 @@ class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, 
                     "measurementTypeName": measurement.valueType?.typeName ?? "",
                     MeasurementPropertyKey.favorite: measurement.favorite
                     ])
-            
+            }
+            index = index + 1
         }
         
         connectivityHandler.session.sendMessage(
@@ -82,6 +86,9 @@ class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, 
         let measurement = data[indexPath.row]
         cell.textLabel?.text = "\(measurement.watchTitle) \(measurement.valueType?.typeName ?? "") \(measurement.valueType?.valueName ?? "") \(measurement.favorite ? "⭐️" : "")"
         cell.detailTextLabel?.text = "\(measurement.device?.name ?? "") [\(measurement.device?.desc ?? "")]"
+        if (indexPath.row >= SelectedMeasurementViewController.MAX_VALUES_COUNT) {
+            cell.backgroundColor = UIColor.red
+        }
         
         return cell
     }
@@ -97,15 +104,7 @@ class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, 
         return [deleteAction]
     }
     
-    //    func tableView(_ tableView: UITableView, editingStyleForRowAt indexPath: IndexPath) -> UITableViewCell.EditingStyle {
-    //        return UITableViewCell.EditingStyle.none
-    //    }
-    
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-//        let temp = data[destinationIndexPath.row]
-//        data[destinationIndexPath.row] = data[sourceIndexPath.row]
-//        data[sourceIndexPath.row] = temp
-        
         let itemToMove = data[sourceIndexPath.row]
         data.remove(at: sourceIndexPath.row)
         data.insert(itemToMove, at: destinationIndexPath.row)
