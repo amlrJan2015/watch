@@ -24,6 +24,10 @@ class ChartsInterfaceController: WKInterfaceController {
     private var namedTime = "NAMED_Today"
     private var namedTimeLbl = "Today"
     
+    private var namedTimeOld = "NAMED_Yesterday"
+    private var namedTimeOldLbl = "Yesterday"
+    var arrOldData = [(1.0,2.0)]
+    private var OldDataTime = 0.0
     
     let defaults = UserDefaults.standard
     
@@ -122,7 +126,7 @@ class ChartsInterfaceController: WKInterfaceController {
             }
         }
         
-        
+        //TODO: Ableitung bei Yesterday-Daten
         
         let tageslaenge = Double(24*60*60)
         let timestamp_min = arrData.map({ $0.0}).min()!
@@ -136,9 +140,13 @@ class ChartsInterfaceController: WKInterfaceController {
         let xmin = day_start - xminoffset
         //let xmax = max(Double(tageswertanzahl), arrData.map({ $0.0}).max()!)+xmaxoffset
         let xmax = max( xmin + tageslaenge, arrData.map({ $0.0}).max()!+xmaxoffset)
-        let minValue: Double? = arrData.map({ $0.1}).min()
+        var minValue: Double? = arrData.map({ $0.1}).min()
+        var maxValue: Double? = arrData.map({ $0.1}).max()
+        if( arrOldData.count > 5){
+            minValue = min( minValue!, arrOldData.map({ $0.1}).min()!)
+            maxValue = max( maxValue!, arrOldData.map({ $0.1}).max()!)
+        }
         let ymin = minValue!-yminoffset
-        let maxValue: Double? = arrData.map({ $0.1}).max()
         var ymax = maxValue!+ymaxoffset
         if( ymax == ymin){
             ymax = ymax + 1 // ymax * 1.1 haette Vorteil fuer sehr grosse ymax, aber dann sowas wie ymax = 0, ymax = -5
@@ -200,6 +208,28 @@ class ChartsInterfaceController: WKInterfaceController {
                 
             }
         }
+        
+        //Draw Yesterday-Data
+        if(  arrOldData.count > 5){
+            context!.beginPath()
+            
+            // Setup for the path appearance
+            context!.setStrokeColor(UIColor.gray.cgColor)
+            context!.setLineWidth(1.0)
+            
+            let xDiffToOld = 24*60*60*1.0
+            
+            let PixelPositionOldArr = arrOldData.map { ( ( ($0.0 + xDiffToOld) -  xmin)/(xmax-xmin) * graphicwidth + coordoffsetleft , (ymax - $0.1 )/(ymax-ymin) * graphicheight + coordoffsettop)}
+            
+            context?.move( to: CGPoint( x: PixelPositionOldArr[0].0, y: PixelPositionOldArr[0].1))
+            for i in  1 ... (PixelPositionOldArr.endIndex-1){
+                context?.addLine( to: CGPoint( x: PixelPositionOldArr[i].0, y: PixelPositionOldArr[i].1))
+                
+            }
+            context!.strokePath()
+        }
+
+
         context!.beginPath()
         
         // Setup for the path appearance
@@ -318,6 +348,7 @@ class ChartsInterfaceController: WKInterfaceController {
     
     
     fileprivate func fetchAndShowData() {
+        fetchAndCacheOldData()
         DispatchQueue.main.async {
             let request = TableUtil.createRequestForChart(self.dict, self.serverUrl, namedTime: self.namedTime)
             let session = URLSession.shared
@@ -358,10 +389,59 @@ class ChartsInterfaceController: WKInterfaceController {
                 } else {
                     print("Error: \(error)")
                 }
-            }            
+            }
             fetchTask.resume()
         }
         
+    }
+    
+    fileprivate func fetchAndCacheOldData() {
+        //TODO: Caching funktioniert noch nicht, da in OldDataTime nicht nur das Datum, sondern auch die Uhrzeit steht
+        if( ( self.OldDataTime  + 24*60*60 <= NSDate().timeIntervalSince1970) || (self.arrOldData.count < 5)){
+            DispatchQueue.main.async {
+                let request = TableUtil.createRequestForChart(self.dict, self.serverUrl, namedTime: self.namedTimeOld)
+                let session = URLSession.shared
+                _ = self.dict["deviceId"] as! Int
+                _ = self.dict["measurementValue"] as! String
+                _ = self.dict["measurementType"] as! String
+                
+                let fetchTask = session.dataTask(with: request) { data, response, error -> Void in
+                    
+                    if error == nil {
+                        do {
+                            OnlineMeasurementBig.updateStateCounter = 0
+                            if let measurementDataJson = data {
+                                //                    print(String(data: measurementData,encoding: String.Encoding.utf8) as! String)
+                                let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
+                                //print(json)
+                                
+                                self.arrOldData = []
+                                
+                                let valuesArrOpt = json["values"] as? [[String: Any]]
+                                if let valuesArr = valuesArrOpt {
+                                    for value in valuesArr {
+                                        let avgOpt = value["avg"] as? Double
+                                        let startTimeOpt = value["startTime"] as? UInt64
+                                        if let avg = avgOpt, let startTime = startTimeOpt {
+                                            self.arrOldData.append((Double(startTime / 1_000_000_000), avg))
+                                        }
+                                    }
+                                    self.OldDataTime = NSDate().timeIntervalSince1970
+                                    //self.showChart()
+                                }
+                            } else {
+                                print("data is invalid")
+                            }
+                        } catch {
+                            print("error")
+                        }
+                    } else {
+                        print("Error: \(error)")
+                    }
+                }
+                fetchTask.resume()
+            }
+        }
     }
     
     override func willDisappear() {
