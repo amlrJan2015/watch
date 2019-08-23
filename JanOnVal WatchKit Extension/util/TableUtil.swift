@@ -314,13 +314,13 @@ class TableUtil {
         return request
     }
     
-    public static func createRequestForChart(_ measurementData:[String: Any], _ serverUrl: String?, namedTime: String) -> URLRequest {
+    public static func createRequestForChart(_ measurementData:[String: Any], _ serverUrl: String?, namedTimeStart: String, namedTimeEnd: String) -> URLRequest {
         let deviceId = measurementData["deviceId"] as! Int
         let measurementValue = measurementData["measurementValue"] as! String
         let measurementType = measurementData["measurementType"] as! String
         let timebase = measurementData["timebase"] as! String
         let online = measurementData["isOnline"] as! Bool
-        let requestData = "devices/\(deviceId)/hist/values/\(measurementValue)/\(measurementType)/\(timebase)?start=\(namedTime)&end=\(namedTime)&online=\(online)"
+        let requestData = "devices/\(deviceId)/hist/values/\(measurementValue)/\(measurementType)/\(timebase)?start=\(namedTimeStart)&end=\(namedTimeEnd)&online=\(online)"
         let requestStr = "\(serverUrl!)\(requestData)"
         print(requestStr)
         var request = URLRequest(url: URL(string:requestStr)!)

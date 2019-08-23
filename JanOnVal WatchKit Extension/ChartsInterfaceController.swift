@@ -348,9 +348,9 @@ class ChartsInterfaceController: WKInterfaceController {
     
     
     fileprivate func fetchAndShowData() {
-        fetchAndCacheOldData()
+//        fetchAndCacheOldData()
         DispatchQueue.main.async {
-            let request = TableUtil.createRequestForChart(self.dict, self.serverUrl, namedTime: self.namedTime)
+            let request = TableUtil.createRequestForChart(self.dict, self.serverUrl, namedTimeStart: "NAMED_Yesterday", namedTimeEnd: "NAMED_Today")
             let session = URLSession.shared
             _ = self.dict["deviceId"] as! Int
             _ = self.dict["measurementValue"] as! String
@@ -368,17 +368,33 @@ class ChartsInterfaceController: WKInterfaceController {
                             
                             self.arrData = []
                             
+                            let dateFormatter = DateFormatter()
+                            dateFormatter.timeZone = TimeZone.current
+                            dateFormatter.locale = NSLocale.current
+                            dateFormatter.dateFormat = "yyyy-MM-dd"
+                            let todayDateString = dateFormatter.string(from: Date())
                             let valuesArrOpt = json["values"] as? [[String: Any]]
                             if let valuesArr = valuesArrOpt {
                                 for value in valuesArr {
                                     let avgOpt = value["avg"] as? Double
                                     let startTimeOpt = value["startTime"] as? UInt64
                                     if let avg = avgOpt, let startTime = startTimeOpt {
-                                        self.arrData.append((Double(startTime / 1_000_000_000), avg))
+                                        let startTimeInS = Double(startTime / 1_000_000_000)
+                                        let valueDateString = dateFormatter.string( from: Date(timeIntervalSince1970: startTimeInS))
+                                        if( valueDateString==todayDateString){
+                                            //self.arrData.append((startTimeInS, avg))
+                                        }else{
+                                            //self.arrOldData.append((startTimeInS, avg))
+                                        }
                                     }
                                 }
                                 
-                                self.showChart()
+                                if( (self.arrData.count > 5) || (self.arrOldData.count > 5) ){
+                                    self.showChart()
+                                }else{
+                                    //TODO: Message no data
+                                    print("No enough data!")
+                                }
                             }
                         } else {
                             print("data is invalid")
@@ -399,7 +415,7 @@ class ChartsInterfaceController: WKInterfaceController {
         //TODO: Caching funktioniert noch nicht, da in OldDataTime nicht nur das Datum, sondern auch die Uhrzeit steht
         if( ( self.OldDataTime  + 24*60*60 <= NSDate().timeIntervalSince1970) || (self.arrOldData.count < 5)){
             DispatchQueue.main.async {
-                let request = TableUtil.createRequestForChart(self.dict, self.serverUrl, namedTime: self.namedTimeOld)
+                let request = TableUtil.createRequestForChart(self.dict, self.serverUrl, namedTimeStart: "NAMED_Yesterday", namedTimeEnd: "NAMED_Yesterday")
                 let session = URLSession.shared
                 _ = self.dict["deviceId"] as! Int
                 _ = self.dict["measurementValue"] as! String
