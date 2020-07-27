@@ -6,7 +6,7 @@
 //  Copyright © 2018 Andreas Mueller. All rights reserved.
 //
 
-import WatchKit
+import UIKit
 
 class AppTabBarController: UITabBarController {
     var appModel = AppModel()

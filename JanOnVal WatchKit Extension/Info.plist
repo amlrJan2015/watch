@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.janitza.ios.gridvis.watch.wk.wke</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -17,15 +17,17 @@
 	<key>CFBundlePackageType</key>
 	<string>XPC!</string>
 	<key>CFBundleShortVersionString</key>
-	<string>8.10</string>
+	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
-	<string>40</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>CLKComplicationPrincipalClass</key>
 	<string>$(PRODUCT_MODULE_NAME).ComplicationController</string>
 	<key>CLKComplicationSupportedFamilies</key>
 	<array>
 		<string>CLKComplicationFamilyExtraLarge</string>
 		<string>CLKComplicationFamilyGraphicCircular</string>
+		<string>CLKComplicationFamilyGraphicRectangular</string>
+		<string>CLKComplicationFamilyModularLarge</string>
 		<string>CLKComplicationFamilyModularSmall</string>
 		<string>CLKComplicationFamilyUtilitarianSmall</string>
 	</array>

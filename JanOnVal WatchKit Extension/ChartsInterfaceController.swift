@@ -42,11 +42,12 @@ class ChartsInterfaceController: WKInterfaceController {
         }
     }
     
+    
     override func willActivate() {
         super.willActivate()
-        
-        fetchAndShowData()
+
         resetView()
+        fetchAndShowData()
     }
     
     fileprivate func showChart() {
@@ -142,7 +143,7 @@ class ChartsInterfaceController: WKInterfaceController {
         let xmax = max( xmin + tageslaenge, arrData.map({ $0.0}).max()!+xmaxoffset)
         var minValue: Double? = arrData.map({ $0.1}).min()
         var maxValue: Double? = arrData.map({ $0.1}).max()
-        if( arrOldData.count > 5){
+        if( show_YesterdayAndTodayTogether() && arrOldData.count > 5){
             minValue = min( minValue!, arrOldData.map({ $0.1}).min()!)
             maxValue = max( maxValue!, arrOldData.map({ $0.1}).max()!)
         }
@@ -210,7 +211,7 @@ class ChartsInterfaceController: WKInterfaceController {
         }
         
         //Draw Yesterday-Data
-        if(  arrOldData.count > 5){
+        if(  show_YesterdayAndTodayTogether() && arrOldData.count > 5){
             context!.beginPath()
             
             // Setup for the path appearance
@@ -350,13 +351,13 @@ class ChartsInterfaceController: WKInterfaceController {
     fileprivate func fetchAndShowData() {
 //        fetchAndCacheOldData()
         DispatchQueue.main.async {
-            let request = TableUtil.createRequestForChart(self.dict, self.serverUrl, namedTimeStart: "NAMED_Yesterday", namedTimeEnd: "NAMED_Today")
+            let request = TableUtil.createRequestForChart(self.dict, self.serverUrl, namedTimeStart: self.show_YesterdayAndTodayTogether() ? "NAMED_Yesterday" : self.namedTime, namedTimeEnd: self.namedTime)
             let session = URLSession.shared
             _ = self.dict["deviceId"] as! Int
             _ = self.dict["measurementValue"] as! String
             _ = self.dict["measurementType"] as! String
             
-            let fetchTask = session.dataTask(with: request) { data, response, error -> Void in
+            self.fetchTask = session.dataTask(with: request) { data, response, error -> Void in
                 
                 if error == nil {
                     do {
@@ -364,9 +365,10 @@ class ChartsInterfaceController: WKInterfaceController {
                         if let measurementDataJson = data {
                             //                    print(String(data: measurementData,encoding: String.Encoding.utf8) as! String)
                             let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
-                            //print(json)
+//                            print(json)
                             
                             self.arrData = []
+                            self.arrOldData = []
                             
                             let dateFormatter = DateFormatter()
                             dateFormatter.timeZone = TimeZone.current
@@ -381,16 +383,21 @@ class ChartsInterfaceController: WKInterfaceController {
                                     if let avg = avgOpt, let startTime = startTimeOpt {
                                         let startTimeInS = Double(startTime / 1_000_000_000)
                                         let valueDateString = dateFormatter.string( from: Date(timeIntervalSince1970: startTimeInS))
-                                        if( valueDateString==todayDateString){
-                                            //self.arrData.append((startTimeInS, avg))
-                                        }else{
-                                            //self.arrOldData.append((startTimeInS, avg))
+//                                        print(valueDateString)
+                                        if( !self.show_YesterdayAndTodayTogether()){
+                                            self.arrData.append((startTimeInS, avg))
+                                        }else if (self.show_YesterdayAndTodayTogether() && valueDateString==todayDateString){
+                                            self.arrData.append((startTimeInS, avg))
+                                        } else {
+                                            self.arrOldData.append((startTimeInS, avg))
                                         }
                                     }
                                 }
                                 
-                                if( (self.arrData.count > 5) || (self.arrOldData.count > 5) ){
-                                    self.showChart()
+//                                print("\(self.arrData.count) \(self.arrOldData.count)")
+                                
+                                if( (self.arrData.count > 5) || (self.arrOldData.count > 5 && self.show_YesterdayAndTodayTogether()) ){
+                                        self.showChart()
                                 }else{
                                     //TODO: Message no data
                                     print("No enough data!")
@@ -406,62 +413,13 @@ class ChartsInterfaceController: WKInterfaceController {
                     print("Error: \(error)")
                 }
             }
-            fetchTask.resume()
+            self.fetchTask!.resume()
         }
         
     }
     
-    fileprivate func fetchAndCacheOldData() {
-        //TODO: Caching funktioniert noch nicht, da in OldDataTime nicht nur das Datum, sondern auch die Uhrzeit steht
-        if( ( self.OldDataTime  + 24*60*60 <= NSDate().timeIntervalSince1970) || (self.arrOldData.count < 5)){
-            DispatchQueue.main.async {
-                let request = TableUtil.createRequestForChart(self.dict, self.serverUrl, namedTimeStart: "NAMED_Yesterday", namedTimeEnd: "NAMED_Yesterday")
-                let session = URLSession.shared
-                _ = self.dict["deviceId"] as! Int
-                _ = self.dict["measurementValue"] as! String
-                _ = self.dict["measurementType"] as! String
-                
-                let fetchTask = session.dataTask(with: request) { data, response, error -> Void in
-                    
-                    if error == nil {
-                        do {
-                            OnlineMeasurementBig.updateStateCounter = 0
-                            if let measurementDataJson = data {
-                                //                    print(String(data: measurementData,encoding: String.Encoding.utf8) as! String)
-                                let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
-                                //print(json)
-                                
-                                self.arrOldData = []
-                                
-                                let valuesArrOpt = json["values"] as? [[String: Any]]
-                                if let valuesArr = valuesArrOpt {
-                                    for value in valuesArr {
-                                        let avgOpt = value["avg"] as? Double
-                                        let startTimeOpt = value["startTime"] as? UInt64
-                                        if let avg = avgOpt, let startTime = startTimeOpt {
-                                            self.arrOldData.append((Double(startTime / 1_000_000_000), avg))
-                                        }
-                                    }
-                                    self.OldDataTime = NSDate().timeIntervalSince1970
-                                    //self.showChart()
-                                }
-                            } else {
-                                print("data is invalid")
-                            }
-                        } catch {
-                            print("error")
-                        }
-                    } else {
-                        print("Error: \(error)")
-                    }
-                }
-                fetchTask.resume()
-            }
-        }
-    }
-    
     override func willDisappear() {
-        fetchTask?.cancel()
+        fetchTask!.cancel()
         print("chart's fetch task cancled!")
     }
     
@@ -477,27 +435,37 @@ class ChartsInterfaceController: WKInterfaceController {
         return defaults.bool(forKey: OptionsInterfaceController.SHOW_DERIVATIVE_CHART)
     }
     
+    private func show_YesterdayAndTodayTogether() -> Bool {
+        return defaults.bool(forKey: OptionsInterfaceController.SHOW_YESTERDAY_AND_TODAY_TOGETHER) && namedTime != "NAMED_Yesterday"
+    }
+    
     @IBAction func onTodayMenuItemClick() {
+        fetchTask!.cancel()
         namedTime = "NAMED_Today"
         namedTimeLbl = "Today"
-        fetchAndShowData()
         resetView()
+        fetchAndShowData()
+        
     }
     
     fileprivate func resetView() {
         image.setImage(nil)
-        minLbl.setText("  \(namedTimeLbl)")
+        minLbl.setText("  \((show_YesterdayAndTodayTogether() && namedTime != "NAMED_Yesterday") ? "Yesterday+Today" : namedTimeLbl)")
         maxLbl.setText("⏳ ")
     }
     
     @IBAction func onYesterdayMenuItemClick() {
+        fetchTask!.cancel()
         namedTime = "NAMED_Yesterday"
         namedTimeLbl = "Yesterday"
-        fetchAndShowData()
+        print("onYesterdayMenuItemClick:\(namedTime)")
         resetView()
+        fetchAndShowData()
+        
     }
     
     @IBAction func onOptionsMenuItemClick() {
+        fetchTask!.cancel()
         pushController(withName: "OptionsView", context: nil)
     }
 }

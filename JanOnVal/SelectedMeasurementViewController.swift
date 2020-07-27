@@ -18,6 +18,7 @@ class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, 
     
     @IBOutlet weak var tableView: UITableView!
     
+    @IBOutlet weak var sendButton: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,6 +37,7 @@ class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, 
             do {
                 data = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(unarchivedObject) as! [Measurement]
                 tableView.reloadData()
+                sendButton.setTitle("Send To Watch \(UserDefaults.standard.string(forKey: "lastReceiveRemoteNotificationData") ?? "")", for: .normal)
             } catch {
                 fatalError("loadWidgetDataArray - Can't encode data: \(error)")
             }
@@ -68,15 +70,39 @@ class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, 
             index = index + 1
         }
         
-        connectivityHandler.session.sendMessage(
-            [
+//        connectivityHandler.session.sendMessage(
+//            [
+//                "serverUrl": appModel!.serverUrl,
+//                "measurementDataDictArr": dictArr,
+//                "refreshTime": appModel!.refreshTime
+//        ], replyHandler: nil) { (err) in
+//            NSLog("%@", "Error sending data to watch: \(err)")
+//        }
+        if connectivityHandler.session.activationState == .activated {
+                connectivityHandler.session.transferUserInfo([
                 "serverUrl": appModel!.serverUrl,
                 "measurementDataDictArr": dictArr,
-                "refreshTime": appModel!.refreshTime
-        ], replyHandler: nil) { (err) in
-            NSLog("%@", "Error sending data to watch: \(err)")
+                "refreshTime": appModel!.refreshTime])
+        } else {
+            showAlert(alertTitle: "Error config transfer", alertMessage: "Start Watch App")
+        }
+        
+//                }
+    }
+    
+    fileprivate func showAlert(alertTitle title: String, alertMessage message: String) {
+        let alert = UIAlertController(
+            title: title,
+            message: message,
+            preferredStyle: .alert
+        )
+        //TODO: go back to server config in handler
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        DispatchQueue.main.async {
+            self.present(alert, animated: true)
         }
     }
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return data.count
     }

@@ -26,6 +26,10 @@ class ConnectivityHandler : NSObject, WCSessionDelegate {
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         NSLog("%@", "activationDidCompleteWith activationState:\(activationState.rawValue) error:\(error)")
+//        if session.activationState == .activated && session.isComplicationEnabled {
+//            session.transferCurrentComplicationUserInfo(["VALUE": "123"])
+//            print(session.remainingComplicationUserInfoTransfers)
+//        }
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {

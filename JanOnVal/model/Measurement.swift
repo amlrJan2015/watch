@@ -1,5 +1,5 @@
 //
-//  Measurement.swift
+//  JanMeasurement.swift
 //  JanOnVal
 //
 //  Created by Andreas Mueller on 28.01.18.

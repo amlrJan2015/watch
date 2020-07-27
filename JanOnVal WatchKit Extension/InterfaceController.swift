@@ -29,6 +29,10 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     
     var session: WCSession?
     
+    func didReceiveRemoteNotification(_ userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (WKBackgroundFetchResult) -> Void) {
+        print("REMOTE NOTIFICATION")
+    }
+    
     override func awake(withContext context: Any?) {
         if defaults.object(forKey: OptionsInterfaceController.SHOW_6_12_18) == nil {
             defaults.set(OptionsInterfaceController.SHOW_6_12_18_defaultValue, forKey: OptionsInterfaceController.SHOW_6_12_18)
@@ -39,6 +43,28 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         if defaults.object(forKey: OptionsInterfaceController.SHOW_DERIVATIVE_CHART) == nil {
             defaults.set(OptionsInterfaceController.SHOW_DERIVATIVE_CHART_defaultValue, forKey: OptionsInterfaceController.SHOW_DERIVATIVE_CHART)
         }
+        if defaults.object(forKey: OptionsInterfaceController.SHOW_YESTERDAY_AND_TODAY_TOGETHER) == nil {
+            defaults.set(OptionsInterfaceController.SHOW_YESTERDAY_AND_TODAY_TOGETHER_defaultValue, forKey: OptionsInterfaceController.SHOW_YESTERDAY_AND_TODAY_TOGETHER)
+        }
+        WKExtension.shared().registerForRemoteNotifications()
+        
+//        let devicePath = "Hub/83fd905cab465569049238e7d0b66c29/Devices/7201:3322"
+//        var request = URLRequest(url: URL(string:"https://firestore.googleapis.com/v1/projects/gridvis-cloud-bd455/databases/(default)/documents/\(devicePath)")!)
+//        request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData
+//        
+//        request.httpMethod = "GET"
+//        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        
+        
+        
+    }
+    
+    func didRegisterForRemoteNotifications(withDeviceToken deviceToken: Data) {
+        print("REGISTER OK")
+    }
+    func didFailToRegisterForRemoteNotificationsWithError(_ error: Error) {
+        print("REGISTER FAILED!!!!")
     }
     
     override func table(_ table: WKInterfaceTable, didSelectRowAt rowIndex: Int) {
@@ -59,7 +85,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         
         measurementDataDictArr = (message["measurementDataDictArr"] as? [[String:Any]])!
         
-//        table.setNumberOfRows(measurementDataDictArr!.count, withRowType: "measurementRowType")
+        //        table.setNumberOfRows(measurementDataDictArr!.count, withRowType: "measurementRowType")
         
         serverUrl = message["serverUrl"] as? String
         refreshTime = message["refreshTime"] as? Int ?? 5
@@ -70,6 +96,39 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         
         table.setNumberOfRows(measurementDataDictArr!.count, withRowType: "measurementRowType")
         getTemp()
+    }
+    
+    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
+        DispatchQueue.main.async {
+            if let value = userInfo["VALUE"] as? [String:String] {
+                UserDefaults.standard.set(value, forKey: "VALUE")
+                let server = CLKComplicationServer.sharedInstance()
+                guard let complications = server.activeComplications else {return}
+                for complication in complications {
+                    server.reloadTimeline(for: complication)
+                }
+            }
+        }
+        
+        
+        if let measurementDataDictArrGranted = userInfo["measurementDataDictArr"] as? [[String:Any]] {
+            
+            measurementDataDictArr = measurementDataDictArrGranted
+        
+            //        table.setNumberOfRows(measurementDataDictArr!.count, withRowType: "measurementRowType")
+            
+            serverUrl = userInfo["serverUrl"] as? String
+            refreshTime = userInfo["refreshTime"] as? Int ?? 5
+            
+            defaults.set(serverUrl, forKey: InterfaceController.SERVER_CONFIG)
+            defaults.set(measurementDataDictArr, forKey: InterfaceController.MEASUREMENT_DATA)
+            defaults.set(refreshTime, forKey: InterfaceController.REFRESH_TIME)
+            
+            table.setNumberOfRows(measurementDataDictArr!.count, withRowType: "measurementRowType")
+            getTemp()
+        }
+        
+        
     }
     
     override func willActivate() {

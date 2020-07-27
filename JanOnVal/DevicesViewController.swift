@@ -94,7 +94,9 @@ class DevicesViewController: UITableViewController {
         )
         //TODO: go back to server config in handler
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-        self.present(alert, animated: true)
+        DispatchQueue.main.async {
+            self.present(alert, animated: true)
+        }
     }
     
     fileprivate func createFetchTask() -> URLSessionDataTask {

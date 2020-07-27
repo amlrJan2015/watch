@@ -21,6 +21,9 @@ class OptionsInterfaceController: WKInterfaceController {
     public static let SHOW_DERIVATIVE_CHART = "SHOW_DERIVATIVE_CHART"
     public static let SHOW_DERIVATIVE_CHART_defaultValue = false
     
+    public static let SHOW_YESTERDAY_AND_TODAY_TOGETHER = "SHOW_YESTERDAY_AND_TODAY_TOGETHER"
+    public static let SHOW_YESTERDAY_AND_TODAY_TOGETHER_defaultValue = false
+    
     let defaults = UserDefaults.standard
     
     @IBOutlet weak var show_6_12_18: WKInterfaceSwitch!
@@ -29,11 +32,14 @@ class OptionsInterfaceController: WKInterfaceController {
     
     @IBOutlet weak var showDerivativeChart: WKInterfaceSwitch!
     
+    @IBOutlet weak var showYesterdayAndTodayTogether: WKInterfaceSwitch!
+    
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
         show_6_12_18.setOn(defaults.bool(forKey: OptionsInterfaceController.SHOW_6_12_18))
         showValuesOnYAxis.setOn(defaults.bool(forKey: OptionsInterfaceController.SHOW_Values_On_Y_Axis))
         showDerivativeChart.setOn(defaults.bool(forKey: OptionsInterfaceController.SHOW_DERIVATIVE_CHART))
+        showYesterdayAndTodayTogether.setOn(defaults.bool(forKey: OptionsInterfaceController.SHOW_YESTERDAY_AND_TODAY_TOGETHER))
     }
     
     @IBAction func onShow_6_12_18Change(_ value: Bool) {
@@ -48,4 +54,7 @@ class OptionsInterfaceController: WKInterfaceController {
         defaults.set(value, forKey: OptionsInterfaceController.SHOW_DERIVATIVE_CHART)
     }
     
+    @IBAction func onShowYesterdayAndTodayTogetherChange(_ value: Bool) {
+        defaults.set(value, forKey: OptionsInterfaceController.SHOW_YESTERDAY_AND_TODAY_TOGETHER)
+    }
 }
