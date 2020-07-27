@@ -1,18 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="14460.31" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
-    <device id="watch44" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="15701" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch44"/>
     <dependencies>
-        <deployment identifier="watchOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="14460.16"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="15501"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
         <scene sceneID="aou-V4-d1y">
             <objects>
-                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="JanOnVal_WatchKit_App" customModuleProvider="target">
+                <controller id="AgC-eL-Hgc" customClass="InterfaceController" customModule="GridVis_Companion" customModuleProvider="target">
                     <items>
                         <label width="136" height="26" alignment="center" verticalAlignment="bottom" text="No config" textAlignment="center" id="jTI-wC-eWP"/>
                         <table alignment="center" id="UXK-c9-bYL">
@@ -58,7 +55,7 @@
         <!--HistDetail-->
         <scene sceneID="jMW-31-Gmb">
             <objects>
-                <controller identifier="HistDetail" fullScreen="YES" id="zXX-6X-8Qf" customClass="HistDetailInterfaceController" customModule="JanOnVal_WatchKit_Extension">
+                <controller identifier="HistDetail" id="zXX-6X-8Qf" customClass="HistDetailInterfaceController" customModule="JanOnVal_WatchKit_Extension">
                     <items>
                         <label alignment="center" text="Übersicht" textAlignment="center" id="shU-52-gZv">
                             <fontDescription key="font" type="system" pointSize="23"/>
@@ -234,10 +231,16 @@
                                 <action selector="onShowDerivativeChartChange:" destination="7fY-RV-Ugb" id="U6J-hn-xUH"/>
                             </connections>
                         </switch>
+                        <switch width="1" alignment="left" title="Yesterday + today" numberOfLines="2" id="xI5-Bd-sys">
+                            <connections>
+                                <action selector="onShowYesterdayAndTodayTogetherChange:" destination="7fY-RV-Ugb" id="9TI-oQ-gMc"/>
+                            </connections>
+                        </switch>
                     </items>
                     <connections>
                         <outlet property="showDerivativeChart" destination="OG8-yZ-5cj" id="0mk-wv-Tgf"/>
                         <outlet property="showValuesOnYAxis" destination="cL6-1H-tgr" id="qUv-pb-q3f"/>
+                        <outlet property="showYesterdayAndTodayTogether" destination="xI5-Bd-sys" id="6nf-hD-Bn6"/>
                         <outlet property="show_6_12_18" destination="d0o-im-rn5" id="sts-SI-7KZ"/>
                     </connections>
                 </controller>
@@ -423,7 +426,7 @@
         <!--MeasurementInfo-->
         <scene sceneID="35U-Ds-Fyd">
             <objects>
-                <controller identifier="MeasurementInfo" fullScreen="YES" id="Qe9-9G-DdQ" customClass="MeasurementInfoIC" customModule="JanOnVal_WatchKit_Extension">
+                <controller identifier="MeasurementInfo" id="Qe9-9G-DdQ" customClass="MeasurementInfoIC" customModule="JanOnVal_WatchKit_Extension">
                     <items>
                         <separator alignment="left" id="zwO-Nn-VcF">
                             <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
