@@ -170,7 +170,7 @@ class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, 
             }
             
             let measurement = data[indexPath.row]
-            measurement.index = data.index(of: measurement)
+            measurement.index = data.firstIndex(of: measurement)
             measurement.selected = true
             
             detailVC.measurement = measurement

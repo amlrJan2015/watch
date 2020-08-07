@@ -48,14 +48,44 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         }
         WKExtension.shared().registerForRemoteNotifications()
         
-//        let devicePath = "Hub/83fd905cab465569049238e7d0b66c29/Devices/7201:3322"
-//        var request = URLRequest(url: URL(string:"https://firestore.googleapis.com/v1/projects/gridvis-cloud-bd455/databases/(default)/documents/\(devicePath)")!)
-//        request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData
-//        
-//        request.httpMethod = "GET"
-//        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        print("try get data from forestore")
         
+        let devicePath = "Hub/83fd905cab465569049238e7d0b66c29/Devices/7201:3322"
+        var request = URLRequest(url: URL(string:"https://firestore.googleapis.com/v1/projects/gridvis-cloud-bd455/databases/(default)/documents/\(devicePath)")!)
+        request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.setValue("Bearer eyJhbGciOiJSUzI1NiIsImtpZCI6ImFmMDg2ZmE4Y2Q5NDFlMDY3ZTc3NzNkYmIwNDcxMjAxMTBlMDA1NGEiLCJ0eXAiOiJKV1QifQ.eyJuYW1lIjoiQW5kcmVhcyBNw7xsbGVyIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hLS9BQXVFN21CRVlTSTBpYkY4Vk5aQnJaaDlhUWZSeTFSRDZGc2hTOXU4RDVqenh3IiwiaXNzIjoiaHR0cHM6Ly9zZWN1cmV0b2tlbi5nb29nbGUuY29tL2dyaWR2aXMtY2xvdWQtYmQ0NTUiLCJhdWQiOiJncmlkdmlzLWNsb3VkLWJkNDU1IiwiYXV0aF90aW1lIjoxNTk2NjE5MjQ5LCJ1c2VyX2lkIjoibFZnRXFPYTdXVll3MHY0ZHN4OHBkNXVvUVhxMSIsInN1YiI6ImxWZ0VxT2E3V1ZZdzB2NGRzeDhwZDV1b1FYcTEiLCJpYXQiOjE1OTY2MTkyNDksImV4cCI6MTU5NjYyMjg0OSwiZW1haWwiOiJhbmRyZWFzLm11ZWxsZXJAamFuaXR6YS5kZSIsImVtYWlsX3ZlcmlmaWVkIjp0cnVlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7Imdvb2dsZS5jb20iOlsiMTE4MjcyMjY2Mjg1NDY1ODUyOTczIl0sImVtYWlsIjpbImFuZHJlYXMubXVlbGxlckBqYW5pdHphLmRlIl19LCJzaWduX2luX3Byb3ZpZGVyIjoiZ29vZ2xlLmNvbSJ9fQ.nYSVXUmyoiM-snff_HOAxpwz5mmn4pOgRG9DHAp1VD-f4dgEp34wI1OO7x8zEYBr2kFHiI6404kBi9LdKCQOBCCou6KPv3NPgV6z4oiOS93O348vQ9KiCQhuDeyyk5MuvE6Y76IQGBqXUSm6R9jORT_qEy0b5gM9dhM_68Uep8D9Ju15P0B6vsejx0FzKjWAPTOTJujfTaYn7dKIMfvuw1ENd3YArwgcIEngY6IGKxHErvYxjSzbI6F9Pg0BwPakobaoqy6iTuUWjNyoKRUkdsOLqubSS5Rmm2Tkb_lVJ9iayRS0bf6cE4Wg3t1vCAWgEGK4MVIEuthsdYPUrQpK_w", forHTTPHeaderField: "Authorization")
         
+        let session = URLSession.shared
+        
+        let task = session.dataTask(with: request) { data, response, error -> Void in
+            print("task is ready")
+            do {
+                if let measurementDataJson = data {
+                    //                    print(String(data: measurementData,encoding: String.Encoding.utf8) as! String)
+                    let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
+                    let fields = json["fields"] as! [String: Any]
+                    let energy = fields["energy"] as! [String: Any]
+                    let energyMapValues = energy["mapValue"] as! [String: Any]
+                    let energyMapValuesFields = energyMapValues["fields"] as! [String: Any]
+                    let eNow = energyMapValuesFields["2020-07-31"] as! [String: Any]
+                    var eNowValue = "error"
+                    if let intValue = eNow["integerValue"] {
+                        eNowValue = intValue as! String
+                    }
+                    if let doubleValue = eNow["doubleValue"] {
+                        eNowValue = doubleValue as! String
+                    }
+                    print(eNowValue)
+                }
+            } catch {
+                print("error!!!")
+            }
+            
+        }
+        
+        task.resume()
         
         
     }
@@ -78,7 +108,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        NSLog("%@", "state: \(activationState.rawValue) error:\(error)")
+        NSLog("%@", "state: \(activationState.rawValue) error:\(String(describing: error))")
     }
     
     func session(_ session: WCSession, didReceiveMessage message: [String : Any]) {

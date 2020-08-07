@@ -83,7 +83,7 @@ class DevicesViewController: UITableViewController {
         let cell = tableView.cellForRow(at: indexPath)
         let device = deviceArr[indexPath.row]
         cell?.accessoryType = .none
-        appModel!.selectedDeviceArr.remove(at:appModel!.selectedDeviceArr.index(of: device)!)
+        appModel!.selectedDeviceArr.remove(at:appModel!.selectedDeviceArr.firstIndex(of: device)!)
     }
     
     fileprivate func showAlert(alertTitle title: String, alertMessage message: String) {

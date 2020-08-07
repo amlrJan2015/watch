@@ -71,10 +71,10 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
                 
                 if measurement.mode == Measurement.HIST {
                     show()
-                    if let indexOfStart = PickerData.startEndArr.index(of: String(measurement.start.split(separator: "_")[1])) {
+                    if let indexOfStart = PickerData.startEndArr.firstIndex(of: String(measurement.start.split(separator: "_")[1])) {
                         start.selectRow(indexOfStart, inComponent: 0, animated: true)
                     }
-                    if let indexOfEnd = PickerData.startEndArr.index(of: String(measurement.end.split(separator: "_")[1])) {
+                    if let indexOfEnd = PickerData.startEndArr.firstIndex(of: String(measurement.end.split(separator: "_")[1])) {
                         end.selectRow(indexOfEnd, inComponent: 0, animated: true)
                     }
                 } else {

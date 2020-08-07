@@ -206,7 +206,7 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
         
         if selectedMeasurement[device]!.contains(measurement){
             //            cell?.accessoryType = .none
-            let idxToRemove = selectedMeasurement[device]?.index(of: measurement)
+            let idxToRemove = selectedMeasurement[device]?.firstIndex(of: measurement)
             selectedMeasurement[device]?.remove(at: idxToRemove!)
         } else {
             //            cell?.accessoryType = .checkmark
@@ -237,7 +237,7 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
             let device = appModel!.selectedDeviceArr[indexPath.section]
             let measurement = currMeasurements[device]![indexPath.row]
             var mArr = selectedMeasurement[measurement.device!]!
-            if let mIdx = mArr.index(of: measurement) {
+            if let mIdx = mArr.firstIndex(of: measurement) {
                 detailVC.measurement = mArr[mIdx]
             } else {
                 detailVC.measurement = measurement

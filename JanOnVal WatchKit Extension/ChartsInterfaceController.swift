@@ -159,7 +159,7 @@ class ChartsInterfaceController: WKInterfaceController {
         let ytickmarkpixelposarr = ytickmarkarr.map { (ymax - $0 )/(ymax-ymin) * graphicheight + coordoffsettop }
         //        print(ytickmarkpixelposarr)
         let xminpixelpos = coordoffsetleft
-        let xmaxpixelpos = graphicwidth - coordoffsetright
+//        let xmaxpixelpos = graphicwidth - coordoffsetright
         let yminpixelpos = graphicheight - coordoffsetbottom
         let ymaxpixelpos = coordoffsettop
         
@@ -410,7 +410,7 @@ class ChartsInterfaceController: WKInterfaceController {
                         print("error")
                     }
                 } else {
-                    print("Error: \(error)")
+                    print("Error: \(String(describing: error))")
                 }
             }
             self.fetchTask!.resume()
