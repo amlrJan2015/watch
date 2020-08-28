@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="15701" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="16097.2" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
     <device id="watch44"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15703"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="15501"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="16012"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
@@ -40,6 +40,16 @@
                             <menuItem title="Favorites" icon="accept" id="zmN-Do-nQW">
                                 <connections>
                                     <action selector="onFavoritesMenuItemClick" destination="AgC-eL-Hgc" id="azD-00-JgI"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="REST" image="globe" catalog="system" id="OPb-Zf-0J0">
+                                <connections>
+                                    <action selector="onRESTMenuItemClick" destination="AgC-eL-Hgc" id="zGP-wh-c33"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Cloud" image="cloud" catalog="system" id="LL6-gS-5tF">
+                                <connections>
+                                    <action selector="onCloudMenuItemClick" destination="AgC-eL-Hgc" id="Cef-Kp-Pem"/>
                                 </connections>
                             </menuItem>
                         </items>
@@ -458,4 +468,8 @@
             <point key="canvasLocation" x="469" y="-53"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="cloud" catalog="system" width="128" height="85"/>
+        <image name="globe" catalog="system" width="128" height="121"/>
+    </resources>
 </document>

@@ -2,7 +2,7 @@
 #platform :ios, '13.2'
 
 target 'JanOnVal' do
-  platform :ios, '13.2'
+  platform :ios, '13.6'
   # Comment the next line if you don't want to use dynamic frameworks
   
   use_frameworks!
@@ -13,7 +13,10 @@ target 'JanOnVal' do
   pod 'Firebase/Auth'
   pod 'Firebase/Messaging'
   pod 'Firebase/Firestore'
+  pod 'Firebase/Functions'
   pod 'GoogleSignIn'
+  
+  pod 'FirebaseFirestoreSwift'
   
   # add pods for any other desired Firebase products
   # https://firebase.google.com/docs/ios/setup#available-pods
@@ -21,7 +24,7 @@ target 'JanOnVal' do
 end
 
 target 'JanOnVal WatchKit App' do
-  platform :watchos, '6.1'
+  platform :watchos, '6.2'
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 
@@ -30,7 +33,7 @@ target 'JanOnVal WatchKit App' do
 end
 
 target 'JanOnVal WatchKit Extension' do
-  platform :watchos, '6.1'
+  platform :watchos, '6.2'
   # Comment the next line if you don't want to use dynamic frameworks
   use_frameworks!
 

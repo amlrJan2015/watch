@@ -16,6 +16,14 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     public static let MEASUREMENT_DATA = "MEASUREMENT_DATA"
     public static let REFRESH_TIME = "REFRESH_TIME"
     
+    public static let CLOUD_TOKEN = "CLOUD_TOKEN"
+    public static let FIRESTORE_DATA = "FIRESTORE_DATA"
+    
+    
+    public static let MODE = "MODE"
+    public static let CLOUD_MODE = "CLOUD_MODE"
+    public static let REST_MODE = "REST_MODE"
+    
     var serverUrl: String?
     var refreshTime: Int?
     
@@ -46,46 +54,76 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         if defaults.object(forKey: OptionsInterfaceController.SHOW_YESTERDAY_AND_TODAY_TOGETHER) == nil {
             defaults.set(OptionsInterfaceController.SHOW_YESTERDAY_AND_TODAY_TOGETHER_defaultValue, forKey: OptionsInterfaceController.SHOW_YESTERDAY_AND_TODAY_TOGETHER)
         }
-        WKExtension.shared().registerForRemoteNotifications()
         
-        print("try get data from forestore")
-        
-        let devicePath = "Hub/83fd905cab465569049238e7d0b66c29/Devices/7201:3322"
-        var request = URLRequest(url: URL(string:"https://firestore.googleapis.com/v1/projects/gridvis-cloud-bd455/databases/(default)/documents/\(devicePath)")!)
-        request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData
-        request.httpMethod = "GET"
-        request.setValue("application/json", forHTTPHeaderField: "Accept")
-        request.setValue("Bearer <Google OAth Toke>", forHTTPHeaderField: "Authorization")
-        
-        let session = URLSession.shared
-        
-        let task = session.dataTask(with: request) { data, response, error -> Void in
-            print("task is ready")
-            do {
-                if let measurementDataJson = data {
-                    //                    print(String(data: measurementData,encoding: String.Encoding.utf8) as! String)
-                    let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
-                    let fields = json["fields"] as! [String: Any]
-                    let energy = fields["energy"] as! [String: Any]
-                    let energyMapValues = energy["mapValue"] as! [String: Any]
-                    let energyMapValuesFields = energyMapValues["fields"] as! [String: Any]
-                    let eNow = energyMapValuesFields["2020-07-31"] as! [String: Any]
-                    var eNowValue = "error"
-                    if let intValue = eNow["integerValue"] {
-                        eNowValue = intValue as! String
-                    }
-                    if let doubleValue = eNow["doubleValue"] {
-                        eNowValue = doubleValue as! String
-                    }
-                    print(eNowValue)
-                }
-            } catch {
-                print("error!!!")
-            }
-            
+        if defaults.object(forKey: InterfaceController.MODE) == nil {
+            defaults.set(InterfaceController.REST_MODE, forKey: InterfaceController.MODE)
         }
         
-        task.resume()
+        
+        
+        WKExtension.shared().registerForRemoteNotifications()
+        
+//        print("try get data from forestore")
+//        
+//        
+//        let cloudToken = defaults.object(forKey: InterfaceController.CLOUD_TOKEN)
+//        let firestoreData = defaults.object(forKey: InterfaceController.FIRESTORE_DATA)
+//        if cloudToken != nil && firestoreData != nil {
+//            
+//            let hubID = (firestoreData as! [[String:String]])[0]["hubID"]
+//            let deviceID = (firestoreData as! [[String:String]])[0]["deviceID"]
+//            let deviceName = (firestoreData as! [[String:String]])[0]["deviceName"]
+//            print("Energy for ", deviceName!)
+//            let devicePath = "Hub/\(hubID!)/Devices/\(deviceID!)"
+//            var request = URLRequest(url: URL(string:"https://firestore.googleapis.com/v1/projects/gridvis-cloud-bd455/databases/(default)/documents/\(devicePath)")!)
+//            request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData
+//            request.httpMethod = "GET"
+//            request.setValue("application/json", forHTTPHeaderField: "Accept")
+//            
+//            request.setValue("Bearer \(cloudToken!)", forHTTPHeaderField: "Authorization")
+//            
+//            let session = URLSession.shared
+//            
+//            let task = session.dataTask(with: request) { data, response, error -> Void in
+//                print("task is ready")
+//                do {
+//                    
+//                    let statusCode = (response as! HTTPURLResponse).statusCode
+//                    
+//                    if statusCode == 200 {
+//                        if let measurementDataJson = data {
+//                            //                    print(String(data: measurementData,encoding: String.Encoding.utf8) as! String)
+//                            let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
+//                            let fields = json["fields"] as! [String: Any]
+//                            let energy = fields["energy"] as! [String: Any]
+//                            let energyMapValues = energy["mapValue"] as! [String: Any]
+//                            let energyMapValuesFields = energyMapValues["fields"] as! [String: Any]
+//                            let eNow = energyMapValuesFields["2020-08-14"] as! [String: Any]
+//                            var eNowValue = "error"
+//                            if let intValue = eNow["integerValue"] {
+//                                eNowValue = intValue as! String
+//                            }
+//                            if let doubleValue = eNow["doubleValue"] {
+//                                eNowValue = doubleValue as! String
+//                            }
+//                            print(eNowValue)
+//                        }
+//                    } else if statusCode == 403 || statusCode == 401 {
+//                        print("let refresh token")
+//                        let action = WKAlertAction(title: "on iPhone",style: WKAlertActionStyle.destructive){}
+//                        self.presentAlert(withTitle: "CloudToken", message: "Please refresh Cloud Token!", preferredStyle: WKAlertControllerStyle.alert, actions: [action])
+//                    }
+//                } catch {
+//                    print("error!!!")
+//                }
+//                
+//            }
+//            
+//            task.resume()
+//        } else {
+//            let action = WKAlertAction(title: "on iPhone",style: WKAlertActionStyle.destructive){}
+//            self.presentAlert(withTitle: "CloudToken", message: "Please refresh Cloud Token!", preferredStyle: WKAlertControllerStyle.alert, actions: [action])
+//        }
         
         
     }
@@ -144,7 +182,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         if let measurementDataDictArrGranted = userInfo["measurementDataDictArr"] as? [[String:Any]] {
             
             measurementDataDictArr = measurementDataDictArrGranted
-        
+            
             //        table.setNumberOfRows(measurementDataDictArr!.count, withRowType: "measurementRowType")
             
             serverUrl = userInfo["serverUrl"] as? String
@@ -158,7 +196,13 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
             getTemp()
         }
         
-        
+        if let cloudToken = userInfo["cloudToken"] as? String,
+            let firestoreData = userInfo["firestoreData"] as? [[String:String]] {
+            print("CloudToken on Watch", cloudToken)
+            print("firestoreData on Watch", firestoreData.count)
+            defaults.set(cloudToken, forKey: InterfaceController.CLOUD_TOKEN)
+            defaults.set(firestoreData, forKey: InterfaceController.FIRESTORE_DATA)
+        }
     }
     
     override func willActivate() {
@@ -169,22 +213,37 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         
         session = WCSession.default
         session?.delegate = self
+        //TODO check ob es bereits active ist
         session?.activate()
+                
+        let mode = defaults.object(forKey: InterfaceController.MODE) as! String
         
-        serverUrl = defaults.string(forKey: InterfaceController.SERVER_CONFIG)
-        measurementDataDictArr = defaults.array(forKey: InterfaceController.MEASUREMENT_DATA) as? [[String:Any]]
-        refreshTime = defaults.integer(forKey: InterfaceController.REFRESH_TIME)
-        refreshTime = refreshTime == 0 ? 5 : refreshTime
-        
-        if serverUrl != nil && measurementDataDictArr != nil {
+        if mode == InterfaceController.REST_MODE {
             
-            if table.numberOfRows != measurementDataDictArr?.count{
-                table.setNumberOfRows(measurementDataDictArr!.count, withRowType: "measurementRowType")
+            serverUrl = defaults.string(forKey: InterfaceController.SERVER_CONFIG)
+            measurementDataDictArr = defaults.array(forKey: InterfaceController.MEASUREMENT_DATA) as? [[String:Any]]
+            refreshTime = defaults.integer(forKey: InterfaceController.REFRESH_TIME)
+            refreshTime = refreshTime == 0 ? 5 : refreshTime
+            
+            if serverUrl != nil && measurementDataDictArr != nil {
+                
+                if table.numberOfRows != measurementDataDictArr?.count{
+                    table.setNumberOfRows(measurementDataDictArr!.count, withRowType: "measurementRowType")
+                }
+                
+                getTemp()
+            } else {
+                info.setText("No config")
+            }
+        } else if mode == InterfaceController.CLOUD_MODE {
+            if let firestoreData = defaults.object(forKey: InterfaceController.FIRESTORE_DATA) as? [[String:String]] {
+                info.setText("Cloud \(firestoreData.count)")
+            } else {
+                info.setText("No Cloud Data")
             }
             
-            getTemp()
         } else {
-            info.setText("No config")
+            info.setText("Mode is unknown")
         }
     }
     
@@ -238,5 +297,13 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     
     @IBAction func onFavoritesMenuItemClick() {
         pushController(withName: "FavoritesView", context: nil)
+    }
+    
+    @IBAction func onCloudMenuItemClick() {
+        defaults.set(InterfaceController.CLOUD_MODE, forKey: InterfaceController.MODE)
+    }
+    
+    @IBAction func onRESTMenuItemClick() {
+        defaults.set(InterfaceController.REST_MODE, forKey: InterfaceController.MODE)
     }
 }

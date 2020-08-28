@@ -9,8 +9,10 @@
 import UIKit
 import Firebase
 import GoogleSignIn
+import FirebaseFirestore
+import FirebaseAuth
 
-class ServerViewController: UIViewController, UITextFieldDelegate, GIDSignInDelegate {
+class ServerViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var serverUrl: UITextField!
     @IBOutlet weak var port: UITextField!
     @IBOutlet weak var projectName: UITextField!
@@ -61,7 +63,6 @@ class ServerViewController: UIViewController, UITextFieldDelegate, GIDSignInDele
         projectName.delegate = self
         refreshTime.delegate = self
         
-        GIDSignIn.sharedInstance().delegate = self
         GIDSignIn.sharedInstance()?.presentingViewController = self
         GIDSignIn.sharedInstance().signIn()
     }
@@ -120,46 +121,89 @@ class ServerViewController: UIViewController, UITextFieldDelegate, GIDSignInDele
         }
     }
     
-    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
-        // ...
-        if let error = error {
-          print(error.localizedDescription)
-          return
-        }
-
-        guard let authentication = user.authentication else { return }
-        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
-                                                          accessToken: authentication.accessToken)
-        Auth.auth().signIn(with: credential) { (authResult, error) in
-          if let error = error {
-            self.showAlert("Error", error.localizedDescription)
-            return
-          }
-          // User is signed in
-          // ...
-            print(authResult?.user.uid)
-            authResult?.user.getIDTokenForcingRefresh(true, completion: { (idToken, error) in
-                if let error = error {
-                    self.showAlert("Error", error.localizedDescription)
-                    return
-                }
-                
-                print(idToken!)
-            })
-            self.addUserDataIfOk(authResult)
-            if let authResult = authResult {
-                let userDevicesDocRef = Firestore.firestore().document("/users/\(authResult.user.uid)");
-                userDevicesDocRef.getDocument { (docSnapshot, error) in
-                    let k = (docSnapshot?.data()?["devices"] as? [String:Bool])?.filter {$0.value}.keys
-                    if let userRegisteredDevice = k {
-                        let devicePath = Array<String>(userRegisteredDevice)[0]
-                            print(devicePath)
-                            
-                    }
-                }
-            }
-            
-        }
-    }
-        
+//    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
+//        
+//        if let error = error {
+//            print(error.localizedDescription)
+//            return
+//        }
+//        
+//        guard let authentication = user.authentication else { return }
+//        let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
+//                                                       accessToken: authentication.accessToken)
+//        
+//        guard let janitzaIDApp = FirebaseApp.app(name: "JanitzID") else {
+//            assert(false,"Could not retrieve secondary app!!!")
+//        }
+//        
+//        Auth.auth(app: janitzaIDApp).signIn(with: credential) { (authResultJanitzaID, error) in
+//            if let error = error {
+//                print(error.localizedDescription)
+//                self.showAlert("Error", error.localizedDescription)
+//                return
+//            }
+//            // User is signed in
+//            // ...
+//            print(authResultJanitzaID?.user.uid ?? "Error on fetch user id")
+//            
+//            
+//            let functions = Functions.functions(app: janitzaIDApp, region: "europe-west1")
+//            
+//            functions.httpsCallable("createCustomAuthToken").call { (resultopt, cloudFunctionCallErrOpt) in
+//                
+//                if let cloudFunctionCallErr = cloudFunctionCallErrOpt {
+//                    print("Error Cloud Function Call", cloudFunctionCallErr.localizedDescription)
+//                    self.showAlert("Error Cloud Function Call", cloudFunctionCallErr.localizedDescription)
+//                    return
+//                }
+//                
+//                if let result = resultopt {
+//                    
+//                    let customerToken = result.data as! String
+//                    
+//                    Auth.auth().signIn(withCustomToken: customerToken) { (authResultCloud, cloudError) in
+//                        if let cloudError = cloudError {
+//                            print("Cloud Auth Error", cloudError.localizedDescription, customerToken)
+//                            self.showAlert("Cloud Auth Error", cloudError.localizedDescription)
+//                            return
+//                        }
+//                        
+//                        self.addUserDataIfOk(authResultCloud)
+//                        if let authResult = authResultCloud {
+//                            let userDevicesDocRef = Firestore.firestore().document("/users/\(authResult.user.uid)");
+//                            userDevicesDocRef.getDocument { (docSnapshot, error) in
+//                                let k = (docSnapshot?.data()?["devices"] as? [String:Bool])?.filter {$0.value}.keys
+//                                if let userRegisteredDevice = k {
+//                                    let devicePath = Array<String>(userRegisteredDevice)[0]
+//                                    print(devicePath)
+//                                    
+//                                }
+//                            }
+//                        }
+//                        
+//                        authResultCloud?.user.getIDTokenForcingRefresh(true, completion: { (cloudToken, error) in
+//                            if let error = error {
+//                                self.showAlert("Error", error.localizedDescription)
+//                                return
+//                            }
+//                            
+//                            print("#+#+#+#+#CloudToken:",cloudToken!)
+//                            let connectivityHandlerOpt = (UIApplication.shared.delegate as? AppDelegate)?.connectivityHandler
+//                            if let connectivityHandler = connectivityHandlerOpt {
+//                                if connectivityHandler.session.activationState == .activated {
+//                                    connectivityHandler.session.transferUserInfo([
+//                                        "cloudToken": cloudToken!
+//                                    ])
+//                                } else {
+//                                    self.showAlert("Error","No connectivityHandler!")
+//                                }
+//                            } else {
+//                                self.showAlert("Error","No connectivityHandler!")
+//                            }
+//                        })
+//                    }
+//                }
+//            }
+//        }
+//    }
 }
