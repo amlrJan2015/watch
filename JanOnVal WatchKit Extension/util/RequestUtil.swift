@@ -62,6 +62,70 @@ class RequestUtil {
         }
     }
     
+    private static func getFormattedDate() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        
+        return dateFormatter.string(from: Date())
+    }
+    
+    public static func doGetCloudDataForMainTable(_ firestoreData: [String:String], _ cloudToken: String, _ table: WKInterfaceTable, atSelectedMeasurementIndex index: Int, _ interfaceController: WKInterfaceController) -> URLSessionDataTask {
+        
+        let request = TableUtil.createFirestoreRequest(firestoreData, cloudToken)
+        let session = URLSession.shared
+        
+        return session.dataTask(with: request) { data, response, error -> Void in
+            do {
+                if let response = response as? HTTPURLResponse {
+                    let statusCode = response.statusCode
+                    
+                    if statusCode == 200 {
+                        if let measurementDataJson = data {
+                            //                    print(String(data: measurementData,encoding: String.Encoding.utf8) as! String)
+                            let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
+                            let fields = json["fields"] as! [String: Any]
+                            let energy = fields["energy"] as! [String: Any]
+                            let energyMapValues = energy["mapValue"] as! [String: Any]
+                            let energyMapValuesFields = energyMapValues["fields"] as! [String: Any]
+                            let eNow = energyMapValuesFields[getFormattedDate()] as! [String: Any]
+                            var eNowValue = "error"
+                            if let intValue = eNow["integerValue"] {
+                                eNowValue = intValue as! String
+                            }
+                            if let doubleValue = eNow["doubleValue"] {
+                                eNowValue = doubleValue as! String
+                            }
+                            
+                            DispatchQueue.main.async { // Correct
+                                let row = table.rowController(at: index) as? MeasurementRowType
+                                row?.value.setText(eNowValue)
+                                row?.unit.setText("Wh")
+                            }
+                            
+                        }
+                    } else if statusCode == 403 || statusCode == 401 {
+                        print("let refresh token")
+                        let action = WKAlertAction(title: "on iPhone",style: WKAlertActionStyle.destructive){}
+                        interfaceController.presentAlert(withTitle: "CloudToken", message: "Please refresh Cloud Token!", preferredStyle: WKAlertControllerStyle.alert, actions: [action])
+                    }
+                } else {
+                    print("response ist nil")
+                }
+            } catch {
+                //                print("error:\(error)")
+                DispatchQueue.main.async { // Correct
+                    if let row = table.rowController(at: index) as? MeasurementRowType {
+                        row.header.setText("🚫")
+                        row.value.sizeToFitWidth()
+                        row.value.setText("no values")
+                        row.unit.setText("")
+                    }
+                }
+            }
+            
+        }
+    }    
+    
     public static func doGetData(_ serverUrl: String?, _ measurementData:[String:Any], _ valueLbl: WKInterfaceLabel, _ unitLbl: WKInterfaceLabel, _ waitLbl: WKInterfaceLabel? = nil) -> URLSessionDataTask {
         //        print("RequestTo:\(self.serverUrl!)onlinevalues?value=\(self.selectedMeasurementArr[index])")
         let mode = measurementData["mode"] as! Int

@@ -314,6 +314,19 @@ class TableUtil {
         return request
     }
     
+    public static func createFirestoreRequest(_ firestoreData:[String: String], _ cloudToken: String) -> URLRequest {
+        let hubID = firestoreData["hubID"]
+        let deviceID = firestoreData["deviceID"]
+        let devicePath = "Hub/\(hubID!)/Devices/\(deviceID!)"
+        var request = URLRequest(url: URL(string:"https://firestore.googleapis.com/v1/projects/gridvis-cloud-bd455/databases/(default)/documents/\(devicePath)")!)
+        request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        request.setValue("Bearer \(cloudToken)", forHTTPHeaderField: "Authorization")
+        
+        return request
+    }
+    
     public static func createRequestForChart(_ measurementData:[String: Any], _ serverUrl: String?, namedTimeStart: String, namedTimeEnd: String) -> URLRequest {
         let deviceId = measurementData["deviceId"] as! Int
         let measurementValue = measurementData["measurementValue"] as! String
