@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZUN-e0-61U">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZUN-e0-61U">
     <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -85,9 +86,37 @@
                                     <constraint firstAttribute="height" constant="69" id="aOb-DS-ry2"/>
                                 </constraints>
                             </view>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🔴" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehV-eB-27B">
+                                <rect key="frame" x="101" y="400.5" width="27" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🔴" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nIE-ec-GQY">
+                                <rect key="frame" x="286" y="400.5" width="27" height="29"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JVT-kQ-7sG">
+                                <rect key="frame" x="167" y="537.5" width="80" height="30"/>
+                                <color key="backgroundColor" systemColor="systemRedColor" red="1" green="0.23137254900000001" blue="0.18823529410000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="80" id="B4q-Yi-VsR"/>
+                                </constraints>
+                                <color key="tintColor" name="Color"/>
+                                <state key="normal" title="Logout"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="string" keyPath="layer.cornerRadius" value="10"/>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="onLogoutClick:" destination="m83-2z-C3D" eventType="touchUpInside" id="knm-iU-oeX"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="QZZ-mV-2HK" firstAttribute="leading" secondItem="ehV-eB-27B" secondAttribute="trailing" constant="8" id="02Z-cC-Z3C"/>
                             <constraint firstItem="4Qu-WF-sja" firstAttribute="top" secondItem="270-yZ-kHR" secondAttribute="bottom" constant="8" symbolic="YES" id="0v4-Dr-LfD"/>
                             <constraint firstItem="g4E-Vz-nbL" firstAttribute="centerX" secondItem="Vbb-Nb-P25" secondAttribute="centerX" id="14E-AP-v0U"/>
                             <constraint firstItem="jKu-2H-ULu" firstAttribute="centerX" secondItem="ZCk-tC-NHn" secondAttribute="centerX" id="1bI-MV-0Gm"/>
@@ -95,12 +124,16 @@
                             <constraint firstItem="hi6-Cr-gmH" firstAttribute="centerX" secondItem="ZCk-tC-NHn" secondAttribute="centerX" id="50q-ZG-Bm2"/>
                             <constraint firstItem="hi6-Cr-gmH" firstAttribute="top" secondItem="Vbb-Nb-P25" secondAttribute="bottom" constant="11.333333333333314" id="51W-pc-0bm"/>
                             <constraint firstItem="4Qu-WF-sja" firstAttribute="centerX" secondItem="ZCk-tC-NHn" secondAttribute="centerX" id="7Ni-cd-lfz"/>
+                            <constraint firstItem="JVT-kQ-7sG" firstAttribute="centerX" secondItem="ZCk-tC-NHn" secondAttribute="centerX" id="EDu-Ac-n7X"/>
                             <constraint firstItem="nwj-Oj-Kzf" firstAttribute="top" secondItem="ZCk-tC-NHn" secondAttribute="top" constant="10" id="Efw-bN-wOz"/>
+                            <constraint firstItem="nIE-ec-GQY" firstAttribute="centerY" secondItem="QZZ-mV-2HK" secondAttribute="centerY" id="GsO-a5-8Jx"/>
                             <constraint firstItem="g4E-Vz-nbL" firstAttribute="centerX" secondItem="nwj-Oj-Kzf" secondAttribute="centerX" id="HAo-hg-5rS"/>
                             <constraint firstItem="nwj-Oj-Kzf" firstAttribute="centerX" secondItem="ZCk-tC-NHn" secondAttribute="centerX" id="Hsi-ae-MXD"/>
                             <constraint firstItem="Vbb-Nb-P25" firstAttribute="top" secondItem="g4E-Vz-nbL" secondAttribute="bottom" constant="8" symbolic="YES" id="I5C-AT-8Ev"/>
+                            <constraint firstItem="JVT-kQ-7sG" firstAttribute="top" secondItem="A8k-DM-kpm" secondAttribute="bottom" constant="20" id="Ief-4v-ErG"/>
                             <constraint firstItem="4Qu-WF-sja" firstAttribute="centerX" secondItem="ZCk-tC-NHn" secondAttribute="centerX" id="R1s-wr-AR1"/>
                             <constraint firstItem="G0l-xL-vSK" firstAttribute="top" secondItem="jKu-2H-ULu" secondAttribute="bottom" constant="8" symbolic="YES" id="Toj-ps-bux"/>
+                            <constraint firstItem="ehV-eB-27B" firstAttribute="centerY" secondItem="QZZ-mV-2HK" secondAttribute="centerY" id="Vt1-Ou-yka"/>
                             <constraint firstItem="vVr-dp-azr" firstAttribute="centerX" secondItem="ZCk-tC-NHn" secondAttribute="centerX" id="WHT-xZ-H2c"/>
                             <constraint firstItem="QZZ-mV-2HK" firstAttribute="top" secondItem="G0l-xL-vSK" secondAttribute="bottom" constant="40" id="YEX-Fi-Th5"/>
                             <constraint firstItem="g4E-Vz-nbL" firstAttribute="leading" secondItem="ZCk-tC-NHn" secondAttribute="leading" constant="157" id="etT-ya-b7d"/>
@@ -109,6 +142,7 @@
                             <constraint firstItem="A8k-DM-kpm" firstAttribute="top" secondItem="QZZ-mV-2HK" secondAttribute="bottom" constant="20" id="i6F-xP-Z0v"/>
                             <constraint firstItem="G0l-xL-vSK" firstAttribute="centerX" secondItem="ZCk-tC-NHn" secondAttribute="centerX" id="jNR-87-bca"/>
                             <constraint firstItem="QZZ-mV-2HK" firstAttribute="centerX" secondItem="ZCk-tC-NHn" secondAttribute="centerX" id="mfE-jx-JUL"/>
+                            <constraint firstItem="nIE-ec-GQY" firstAttribute="leading" secondItem="QZZ-mV-2HK" secondAttribute="trailing" constant="8" id="phS-Nv-Lwc"/>
                             <constraint firstItem="A8k-DM-kpm" firstAttribute="centerX" secondItem="ZCk-tC-NHn" secondAttribute="centerX" id="twX-ds-Dp7"/>
                             <constraint firstItem="jKu-2H-ULu" firstAttribute="top" secondItem="vVr-dp-azr" secondAttribute="bottom" constant="8" symbolic="YES" id="uJR-Ej-v5K"/>
                             <constraint firstItem="270-yZ-kHR" firstAttribute="centerX" secondItem="ZCk-tC-NHn" secondAttribute="centerX" id="uLq-VX-DxO"/>
@@ -118,6 +152,8 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="Server" id="hAX-Pk-Kar"/>
                     <connections>
+                        <outlet property="cloud" destination="nIE-ec-GQY" id="m8F-uS-RRy"/>
+                        <outlet property="janitzaID" destination="ehV-eB-27B" id="leC-nz-wCT"/>
                         <outlet property="port" destination="270-yZ-kHR" id="d15-le-s6z"/>
                         <outlet property="projectName" destination="vVr-dp-azr" id="PqE-JE-1oX"/>
                         <outlet property="refreshTime" destination="G0l-xL-vSK" id="uGV-rR-qS7"/>
@@ -628,4 +664,9 @@
     <inferredMetricsTieBreakers>
         <segue reference="A05-Y9-oHh"/>
     </inferredMetricsTieBreakers>
+    <resources>
+        <namedColor name="Color">
+            <color red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
+    </resources>
 </document>

@@ -94,14 +94,22 @@ class RequestUtil {
                             }
                             if let doubleValue = eNow["doubleValue"] {
                                 eNowValue = doubleValue as! String
-                            }
+                            }                            
                             
-                            DispatchQueue.main.async { // Correct
-                                let row = table.rowController(at: index) as? MeasurementRowType
-                                row?.value.setText(eNowValue)
-                                row?.unit.setText("Wh")
+                            if let valueAsDouble = Double(eNowValue) {
+                                let (si, newValue) = TableUtil.getSiPrefix(valueAsDouble)
+                                DispatchQueue.main.async { // Correct
+                                    let row = table.rowController(at: index) as? MeasurementRowType
+                                    row?.value.setText(String(format:"%.1f", newValue))
+                                    row?.unit.setText("\(si)Wh")
+                                }
+                            } else {
+                                DispatchQueue.main.async { // Correct
+                                    let row = table.rowController(at: index) as? MeasurementRowType
+                                    row?.value.setText(eNowValue)
+                                    row?.unit.setText("Wh")
+                                }
                             }
-                            
                         }
                     } else if statusCode == 403 || statusCode == 401 {
                         print("let refresh token")
@@ -125,6 +133,67 @@ class RequestUtil {
             
         }
     }    
+    
+    
+    public static func doGetRealtimeDBDataForMainTable(_ firestoreData: [String:String], _ cloudToken: String, _ table: WKInterfaceTable, atSelectedMeasurementIndex index: Int, _ interfaceController: WKInterfaceController) -> URLSessionDataTask {
+        
+        let request = TableUtil.createRTDBRequest(firestoreData, cloudToken)
+        let session = URLSession.shared
+        
+        return session.dataTask(with: request) { data, response, error -> Void in
+            do {
+                if let response = response as? HTTPURLResponse {
+                    let statusCode = response.statusCode
+                    
+                    if statusCode == 200 {
+                        if let measurementDataJson = data {
+                            //                    print(String(data: measurementData,encoding: String.Encoding.utf8) as! String)
+                            let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
+                            //                            let keys = json.keys
+                            //                            for key in keys {
+                            //                                if let consumerData = json[key] as? [String:Any] {
+                            if let value = json["value"] as? Double,
+                                let unit = json["unit"] as? String {
+                                let (si, newValue) = TableUtil.getSiPrefix(value)
+                                DispatchQueue.main.async { // Correct
+                                    let row = table.rowController(at: index) as? MeasurementRowType
+                                    row?.value.setText(String(format:"%.1f", newValue))
+                                    row?.unit.setText("\(si)\(unit)")
+                                }
+                            } else {
+                                DispatchQueue.main.async { // Correct
+                                    let row = table.rowController(at: index) as? MeasurementRowType
+                                    row?.value.setText("not double")
+                                    row?.unit.setText("?")
+                                }
+                                
+                            }
+                            //                                }
+                            //                            }
+                        }
+                    } else if statusCode == 403 || statusCode == 401 {
+                        print("let refresh token")
+                        let action = WKAlertAction(title: "on iPhone",style: WKAlertActionStyle.destructive){}
+                        interfaceController.presentAlert(withTitle: "CloudToken", message: "Please refresh Cloud Token!", preferredStyle: WKAlertControllerStyle.alert, actions: [action])
+                    }
+                } else {
+                    print("response ist nil")
+                }
+            } catch {
+                //                print("error:\(error)")
+                DispatchQueue.main.async { // Correct
+                    if let row = table.rowController(at: index) as? MeasurementRowType {
+                        row.header.setText("🚫")
+                        row.value.sizeToFitWidth()
+                        row.value.setText("no values")
+                        row.unit.setText("")
+                    }
+                }
+            }
+            
+        }
+    }
+    
     
     public static func doGetData(_ serverUrl: String?, _ measurementData:[String:Any], _ valueLbl: WKInterfaceLabel, _ unitLbl: WKInterfaceLabel, _ waitLbl: WKInterfaceLabel? = nil) -> URLSessionDataTask {
         //        print("RequestTo:\(self.serverUrl!)onlinevalues?value=\(self.selectedMeasurementArr[index])")

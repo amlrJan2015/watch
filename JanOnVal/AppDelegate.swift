@@ -106,12 +106,14 @@ UNUserNotificationCenterDelegate, GIDSignInDelegate {
                                                 print("Error getting documents: \(err)")
                                             } else {
                                                 var firestoreData: [[String:String]] = []
+                                                var hubId: String = ""
                                                 for document in querySnapshot!.documents {
                                                     let data = document.data()
                                                     print("\(document.documentID) => \(data["deviceName"] as! String)")
+                                                    hubId = data["hubId"] as! String
                                                     let dict: [String:String] = [
                                                         "deviceID": document.documentID,
-                                                        "hubID": data["hubId"] as! String,
+                                                        "hubID": hubId,
                                                         "deviceName": data["deviceName"] as! String
                                                     ]
                                                     firestoreData.append(dict)
@@ -119,8 +121,29 @@ UNUserNotificationCenterDelegate, GIDSignInDelegate {
                                                 
                                                 connectivityHandler.session.transferUserInfo([
                                                     "cloudToken": cloudToken!,
-                                                    "firestoreData": firestoreData
+                                                    "firestoreData": firestoreData,
+                                                    "consumers": firestoreData.count
                                                 ])
+                                                
+//                                                Firestore.firestore().collection("ConsumerConfig").whereField("hubId", isEqualTo: hubId).getDocuments { (querySnapshotConsumers, conusmersErr) in
+//                                                    if let err = conusmersErr {
+//                                                        print("Error getting consumers: \(err)")
+//                                                    } else {
+//                                                        let isConsumerExists: Bool = querySnapshotConsumers!.documents.count > 0
+//                                                        var consumersCount: Int = 0
+//                                                        if isConsumerExists {
+//                                                            if let consumers = querySnapshotConsumers!.documents[0].data()["consumers"] as? [String: Any]{
+//                                                                consumersCount = consumers.count
+//                                                            }
+//                                                        }
+//
+//                                                        connectivityHandler.session.transferUserInfo([
+//                                                            "cloudToken": cloudToken!,
+//                                                            "firestoreData": firestoreData,
+//                                                            "consumers": consumersCount
+//                                                        ])
+//                                                    }
+//                                                }
                                             }
                                         }
                                     }

@@ -18,6 +18,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     
     public static let CLOUD_TOKEN = "CLOUD_TOKEN"
     public static let FIRESTORE_DATA = "FIRESTORE_DATA"
+    public static let CONSUMERS = "CONSUMERS"
     
     
     public static let MODE = "MODE"
@@ -80,6 +81,27 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
                 info.setText("No config")
             }
         }
+        if InterfaceController.isCloudMode() {
+            if let firestoreDataArr = defaults.object(forKey: InterfaceController.FIRESTORE_DATA) as? [[String:String]] {
+                let consumers = defaults.integer(forKey: InterfaceController.CONSUMERS)
+                if rowIndex < firestoreDataArr.count {
+                    let fsData = firestoreDataArr[rowIndex]
+                    if let devName = fsData["deviceName"],
+                       let devId = fsData["deviceID"] {
+                        pushController(withName: "MeasurementInfo", context: ("\(devName)[\(devId)]", "Energy"))
+                    } else {
+                        pushController(withName: "MeasurementInfo", context: ("unknown", "unknown"))
+                    }
+                    
+                } else {
+                    let fsData = firestoreDataArr[rowIndex % consumers]
+                    if let devName = fsData["deviceName"],
+                        let devId = fsData["deviceID"] {
+                        pushController(withName: "MeasurementInfo", context: ("\(devName)[\(devId)]", "Power Active SUM13"))
+                    }
+                }
+            }
+        }
     }
     
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
@@ -90,10 +112,8 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         
         let measurementDataDictArr = (message["measurementDataDictArr"] as? [[String:Any]])!
         
-        //        table.setNumberOfRows(measurementDataDictArr!.count, withRowType: "measurementRowType")
-        
         let serverUrl = message["serverUrl"] as? String
-        let refreshTime = message["refreshTime"] as? Int ?? 5
+        let refreshTime = message["refreshTime"] as? Int ?? 3
         
         defaults.set(serverUrl, forKey: InterfaceController.SERVER_CONFIG)
         defaults.set(measurementDataDictArr, forKey: InterfaceController.MEASUREMENT_DATA)
@@ -123,23 +143,24 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         
         if let measurementDataDictArrGranted = userInfo["measurementDataDictArr"] as? [[String:Any]] {
             let serverUrl = userInfo["serverUrl"] as? String
-            let refreshTime = userInfo["refreshTime"] as? Int ?? 5
+            let refreshTime = userInfo["refreshTime"] as? Int ?? 3
             
             defaults.set(serverUrl, forKey: InterfaceController.SERVER_CONFIG)
             defaults.set(measurementDataDictArrGranted, forKey: InterfaceController.MEASUREMENT_DATA)
             defaults.set(refreshTime, forKey: InterfaceController.REFRESH_TIME)
             
-            initShowData(measurementDataDictArrGranted.count)
+            initShowDataForMode()
         }
         
         if let cloudToken = userInfo["cloudToken"] as? String,
-            let firestoreData = userInfo["firestoreData"] as? [[String:String]] {
-            print("CloudToken on Watch", cloudToken)
-            print("firestoreData on Watch", firestoreData.count)
+            let firestoreData = userInfo["firestoreData"] as? [[String:String]],
+            let consumers = userInfo["consumers"] as? Int
+        {
             defaults.set(cloudToken, forKey: InterfaceController.CLOUD_TOKEN)
             defaults.set(firestoreData, forKey: InterfaceController.FIRESTORE_DATA)
+            defaults.set(consumers, forKey: InterfaceController.CONSUMERS)
             
-            initShowData(firestoreData.count)
+            initShowDataForMode()
         }
     }
     
@@ -169,7 +190,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
             let serverUrl = defaults.string(forKey: InterfaceController.SERVER_CONFIG)
             let measurementDataDictArr = defaults.array(forKey: InterfaceController.MEASUREMENT_DATA) as? [[String:Any]]
             var refreshTime = defaults.integer(forKey: InterfaceController.REFRESH_TIME)
-            refreshTime = refreshTime == 0 ? 5 : refreshTime
+            refreshTime = refreshTime == 0 ? 3 : refreshTime
             
             if serverUrl != nil && measurementDataDictArr != nil {
                 
@@ -182,10 +203,11 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
                 info.setText("No config")
             }
         } else if InterfaceController.isCloudMode() {
-            if let firestoreData = defaults.object(forKey: InterfaceController.FIRESTORE_DATA) as? [[String:String]] {
-                //                info.setText("Cloud devices: \(firestoreData.count)")
-                if table.numberOfRows != firestoreData.count {
-                    table.setNumberOfRows(firestoreData.count, withRowType: "measurementRowType")
+            if let firestoreData = defaults.object(forKey: InterfaceController.FIRESTORE_DATA) as? [[String:String]]
+            {
+                let consumers = defaults.integer(forKey: InterfaceController.CONSUMERS)
+                if table.numberOfRows != firestoreData.count + consumers {
+                    table.setNumberOfRows(firestoreData.count + consumers, withRowType: "measurementRowType")
                 }
                 
                 getTemp()
@@ -212,27 +234,8 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     fileprivate func startTimer() {
         DispatchQueue.main.async {
             self.fetchTimer?.invalidate();
-            self.fetchTimer = Timer.scheduledTimer(withTimeInterval: Double(InterfaceController.isRestMode() ? self.defaults.integer(forKey: InterfaceController.REFRESH_TIME) ?? 5 : 5), repeats: true) { (timer) in
-                if InterfaceController.isRestMode(),
-                    let measurementDataDictArr = self.defaults.array(forKey: InterfaceController.MEASUREMENT_DATA) as? [[String:Any]],
-                    let serverUrl = self.defaults.string(forKey: InterfaceController.SERVER_CONFIG)
-                {
-                    for index in 0..<measurementDataDictArr.count {
-                        if self.fetchTaskArr.count == index || self.fetchTaskArr[index].state == URLSessionTask.State.completed {
-                            self.fetchTaskArr.insert(RequestUtil.doGetDataForMainTable(serverUrl, measurementDataDictArr[index], self.table, atSelectedMeasurementIndex: index), at: index)
-                            self.fetchTaskArr[index].resume()
-                        }
-                    }
-                } else if InterfaceController.isCloudMode() {
-                    if let firestoreData = self.defaults.object(forKey: InterfaceController.FIRESTORE_DATA) as? [[String:String]],
-                        let cloudToken = self.defaults.string(forKey: InterfaceController.CLOUD_TOKEN) {
-                        for index in 0..<firestoreData.count {
-                            self.fetchTaskArr.insert(RequestUtil.doGetCloudDataForMainTable(firestoreData[index], cloudToken, self.table, atSelectedMeasurementIndex: index, self), at: index)
-                            self.fetchTaskArr[index].resume()
-                        }
-                    }
-                    
-                }
+            self.fetchTimer = Timer.scheduledTimer(withTimeInterval: Double(InterfaceController.isRestMode() ? self.defaults.integer(forKey: InterfaceController.REFRESH_TIME) : 3), repeats: true) { (timer) in
+                self.prepareFetchTasks(true)
             }
         }
     }
@@ -241,39 +244,73 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         for index in 0..<table.numberOfRows {
             if let row = table.rowController(at: index) as? MeasurementRowType,
                 let measurementDataDictArr = defaults.array(forKey: InterfaceController.MEASUREMENT_DATA) as? [[String:Any]]
-                {
+            {
                 if InterfaceController.isRestMode() {
                     row.header.setText(measurementDataDictArr[index]["watchTitle"] as? String)
                 } else if InterfaceController.isCloudMode() {
-                    row.header.setText("☁️")
+                    if let firestoreData = defaults.object(forKey: InterfaceController.FIRESTORE_DATA) as? [[String:String]] {
+                        if index<firestoreData.count {
+                            row.header.setText("☁️")
+                        } else {
+                            row.header.setText("⚡️")
+                        }
+                    } else {
+                        row.header.setText("☁️")
+                    }
+                }
+            }
+        }
+    }
+    
+    fileprivate func prepareFetchTasks(_ insert: Bool) {
+        //start fetching
+        
+        if InterfaceController.isRestMode(),
+            let measurementDataDictArr = defaults.array(forKey: InterfaceController.MEASUREMENT_DATA) as? [[String:Any]],
+            let serverUrl = defaults.string(forKey: InterfaceController.SERVER_CONFIG)
+        {
+            for index in 0..<measurementDataDictArr.count {
+                if insert {
+                    self.fetchTaskArr.insert(RequestUtil.doGetDataForMainTable(serverUrl, measurementDataDictArr[index], self.table, atSelectedMeasurementIndex: index), at: index)
+                } else {
+                    self.fetchTaskArr.append(RequestUtil.doGetDataForMainTable(serverUrl, measurementDataDictArr[index], self.table, atSelectedMeasurementIndex: index))
+                }
+                
+                self.fetchTaskArr[index].resume()
+            }
+        } else if InterfaceController.isCloudMode() {
+            if let firestoreData = defaults.object(forKey: InterfaceController.FIRESTORE_DATA) as? [[String:String]],
+                let cloudToken = defaults.string(forKey: InterfaceController.CLOUD_TOKEN) {
+                let consumers = defaults.integer(forKey: InterfaceController.CONSUMERS)
+                for index in 0..<firestoreData.count+consumers {
+                    if index < firestoreData.count {
+                        let fsData = firestoreData[index]
+                        if insert {
+                            self.fetchTaskArr.insert(RequestUtil.doGetCloudDataForMainTable(fsData, cloudToken, self.table, atSelectedMeasurementIndex: index, self), at: index)
+                        } else {
+                            self.fetchTaskArr.append(RequestUtil.doGetCloudDataForMainTable(fsData, cloudToken, self.table, atSelectedMeasurementIndex: index, self))
+                        }
+                        
+                    } else {
+                        let fsData = firestoreData[index % consumers]
+                        if insert {
+                            self.fetchTaskArr.insert(RequestUtil.doGetRealtimeDBDataForMainTable(fsData, cloudToken, self.table, atSelectedMeasurementIndex: index, self), at: index)
+                        } else {
+                            self.fetchTaskArr.append(RequestUtil.doGetRealtimeDBDataForMainTable(fsData, cloudToken, self.table, atSelectedMeasurementIndex: index, self))
+                        }
+                    }
+                    
+                    self.fetchTaskArr[index].resume()
                 }
             }
         }
     }
     
     private func getTemp() {
-        self.info.setText("Fetching[\(InterfaceController.isRestMode() ? defaults.integer(forKey: InterfaceController.REFRESH_TIME) ?? 5 : 5)s]...")
+        self.info.setText("Fetching[\(InterfaceController.isRestMode() ? defaults.integer(forKey: InterfaceController.REFRESH_TIME) : 3)s]...")
         setHeaders()
         if fetchTaskArr.count == 0 {
-            //start fetching
-            
-            if InterfaceController.isRestMode(),
-               let measurementDataDictArr = defaults.array(forKey: InterfaceController.MEASUREMENT_DATA) as? [[String:Any]],
-                let serverUrl = defaults.string(forKey: InterfaceController.SERVER_CONFIG)
-            {
-                for index in 0..<measurementDataDictArr.count {
-                    self.fetchTaskArr.append(RequestUtil.doGetDataForMainTable(serverUrl, measurementDataDictArr[index], self.table, atSelectedMeasurementIndex: index))
-                    self.fetchTaskArr[index].resume()
-                }
-            } else if InterfaceController.isCloudMode() {
-                if let firestoreData = defaults.object(forKey: InterfaceController.FIRESTORE_DATA) as? [[String:String]],
-                    let cloudToken = defaults.string(forKey: InterfaceController.CLOUD_TOKEN) {
-                    for index in 0..<firestoreData.count {
-                        self.fetchTaskArr.append(RequestUtil.doGetCloudDataForMainTable(firestoreData[index], cloudToken, self.table, atSelectedMeasurementIndex: index, self))
-                        self.fetchTaskArr[index].resume()
-                    }
-                }
-            }
+            prepareFetchTasks(false)
         }
         
         startTimer()
@@ -290,23 +327,32 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     @IBAction func onCloudMenuItemClick() {
         defaults.set(InterfaceController.CLOUD_MODE, forKey: InterfaceController.MODE)
         willDisappear()
-        if let firestoreData = defaults.array(forKey: InterfaceController.FIRESTORE_DATA) as? [[String:String]] {
-            initShowData(firestoreData.count)
-        } else {
-            table.setNumberOfRows(0, withRowType: "measurementRowType")
-            info.setText("No Cloud Data")
-        }
+        initShowDataForMode()
     }
     
     @IBAction func onRESTMenuItemClick() {
         defaults.set(InterfaceController.REST_MODE, forKey: InterfaceController.MODE)
         willDisappear()
-        if let measurementDataDictArr = defaults.array(forKey: InterfaceController.MEASUREMENT_DATA) as? [[String:Any]] {
-            initShowData(measurementDataDictArr.count)
-        } else {
-            table.setNumberOfRows(0, withRowType: "measurementRowType")
-            info.setText("No config")
+        initShowDataForMode()
+    }
+    
+    private func initShowDataForMode() {
+        if InterfaceController.isRestMode() {
+            if let measurementDataDictArr = defaults.array(forKey: InterfaceController.MEASUREMENT_DATA) as? [[String:Any]] {
+                initShowData(measurementDataDictArr.count)
+            } else {
+                table.setNumberOfRows(0, withRowType: "measurementRowType")
+                info.setText("No config")
+            }
         }
-        
+        if InterfaceController.isCloudMode() {
+            if let firestoreData = defaults.array(forKey: InterfaceController.FIRESTORE_DATA) as? [[String:String]] {
+                let consumers = defaults.integer(forKey: InterfaceController.CONSUMERS)
+                initShowData(firestoreData.count + consumers)
+            } else {
+                table.setNumberOfRows(0, withRowType: "measurementRowType")
+                info.setText("No Cloud Data")
+            }
+        }
     }
 }

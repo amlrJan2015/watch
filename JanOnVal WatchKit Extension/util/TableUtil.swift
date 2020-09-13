@@ -327,6 +327,15 @@ class TableUtil {
         return request
     }
     
+    public static func createRTDBRequest(_ firestoreData: [String:String], _ cloudToken: String) -> URLRequest {
+        var request = URLRequest(url: URL(string:"https://gridvis-cloud-bd455.firebaseio.com/Hubs/\(firestoreData["hubID"]!)/devices/\(firestoreData["deviceID"]!)/onlinevalues/PowerActive@SUM13.json?auth=\(cloudToken)")!)
+        request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        
+        return request
+    }
+    
     public static func createRequestForChart(_ measurementData:[String: Any], _ serverUrl: String?, namedTimeStart: String, namedTimeEnd: String) -> URLRequest {
         let deviceId = measurementData["deviceId"] as! Int
         let measurementValue = measurementData["measurementValue"] as! String
