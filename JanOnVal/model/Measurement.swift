@@ -23,10 +23,9 @@ import os.log
 //</valueType>
 //</value>
 
-class Measurement: NSObject, NSCoding {
+class Measurement: NSObject, NSCoding, Decodable {
     
     public static let KEY_FOR_USER_DEFAULTS = "KEY_FOR_USER_DEFAULTS"
-    
     public static let ONLINE = 0, HIST = 1, MI = 2
     
     let valueType: ValueType?

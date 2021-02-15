@@ -23,7 +23,7 @@ import os.log
 //</valueType>
 //</value>
 
-class ValueType: NSObject, NSCoding {
+class ValueType: NSObject, NSCoding, Decodable {
     func encode(with aCoder: NSCoder) {
         aCoder.encode(type, forKey: "type")
         aCoder.encode(typeName, forKey: "typeName")

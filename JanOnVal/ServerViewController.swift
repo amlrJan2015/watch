@@ -88,12 +88,12 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
                                     var hubId: String = ""
                                     for document in querySnapshot!.documents {
                                         let data = document.data()
-                                        print("\(document.documentID) => \(data["deviceName"] as! String)")
+                                        print("\(document.documentID) => \(data["deviceName"] as? String ?? "Unknown")")
                                         hubId = data["hubId"] as! String
                                         let dict: [String:String] = [
                                             "deviceID": document.documentID,
                                             "hubID": hubId,
-                                            "deviceName": data["deviceName"] as! String
+                                            "deviceName": data["deviceName"] as? String ?? "Unknown"
                                         ]
                                         firestoreData.append(dict)
                                     }

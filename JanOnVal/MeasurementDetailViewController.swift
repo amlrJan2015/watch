@@ -49,7 +49,7 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
         gesture.delegate = self
         
         if let measurement = measurement,
-            let unarchivedObject = UserDefaults.standard.data(forKey: Measurement.KEY_FOR_USER_DEFAULTS) {
+           let unarchivedObject = UserDefaults.standard.data(forKey: Measurement.KEY_FOR_USER_DEFAULTS) {
             do{
                 savedData = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(unarchivedObject) as! [Measurement]
             } catch {
@@ -151,6 +151,39 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
                 let data = try NSKeyedArchiver.archivedData(withRootObject: savedData, requiringSecureCoding: false)
                 
                 UserDefaults.standard.set(data, forKey: Measurement.KEY_FOR_USER_DEFAULTS)
+                if let sharedUD = UserDefaults(suiteName: "group.measurements") {
+                    do {
+                        let data = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data) as! [Measurement]
+                        let defaults = UserDefaults.standard
+                        let HOST = "HOST"
+                        let PORT = "PORT"
+                        let PROJECT = "PROJECT"
+                        
+                        let arr = data.filter({ (measurement) -> Bool in
+                            return measurement.valueType?.value.contains("ActiveEnergy") ?? false || measurement.valueType?.value.contains("Power") ?? false
+                        })
+                        .map { measurement -> [String: String] in
+                            var d: [String: String] = [:]
+                            d["measurementType"] = measurement.valueType!.type
+                            d["measurementValue"] = measurement.valueType!.value
+                            d["deviceId"] = String(measurement.device!.id)
+                            d[PROJECT] = defaults.string(forKey: PROJECT)
+                            d[PORT] = defaults.string(forKey: PORT)
+                            d[HOST] = defaults.string(forKey: HOST)
+                            d["title"] = measurement.watchTitle
+                            d["deviceName"] = measurement.device!.name
+                            d["unit2"] = measurement.unit2
+                            
+                            return d
+                        }
+                        
+                        sharedUD.set(arr, forKey: Measurement.KEY_FOR_USER_DEFAULTS)
+                    } catch {
+                        fatalError("IntentHandler - Can't encode data: \(error)")
+                    }
+                } else {
+                    print("App group failed")
+                }
             } catch {
                 fatalError("Can't encode data: \(error)")
             }

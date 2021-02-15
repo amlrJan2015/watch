@@ -16,11 +16,12 @@ import FirebaseAuth
 import FirebaseMessaging
 import FirebaseCore
 import FirebaseFunctions
+import WidgetKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,
-    MessagingDelegate,
-UNUserNotificationCenterDelegate, GIDSignInDelegate {
+                   MessagingDelegate,
+                   UNUserNotificationCenterDelegate, GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error!) {
         if let error = error {
             print(error.localizedDescription)
@@ -125,25 +126,25 @@ UNUserNotificationCenterDelegate, GIDSignInDelegate {
                                                     "consumers": firestoreData.count
                                                 ])
                                                 
-//                                                Firestore.firestore().collection("ConsumerConfig").whereField("hubId", isEqualTo: hubId).getDocuments { (querySnapshotConsumers, conusmersErr) in
-//                                                    if let err = conusmersErr {
-//                                                        print("Error getting consumers: \(err)")
-//                                                    } else {
-//                                                        let isConsumerExists: Bool = querySnapshotConsumers!.documents.count > 0
-//                                                        var consumersCount: Int = 0
-//                                                        if isConsumerExists {
-//                                                            if let consumers = querySnapshotConsumers!.documents[0].data()["consumers"] as? [String: Any]{
-//                                                                consumersCount = consumers.count
-//                                                            }
-//                                                        }
-//
-//                                                        connectivityHandler.session.transferUserInfo([
-//                                                            "cloudToken": cloudToken!,
-//                                                            "firestoreData": firestoreData,
-//                                                            "consumers": consumersCount
-//                                                        ])
-//                                                    }
-//                                                }
+                                                //                                                Firestore.firestore().collection("ConsumerConfig").whereField("hubId", isEqualTo: hubId).getDocuments { (querySnapshotConsumers, conusmersErr) in
+                                                //                                                    if let err = conusmersErr {
+                                                //                                                        print("Error getting consumers: \(err)")
+                                                //                                                    } else {
+                                                //                                                        let isConsumerExists: Bool = querySnapshotConsumers!.documents.count > 0
+                                                //                                                        var consumersCount: Int = 0
+                                                //                                                        if isConsumerExists {
+                                                //                                                            if let consumers = querySnapshotConsumers!.documents[0].data()["consumers"] as? [String: Any]{
+                                                //                                                                consumersCount = consumers.count
+                                                //                                                            }
+                                                //                                                        }
+                                                //
+                                                //                                                        connectivityHandler.session.transferUserInfo([
+                                                //                                                            "cloudToken": cloudToken!,
+                                                //                                                            "firestoreData": firestoreData,
+                                                //                                                            "consumers": consumersCount
+                                                //                                                        ])
+                                                //                                                    }
+                                                //                                                }
                                             }
                                         }
                                     }
@@ -241,6 +242,41 @@ UNUserNotificationCenterDelegate, GIDSignInDelegate {
         //            self.handleAppRefresh(task: task as! BGAppRefreshTask)
         //        }
         
+        WidgetCenter.shared.reloadAllTimelines()
+        
+        if let sharedUD = UserDefaults(suiteName: "group.measurements") {
+            do {
+                let data = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(UserDefaults.standard.data(forKey: Measurement.KEY_FOR_USER_DEFAULTS)!) as! [Measurement]
+                let defaults = UserDefaults.standard
+                let HOST = "HOST"
+                let PORT = "PORT"
+                let PROJECT = "PROJECT"
+                
+                let arr = data.filter({ (measurement) -> Bool in
+                    return measurement.valueType?.value.contains("ActiveEnergy") ?? false || measurement.valueType?.value.contains("Power") ?? false
+                })
+                .map { measurement -> [String: String] in
+                    var d: [String: String] = [:]
+                    d["measurementType"] = measurement.valueType!.type
+                    d["measurementValue"] = measurement.valueType!.value
+                    d["deviceId"] = String(measurement.device!.id)
+                    d[PROJECT] = defaults.string(forKey: PROJECT)
+                    d[PORT] = defaults.string(forKey: PORT)
+                    d[HOST] = defaults.string(forKey: HOST)
+                    d["title"] = measurement.watchTitle
+                    d["deviceName"] = measurement.device!.name
+                    d["unit2"] = measurement.unit2
+                    
+                    return d
+                }
+                
+                sharedUD.set(arr, forKey: Measurement.KEY_FOR_USER_DEFAULTS)
+            } catch {
+                fatalError("IntentHandler - Can't encode data: \(error)")
+            }
+        } else {
+            print("App group failed")
+        }
         
         return true
     }
@@ -337,9 +373,9 @@ UNUserNotificationCenterDelegate, GIDSignInDelegate {
         }
     }
     
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
-        print("FCM token: \(fcmToken)")
-        UserDefaults.standard.set(fcmToken, forKey: "fcmToken")
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        print("Firebase registration token: \(String(describing: fcmToken))")
+        UserDefaults.standard.set(fcmToken ?? "", forKey: "fcmToken")
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

@@ -9,6 +9,7 @@
 import WatchKit
 import Foundation
 import WatchConnectivity
+import ClockKit
 
 class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSessionDelegate {
     

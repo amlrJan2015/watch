@@ -9,7 +9,7 @@
 import Foundation
 import os.log
 
-class Device: NSObject, NSCoding {
+class Device: NSObject, NSCoding, Decodable {
     let id: Int
     let name: String
     let desc: String

@@ -306,6 +306,8 @@ class TableUtil {
             requestData = "unknown mode"
         }
         
+        print("\(serverUrl!)\(requestData)")
+        
         var request = URLRequest(url: URL(string:"\(serverUrl!)\(requestData)")!)        
         request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData
         
