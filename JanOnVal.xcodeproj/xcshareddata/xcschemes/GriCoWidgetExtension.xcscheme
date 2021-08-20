@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "1160"
+   LastUpgradeVersion = "1200"
+   wasCreatedForAppExtension = "YES"
    version = "2.0">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,9 +15,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "AA43F51C1FDA6A5E00C879E0"
-               BuildableName = "GridVis Companion.app"
-               BlueprintName = "JanOnVal WatchKit App"
+               BlueprintIdentifier = "254DF649251DB734003CED3A"
+               BuildableName = "GriCoWidgetExtension.appex"
+               BlueprintName = "GriCoWidgetExtension"
                ReferencedContainer = "container:JanOnVal.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -41,70 +42,76 @@
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AA43F51C1FDA6A5E00C879E0"
-            BuildableName = "GridVis Companion.app"
-            BlueprintName = "JanOnVal WatchKit App"
-            ReferencedContainer = "container:JanOnVal.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
       <Testables>
       </Testables>
    </TestAction>
    <LaunchAction
       buildConfiguration = "Debug"
-      selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
-      selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
+      selectedDebuggerIdentifier = ""
+      selectedLauncherIdentifier = "Xcode.IDEFoundation.Launcher.PosixSpawn"
       launchStyle = "0"
+      askForAppToLaunch = "Yes"
       useCustomWorkingDirectory = "NO"
       ignoresPersistentStateOnLaunch = "NO"
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES"
-      launchAutomaticallySubstyle = "16"
-      notificationPayloadFile = "JanOnVal WatchKit Extension/test_apns/PushNotificationPayload.apns">
+      launchAutomaticallySubstyle = "2">
       <RemoteRunnable
          runnableDebuggingMode = "2"
-         BundleIdentifier = "com.apple.Carousel"
-         RemotePath = "/$(PRODUCT_NAME)">
+         BundleIdentifier = "com.apple.springboard">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AA43F51C1FDA6A5E00C879E0"
-            BuildableName = "GridVis Companion.app"
-            BlueprintName = "JanOnVal WatchKit App"
+            BlueprintIdentifier = "254DF649251DB734003CED3A"
+            BuildableName = "GriCoWidgetExtension.appex"
+            BlueprintName = "GriCoWidgetExtension"
             ReferencedContainer = "container:JanOnVal.xcodeproj">
          </BuildableReference>
       </RemoteRunnable>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "AA43F50A1FDA6A5E00C879E0"
+            BuildableName = "GriCo.app"
+            BlueprintName = "JanOnVal"
+            ReferencedContainer = "container:JanOnVal.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
+      <EnvironmentVariables>
+         <EnvironmentVariable
+            key = "_XCWidgetKind"
+            value = "EnergyMediumWidget"
+            isEnabled = "YES">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "_XCWidgetDefaultView"
+            value = "timeline"
+            isEnabled = "NO">
+         </EnvironmentVariable>
+         <EnvironmentVariable
+            key = "_XCWidgetFamily"
+            value = "medium"
+            isEnabled = "NO">
+         </EnvironmentVariable>
+      </EnvironmentVariables>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
       shouldUseLaunchSchemeArgsEnv = "YES"
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
-      debugDocumentVersioning = "YES">
-      <RemoteRunnable
-         runnableDebuggingMode = "2"
-         BundleIdentifier = "com.apple.Carousel"
-         RemotePath = "/$(PRODUCT_NAME)">
+      debugDocumentVersioning = "YES"
+      launchAutomaticallySubstyle = "2">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AA43F51C1FDA6A5E00C879E0"
-            BuildableName = "GridVis Companion.app"
-            BlueprintName = "JanOnVal WatchKit App"
+            BlueprintIdentifier = "AA43F50A1FDA6A5E00C879E0"
+            BuildableName = "GriCo.app"
+            BlueprintName = "JanOnVal"
             ReferencedContainer = "container:JanOnVal.xcodeproj">
          </BuildableReference>
-      </RemoteRunnable>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AA43F51C1FDA6A5E00C879E0"
-            BuildableName = "GridVis Companion.app"
-            BlueprintName = "JanOnVal WatchKit App"
-            ReferencedContainer = "container:JanOnVal.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

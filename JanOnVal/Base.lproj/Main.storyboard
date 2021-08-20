@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZUN-e0-61U">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="ZUN-e0-61U">
     <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
@@ -86,6 +86,9 @@
                                     <constraint firstAttribute="width" constant="240" id="S4k-C4-S36"/>
                                     <constraint firstAttribute="height" constant="69" id="aOb-DS-ry2"/>
                                 </constraints>
+                                <connections>
+                                    <action selector="signIn:" destination="m83-2z-C3D" eventType="touchUpInside" id="86C-cD-94r"/>
+                                </connections>
                             </view>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="🔴" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ehV-eB-27B">
                                 <rect key="frame" x="121.5" y="397.5" width="27" height="29"/>
@@ -159,6 +162,7 @@
                         <outlet property="projectName" destination="vVr-dp-azr" id="PqE-JE-1oX"/>
                         <outlet property="refreshTime" destination="G0l-xL-vSK" id="uGV-rR-qS7"/>
                         <outlet property="serverUrl" destination="Vbb-Nb-P25" id="9Xk-Sr-NDI"/>
+                        <outlet property="signInButton" destination="A8k-DM-kpm" id="0kF-LP-h3v"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Zi1-hy-gBX" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -175,7 +179,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <prototypes>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" reuseIdentifier="DeviceCell" textLabel="eb8-a8-SAH" detailTextLabel="7O7-ht-CLw" rowHeight="46" style="IBUITableViewCellStyleSubtitle" id="kjG-0M-qlR">
-                                <rect key="frame" x="0.0" y="28" width="414" height="46"/>
+                                <rect key="frame" x="0.0" y="24.5" width="414" height="46"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="kjG-0M-qlR" id="Xea-lV-o3i">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="46"/>
@@ -235,10 +239,10 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="MeasurementCell" textLabel="NYF-V8-I1k" detailTextLabel="Xmu-Ld-6mK" style="IBUITableViewCellStyleSubtitle" id="dTG-dU-W20">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="55.5"/>
+                                        <rect key="frame" x="0.0" y="24.5" width="414" height="55.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="dTG-dU-W20" id="xFY-FS-XI2">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="55.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="384.5" height="55.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="NYF-V8-I1k">
@@ -567,10 +571,10 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="selectedMeasurementCell" textLabel="cDS-uN-idv" detailTextLabel="PcF-5c-Pzu" style="IBUITableViewCellStyleSubtitle" id="fLr-Oy-IHz">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="55.5"/>
+                                        <rect key="frame" x="0.0" y="24.5" width="414" height="55.5"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="fLr-Oy-IHz" id="7nK-mA-4Qc">
-                                            <rect key="frame" x="0.0" y="0.0" width="383" height="55.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="384.5" height="55.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cDS-uN-idv">

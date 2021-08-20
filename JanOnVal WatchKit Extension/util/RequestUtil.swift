@@ -112,12 +112,12 @@ class RequestUtil {
                             }
                         }
                     } else if statusCode == 403 || statusCode == 401 {
-                        print("let refresh token")
+                        print("doGetCloudDataForMainTable: let refresh token:\(statusCode)")
                         let action = WKAlertAction(title: "on iPhone",style: WKAlertActionStyle.destructive){}
                         interfaceController.presentAlert(withTitle: "CloudToken", message: "Please refresh Cloud Token!", preferredStyle: WKAlertControllerStyle.alert, actions: [action])
                     }
                 } else {
-                    print("response ist nil")
+                    print("doGetCloudDataForMainTable: response is nil")
                 }
             } catch {
                 //                print("error:\(error)")
@@ -172,12 +172,12 @@ class RequestUtil {
                             //                            }
                         }
                     } else if statusCode == 403 || statusCode == 401 {
-                        print("let refresh token")
+                        print("doGetRealtimeDBDataForMainTable: let refresh token:\(statusCode)")
                         let action = WKAlertAction(title: "on iPhone",style: WKAlertActionStyle.destructive){}
                         interfaceController.presentAlert(withTitle: "CloudToken", message: "Please refresh Cloud Token!", preferredStyle: WKAlertControllerStyle.alert, actions: [action])
                     }
                 } else {
-                    print("response ist nil")
+                    print("doGetRealtimeDBDataForMainTable: response is nil")
                 }
             } catch {
                 //                print("error:\(error)")

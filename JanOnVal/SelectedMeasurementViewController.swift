@@ -78,13 +78,13 @@ class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, 
 //        ], replyHandler: nil) { (err) in
 //            NSLog("%@", "Error sending data to watch: \(err)")
 //        }
-        if connectivityHandler.session.activationState == .activated {
+        if connectivityHandler !== nil && connectivityHandler.session.activationState == .activated {
                 connectivityHandler.session.transferUserInfo([
                 "serverUrl": appModel!.serverUrl,
                 "measurementDataDictArr": dictArr,
                 "refreshTime": appModel!.refreshTime])
         } else {
-            showAlert(alertTitle: "Error config transfer", alertMessage: "Start Watch App")
+            showAlert(alertTitle: "Failed to transfer config", alertMessage: "Start Watch App oder iPad?")
         }
         
 //                }

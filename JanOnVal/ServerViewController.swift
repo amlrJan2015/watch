@@ -23,6 +23,8 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var janitzaID: UILabel!
     @IBOutlet weak var cloud: UILabel!
     
+    @IBOutlet weak var signInButton: GIDSignInButton!
+    
     var appModel: AppModel?
     
     let defaults = UserDefaults.standard
@@ -111,11 +113,9 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
                             
                         } else {
                             print("Error","ConnectivityHandler state is not active!")
-                            self.showAlert("Error","No connectivityHandler!")
                         }
                     } else {
                         print("Error","No connectivityHandler!")
-                        self.showAlert("Error","No connectivityHandler!")
                     }
                 })
             } else {
@@ -150,9 +150,6 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
         port.delegate = self
         projectName.delegate = self
         refreshTime.delegate = self
-        
-        GIDSignIn.sharedInstance()?.presentingViewController = self
-        GIDSignIn.sharedInstance().signIn()
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
@@ -209,6 +206,11 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    @IBAction func signIn(_ sender: Any) {
+        sign()
+    }
+    
+    
     @IBAction func onLogoutClick(_ sender: UIButton) {
         guard let janitzaIDApp = FirebaseApp.app(name: "JanitzID") else {
             assert(false,"Could not retrieve secondary app!!!")
@@ -224,6 +226,168 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
             print ("Error signing out: %@", signOutError)
             self.showAlert("Error signing out","signOutError")
         }
+    }
+    
+    func sign() {
+        
+        guard let clientID = FirebaseApp.app(name: "JanitzID")?.options.clientID else { return }
+        
+        let config = GIDConfiguration(clientID: clientID)
+        
+        GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { [unowned self] user, error in
+            
+            if let error = error {
+                print(error.localizedDescription)
+                return
+            }
+            
+            guard
+                let authentication = user?.authentication,
+                let idToken = authentication.idToken
+            else {
+                return
+            }
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                           accessToken: authentication.accessToken)
+            
+            //            guard let authentication = user.authentication else { return }
+            //            let credential = GoogleAuthProvider.credential(withIDToken: authentication.idToken,
+            //                                                           accessToken: authentication.accessToken)
+            
+            self.cloud.text = "🟢"
+            
+            guard let janitzaIDApp = FirebaseApp.app(name: "JanitzID") else {
+                assert(false,"Could not retrieve secondary app!!!")
+                return
+            }
+            
+            Auth.auth(app: janitzaIDApp).signIn(with: credential) { (authResultJanitzaID, error) in
+                if let error = error {
+                    print("JanitzaIDAuth-ERROR:\(error.localizedDescription)")
+                    //                self.showAlert("Error", error.localizedDescription)
+                    return
+                }
+                // User is signed in
+                // ...
+                print("USerID_JanitzaID(lVgE...):",authResultJanitzaID?.user.uid ?? "Error on fetch user id")
+                
+                
+                let functions = Functions.functions(app: janitzaIDApp, region: "europe-west1")
+                
+                functions.httpsCallable("createCustomAuthToken").call { (resultopt, cloudFunctionCallErrOpt) in
+                    
+                    if let cloudFunctionCallErr = cloudFunctionCallErrOpt {
+                        print("Error Cloud Function Call", cloudFunctionCallErr.localizedDescription)
+                        //                    self.showAlert("Error Cloud Function Call", cloudFunctionCallErr.localizedDescription)
+                        return
+                    }
+                    
+                    if let result = resultopt {
+                        
+                        let customerToken = result.data as! String
+                        
+                        Auth.auth().signIn(withCustomToken: customerToken) { (authResultCloud, cloudError) in
+                            if let cloudError = cloudError {
+                                print("Cloud Auth Error", cloudError.localizedDescription, customerToken)
+                                //                            self.showAlert("Cloud Auth Error", cloudError.localizedDescription)
+                                return
+                            }
+                            
+                            
+                            print("USerID_JanitzaCloud(lVgE...):",authResultCloud?.user.uid ?? "Error on fetch user id")
+                            
+                            
+                            //                        self.addUserDataIfOk(authResultCloud)
+                            //                        if let authResult = authResultCloud {
+                            //
+                            //                            let userDevicesDocRef = Firestore.firestore().document("/users/\(authResult.user.uid)");
+                            //                            userDevicesDocRef.getDocument { (docSnapshot, error) in
+                            //                                let k = (docSnapshot?.data()?["devices"] as? [String:Bool])?.filter {$0.value}.keys
+                            //                                if let userRegisteredDevice = k {
+                            //                                    let devicePath = Array<String>(userRegisteredDevice)[0]
+                            //                                    print(devicePath)
+                            //
+                            //                                }
+                            //                            }
+                            //
+                            //                        }
+                            
+                            authResultCloud?.user.getIDTokenForcingRefresh(true, completion: { (cloudToken, error) in
+                                if let error = error {
+                                    print("Error get Cloud token", error.localizedDescription)
+                                    //                                self.showAlert("Error", error.localizedDescription)
+                                    return
+                                }
+                                
+                                print("#+#+#+#+#CloudToken:",cloudToken!)
+                                let connectivityHandlerOpt = (UIApplication.shared.delegate as? AppDelegate)?.connectivityHandler
+                                if let connectivityHandler = connectivityHandlerOpt {
+                                    if connectivityHandler.session.activationState == .activated {
+                                        
+                                        if let authRC = authResultCloud {
+                                            
+                                            Firestore.firestore().collectionGroup("Devices").whereField("owner", isEqualTo: authRC.user.uid).getDocuments { (querySnapshot, devicesErr) in
+                                                if let err = devicesErr {
+                                                    print("Error getting documents: \(err)")
+                                                } else {
+                                                    var firestoreData: [[String:String]] = []
+                                                    var hubId: String = ""
+                                                    for document in querySnapshot!.documents {
+                                                        let data = document.data()
+                                                        print("\(document.documentID) => \(data["deviceName"] as! String)")
+                                                        hubId = data["hubId"] as! String
+                                                        let dict: [String:String] = [
+                                                            "deviceID": document.documentID,
+                                                            "hubID": hubId,
+                                                            "deviceName": data["deviceName"] as! String
+                                                        ]
+                                                        firestoreData.append(dict)
+                                                    }
+                                                    
+                                                    connectivityHandler.session.transferUserInfo([
+                                                        "cloudToken": cloudToken!,
+                                                        "firestoreData": firestoreData,
+                                                        "consumers": firestoreData.count
+                                                    ])
+                                                    
+                                                    //                                                Firestore.firestore().collection("ConsumerConfig").whereField("hubId", isEqualTo: hubId).getDocuments { (querySnapshotConsumers, conusmersErr) in
+                                                    //                                                    if let err = conusmersErr {
+                                                    //                                                        print("Error getting consumers: \(err)")
+                                                    //                                                    } else {
+                                                    //                                                        let isConsumerExists: Bool = querySnapshotConsumers!.documents.count > 0
+                                                    //                                                        var consumersCount: Int = 0
+                                                    //                                                        if isConsumerExists {
+                                                    //                                                            if let consumers = querySnapshotConsumers!.documents[0].data()["consumers"] as? [String: Any]{
+                                                    //                                                                consumersCount = consumers.count
+                                                    //                                                            }
+                                                    //                                                        }
+                                                    //
+                                                    //                                                        connectivityHandler.session.transferUserInfo([
+                                                    //                                                            "cloudToken": cloudToken!,
+                                                    //                                                            "firestoreData": firestoreData,
+                                                    //                                                            "consumers": consumersCount
+                                                    //                                                        ])
+                                                    //                                                    }
+                                                    //                                                }
+                                                }
+                                            }
+                                        }
+                                    } else {
+                                        print("Error","No connectivityHandler!")
+                                        //                                    self.showAlert("Error","No connectivityHandler!")
+                                    }
+                                } else {
+                                    print("Error","No connectivityHandler!")
+                                    //                                self.showAlert("Error","No connectivityHandler!")
+                                }
+                            })
+                        }
+                    }
+                }
+            }
+        }
+        
     }
     
 }

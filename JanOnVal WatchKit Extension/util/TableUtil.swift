@@ -80,7 +80,7 @@ class TableUtil {
         
         var returnstring = String(format:"%.1f",result.1) + result.0
         
-        if( ( abs(result.1) >= 10) || ((round( result.1 * 10) - 10 * round( result.1)) == 0)){
+        if( ( abs(result.1) >= 10.0) || ((round( result.1 * 10.0) - 10.0 * round( result.1)) == 0.0)){
             returnstring = String(format:"%.0f",result.1) + result.0
          }
         

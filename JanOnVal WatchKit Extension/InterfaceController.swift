@@ -283,7 +283,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
             if let firestoreData = defaults.object(forKey: InterfaceController.FIRESTORE_DATA) as? [[String:String]],
                 let cloudToken = defaults.string(forKey: InterfaceController.CLOUD_TOKEN) {
                 let consumers = defaults.integer(forKey: InterfaceController.CONSUMERS)
-                for index in 0..<firestoreData.count+consumers {
+                for index in 0..<firestoreData.count/*+consumers*/ {
                     if index < firestoreData.count {
                         let fsData = firestoreData[index]
                         if insert {
