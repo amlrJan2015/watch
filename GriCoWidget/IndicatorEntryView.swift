@@ -18,6 +18,8 @@ struct IndicatorEntryView: View {
                                                 Color(red: 69.0/255.0, green: 116.0/255.0, blue: 167/255.0, opacity:1.0)]),
                            center: .top, startRadius: 0, endRadius: 200)
             VStack(alignment: .center, spacing: 2) {
+                Text(entry.configuration.indicatorWidgetData?.title ?? "💡")
+                    .font(.largeTitle)
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 8) {
                     Text(entry.mesurementValue.getScaledValue().0).font(.system(.title2, design: .default)).bold().foregroundColor(.white)
                     Text(entry.mesurementValue.getScaledValue().1).font(.system(.title2, design: .default)).bold().foregroundColor(.white)
