@@ -23,28 +23,23 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
             //            let template = CLKComplicationTemplateModularSmallRingText()
             //            template.textProvider = CLKSimpleTextProvider(text: "J")
             //            template.fillFraction = 0.5
-            let template = CLKComplicationTemplateModularSmallSimpleImage()
-            template.imageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "J_modular_small"))
+            let template = CLKComplicationTemplateModularSmallSimpleImage(imageProvider: CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "J_modular_small")))
             handler(template)
         } else if complication.family == .graphicCircular {
             //            let template = CLKComplicationTemplateModularSmallRingText()
             //            template.textProvider = CLKSimpleTextProvider(text: "J")
             //            template.fillFraction = 0.5
-            let template = CLKComplicationTemplateGraphicCircularImage()
-            template.imageProvider = CLKFullColorImageProvider(fullColorImage: #imageLiteral(resourceName: "J_circular"))
+            let template = CLKComplicationTemplateGraphicCircularImage(imageProvider: CLKFullColorImageProvider(fullColorImage: #imageLiteral(resourceName: "J_circular")))
             handler(template)
         } else if complication.family == .utilitarianSmall {
-            let template = CLKComplicationTemplateUtilitarianSmallRingText()
-            template.textProvider = CLKSimpleTextProvider(text: "J")
-            template.fillFraction = 0.5
+            let template = CLKComplicationTemplateUtilitarianSmallRingText(textProvider: CLKSimpleTextProvider(text: "J"), fillFraction: 0.5, ringStyle: .open)
             handler(template)
         } else if complication.family == .extraLarge {
             //            let template = CLKComplicationTemplateExtraLargeStackImage()
             //            template.highlightLine2 = true
             //            template.line2TextProvider = CLKSimpleTextProvider(text: "1.2 kW")
             //            template.line1ImageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "val135"))
-            let template = CLKComplicationTemplateExtraLargeSimpleImage()
-            template.imageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "J_x_large"))
+            let template = CLKComplicationTemplateExtraLargeSimpleImage(imageProvider: CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "J_x_large")))
             
             //            let template = CLKComplicationTemplateExtraLargeSimpleText()
             //            template.textProvider = CLKSimpleTextProvider(text: "?")
@@ -52,18 +47,10 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
             
             handler(template)
         } else if complication.family == .modularLarge {
-            let template = CLKComplicationTemplateModularLargeTable()
-            template.headerTextProvider = CLKSimpleTextProvider(text: "GridVis Companion")
-            template.row1Column1TextProvider = CLKSimpleTextProvider(text: "💡")
-            template.row1Column2TextProvider = CLKSimpleTextProvider(text: "123.5 Wh")
-            template.row2Column1TextProvider = CLKSimpleTextProvider(text: "⚡️")
-            template.row2Column2TextProvider = CLKSimpleTextProvider(text: "123.5 W")
+            let template = CLKComplicationTemplateModularLargeTable(headerTextProvider: CLKSimpleTextProvider(text: "GridVis Companion"), row1Column1TextProvider: CLKSimpleTextProvider(text: "💡"), row1Column2TextProvider: CLKSimpleTextProvider(text: "123.5 Wh"), row2Column1TextProvider: CLKSimpleTextProvider(text: "⚡️"), row2Column2TextProvider: CLKSimpleTextProvider(text: "123.5 W"))
             handler(template)
         } else if complication.family == .graphicRectangular {
-            let template = CLKComplicationTemplateGraphicRectangularStandardBody()
-            template.headerTextProvider = CLKSimpleTextProvider(text: "Energy")
-            template.body1TextProvider = CLKSimpleTextProvider(text: "123.4")
-            template.body2TextProvider = CLKSimpleTextProvider(text: "Wh")
+            let template = CLKComplicationTemplateGraphicRectangularStandardBody(headerImageProvider: nil, headerTextProvider: CLKSimpleTextProvider(text: "Energy"), body1TextProvider: CLKSimpleTextProvider(text: "123.4"), body2TextProvider: CLKSimpleTextProvider(text: "Wh"))
             handler(template)
         } else {
             handler(nil)
@@ -78,9 +65,7 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
             //            template.textProvider = CLKSimpleTextProvider(text: "J")
             //            template.fillFraction = 1.0
             
-            let template = CLKComplicationTemplateModularSmallSimpleImage()
-            template.imageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "J_modular_small"))
-            
+            let template = CLKComplicationTemplateModularSmallSimpleImage(imageProvider: CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "J_modular_small")))
             handler(CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template))
             break
         case .graphicCircular:
@@ -88,15 +73,11 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
             //            template.textProvider = CLKSimpleTextProvider(text: "J")
             //            template.fillFraction = 1.0
             
-            let template = CLKComplicationTemplateGraphicCircularImage()
-            template.imageProvider = CLKFullColorImageProvider(fullColorImage: #imageLiteral(resourceName: "J_circular"))
-            
+            let template = CLKComplicationTemplateGraphicCircularImage(imageProvider: CLKFullColorImageProvider(fullColorImage: #imageLiteral(resourceName: "J_circular")))
             handler(CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template))
             break
         case .utilitarianSmall:
-            let template = CLKComplicationTemplateUtilitarianSmallRingText()
-            template.textProvider = CLKSimpleTextProvider(text: "J")
-            template.fillFraction = 1.0
+            let template = CLKComplicationTemplateUtilitarianSmallRingText(textProvider: CLKSimpleTextProvider(text: "J"), fillFraction: 1.0, ringStyle: .open)
             handler(CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template))
             break
         case .extraLarge:
@@ -128,44 +109,25 @@ class ComplicationController: NSObject, CLKComplicationDataSource {
             //            template.imageProvider = CLKImageProvider(onePieceImage: #imageLiteral(resourceName: "J_x_large"))
             //
             //            handler(CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template))
-            let template = CLKComplicationTemplateExtraLargeSimpleText()
-            
-            
             let value = defaults.dictionary(forKey: "VALUE") ?? ["energy": "123.4","activePower": "123.4"]
-            
-            template.textProvider = CLKSimpleTextProvider(text: value["energy"] as! String)
-            
+            let template = CLKComplicationTemplateExtraLargeSimpleText(textProvider: CLKSimpleTextProvider(text: value["energy"] as! String))
             handler(CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template))
             break
         case .modularLarge:
-            let template = CLKComplicationTemplateModularLargeTable()
-            
             
             let value = defaults.dictionary(forKey: "VALUE") ?? ["energy": "123.4","activePower": "123.4"]
             
-            template.headerTextProvider = CLKSimpleTextProvider(text: "GridVis Companion")
-            template.headerImageProvider = CLKImageProvider(onePieceImage:#imageLiteral(resourceName: "J_circular"))
-            
-            template.row1Column1TextProvider = CLKSimpleTextProvider(text: "💡")
-            template.row1Column2TextProvider = CLKSimpleTextProvider(text: "\(value["energy"] ?? "123.4") Wh")
-            
-            template.row2Column1TextProvider = CLKSimpleTextProvider(text: "⚡️")
-            template.row2Column2TextProvider = CLKSimpleTextProvider(text: "\(value["activePower"] ?? "123.4") W")
-            
+            let template = CLKComplicationTemplateModularLargeTable(headerImageProvider: CLKImageProvider(onePieceImage:#imageLiteral(resourceName: "J_circular")), headerTextProvider: CLKSimpleTextProvider(text: "GridVis Companion"), row1Column1TextProvider: CLKSimpleTextProvider(text: "💡"), row1Column2TextProvider: CLKSimpleTextProvider(text: "\(value["energy"] ?? "123.4") Wh"), row2Column1TextProvider: CLKSimpleTextProvider(text: "⚡️"), row2Column2TextProvider: CLKSimpleTextProvider(text: "\(value["activePower"] ?? "123.4") W"))
             handler(CLKComplicationTimelineEntry(date: Date(), complicationTemplate: template))
             break
         case .graphicRectangular:
-            let template = CLKComplicationTemplateGraphicRectangularStandardBody()
-            
             
             let value = defaults.dictionary(forKey: "VALUE") ?? ["energy": "123.4","activePower": "123.4"]
             let date = Date()
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "dd.MM HH:mm"
-            template.headerTextProvider = CLKSimpleTextProvider(text: "Energy \(dateFormatter.string(from: date))")
-            template.body1TextProvider = CLKSimpleTextProvider(text: "\(value["energy"] ?? "123.4")")
-            template.body2TextProvider = CLKSimpleTextProvider(text: "Wh")
             
+            let template = CLKComplicationTemplateGraphicRectangularStandardBody(headerTextProvider: CLKSimpleTextProvider(text: "Energy \(dateFormatter.string(from: date))"), body1TextProvider: CLKSimpleTextProvider(text: "\(value["energy"] ?? "123.4")"), body2TextProvider: CLKSimpleTextProvider(text: "Wh"))
             handler(CLKComplicationTimelineEntry(date: date, complicationTemplate: template))
             break
         default:

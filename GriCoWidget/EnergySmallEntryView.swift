@@ -43,7 +43,7 @@ struct EnergySmallEntryView: View {
                             Text(entry.mesurementValueYesterday.getScaledValue().1).font(.system(.footnote, design: .default)).foregroundColor(.white)
                         }
                     }
-                    Text(entry.mesurementValueToday.getDateTimeFormatted()).font(.system(.caption2, design: .default)).foregroundColor(.gray)
+                    Text(entry.mesurementValueToday.getDateTimeFormatted()).font(.system(.caption2, design: .default)).foregroundColor(.white)
                 }
             }
             .padding(5.0)

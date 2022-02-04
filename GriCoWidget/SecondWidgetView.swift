@@ -39,7 +39,7 @@ struct SecondWidgetView: View {
                     Text(entry.secondWidgetMVYesterday.getScaledValue().1).font(.system(.footnote, design: .default)).foregroundColor(.white)
                 }
             }
-            Text(entry.secondWidgetMVToday.getDateTimeFormatted()).font(.system(.caption2, design: .default)).foregroundColor(.gray)
+            Text(entry.secondWidgetMVToday.getDateTimeFormatted()).font(.system(.caption2, design: .default)).foregroundColor(.white)
         }
     }
 }

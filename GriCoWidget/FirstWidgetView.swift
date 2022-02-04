@@ -35,7 +35,7 @@ struct FirstWidgetView: View {
                     Text(entry.firstWidgetMVYesterday.getScaledValue().1).font(.system(.footnote, design: .default)).foregroundColor(.white)
                 }
             }
-            Text(entry.firstWidgetMVYesterday.getDateTimeFormatted()).font(.system(.caption2, design: .default)).foregroundColor(.gray)
+            Text(entry.firstWidgetMVYesterday.getDateTimeFormatted()).font(.system(.caption2, design: .default)).foregroundColor(.white)
         }
     }
 }

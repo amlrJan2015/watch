@@ -28,6 +28,7 @@ class OnlineMeasurementBig: WKInterfaceController {
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
+        pressed = false
         
         if let tServerUrl_MeasurementDict = context as? (String,[String: Any]) {
             serverUrl = tServerUrl_MeasurementDict.0
@@ -86,6 +87,7 @@ class OnlineMeasurementBig: WKInterfaceController {
     
     override func willActivate() {
         OnlineMeasurementBig.updateStateCounter = 0
+        pressed = false
 //        fetchTask?.cancel()
         fetchAndShowData()
     }
@@ -118,4 +120,11 @@ class OnlineMeasurementBig: WKInterfaceController {
         pushController(withName: "ChartsView", context: (serverUrl, dict))
     }
     
+    var pressed = false
+    @IBAction func onLongPress(_ sender: Any) {
+        if !pressed {
+            pressed = true
+            pushController(withName: "ChartsView", context: (serverUrl, dict))
+        }
+    }
 }

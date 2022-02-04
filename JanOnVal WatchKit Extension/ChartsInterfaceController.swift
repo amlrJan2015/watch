@@ -35,6 +35,7 @@ class ChartsInterfaceController: WKInterfaceController {
     
     override func awake(withContext context: Any?) {
         super.awake(withContext: context)
+        pressed = false
         
         if let tServerUrl_MeasurementDict = context as? (String,[String: Any]) {
             serverUrl = tServerUrl_MeasurementDict.0
@@ -45,6 +46,7 @@ class ChartsInterfaceController: WKInterfaceController {
     
     override func willActivate() {
         super.willActivate()
+        pressed = false
 
         resetView()
         fetchAndShowData()
@@ -467,5 +469,14 @@ class ChartsInterfaceController: WKInterfaceController {
     @IBAction func onOptionsMenuItemClick() {
         fetchTask!.cancel()
         pushController(withName: "OptionsView", context: nil)
+    }
+    
+    var pressed = false
+    @IBAction func onLongPress(_ sender: Any) {
+        if !pressed {
+            pressed = true
+            fetchTask!.cancel()
+            pushController(withName: "OptionsView", context: nil)
+        }
     }
 }

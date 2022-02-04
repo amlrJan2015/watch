@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="16097.2" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
-    <device id="watch44"/>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="19162" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch45"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="16012"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="19044"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
@@ -33,6 +33,13 @@
                                     </connections>
                                 </tableRow>
                             </items>
+                            <gestureRecognizers>
+                                <longPressGestureRecognizer id="qJ3-rc-80O">
+                                    <connections>
+                                        <action selector="onTableLongPress:" destination="AgC-eL-Hgc" id="Ect-Y5-p2C"/>
+                                    </connections>
+                                </longPressGestureRecognizer>
+                            </gestureRecognizers>
                         </table>
                     </items>
                     <menu key="menu" id="GWP-dQ-xMW">
@@ -60,7 +67,7 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="-71.487179487179489" y="-197.89743589743591"/>
+            <point key="canvasLocation" x="-63" y="-168"/>
         </scene>
         <!--HistDetail-->
         <scene sceneID="jMW-31-Gmb">
@@ -128,8 +135,15 @@
                         <label width="111" height="62" alignment="center" text="☀️" textAlignment="center" id="hld-nO-NYd">
                             <fontDescription key="font" type="system" pointSize="45"/>
                         </label>
-                        <label width="136" height="45" alignment="center" verticalAlignment="center" text="⏳" textAlignment="center" id="qgP-ZO-m8r">
-                            <fontDescription key="font" type="system" pointSize="43"/>
+                        <label alignment="center" verticalAlignment="center" text="⌛️" textAlignment="center" id="qgP-ZO-m8r">
+                            <gestureRecognizers>
+                                <longPressGestureRecognizer id="4oo-H1-15b">
+                                    <connections>
+                                        <action selector="onLongPress:" destination="vjb-46-twT" id="3bn-bG-Jhe"/>
+                                    </connections>
+                                </longPressGestureRecognizer>
+                            </gestureRecognizers>
+                            <fontDescription key="font" type="system" pointSize="62"/>
                         </label>
                         <group width="1" alignment="center" verticalAlignment="bottom" id="vkV-Ci-noi">
                             <items>
@@ -146,13 +160,20 @@
                                 </label>
                                 <group alignment="right" verticalAlignment="center" radius="15" id="d6h-KS-umZ" userLabel="updateStateGroup">
                                     <items>
-                                        <label width="30" height="30" alignment="right" verticalAlignment="center" text="0" textAlignment="center" id="tRE-sZ-Jeg" userLabel="updateState">
+                                        <label width="30" height="30" alignment="left" verticalAlignment="center" text="0" textAlignment="center" id="tRE-sZ-Jeg" userLabel="updateState">
                                             <fontDescription key="font" type="boldSystem" pointSize="17"/>
                                         </label>
                                     </items>
                                     <color key="backgroundColor" red="0.0" green="0.80000000000000004" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 </group>
                             </items>
+                            <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                            <variation key="device=watch44mm">
+                                <edgeInsets key="margins" left="8" right="5" top="0.0" bottom="0.0"/>
+                            </variation>
+                            <variation key="device=watch45mm">
+                                <edgeInsets key="margins" left="12" right="9" top="0.0" bottom="1"/>
+                            </variation>
                         </group>
                     </items>
                     <menu key="menu" id="opz-YU-Msj">
@@ -164,10 +185,6 @@
                             </menuItem>
                         </items>
                     </menu>
-                    <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
-                    <variation key="device=watch44mm">
-                        <edgeInsets key="margins" left="9" right="6" top="0.0" bottom="0.0"/>
-                    </variation>
                     <connections>
                         <outlet property="headerEmoji" destination="hld-nO-NYd" id="U9B-Pm-x4s"/>
                         <outlet property="onlineValue" destination="qgP-ZO-m8r" id="Dya-rz-nfR"/>
@@ -177,14 +194,22 @@
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="199.56521739130434" y="-53.125"/>
+            <point key="canvasLocation" x="199.1919191919192" y="-53.388429752066116"/>
         </scene>
         <!--ChartsView-->
         <scene sceneID="rNL-jP-E8t">
             <objects>
                 <controller identifier="ChartsView" fullBounds="YES" id="Xo5-dA-Fg5" customClass="ChartsInterfaceController" customModule="JanOnVal_WatchKit_Extension">
                     <items>
-                        <imageView alignment="center" id="Xb6-E9-VIf"/>
+                        <imageView alignment="center" id="Xb6-E9-VIf">
+                            <gestureRecognizers>
+                                <longPressGestureRecognizer id="jpE-qZ-Elf">
+                                    <connections>
+                                        <action selector="onLongPress:" destination="Xo5-dA-Fg5" id="rQE-MD-PKo"/>
+                                    </connections>
+                                </longPressGestureRecognizer>
+                            </gestureRecognizers>
+                        </imageView>
                         <group alignment="center" radius="5" id="a2l-za-JGT">
                             <items>
                                 <label alignment="left" verticalAlignment="bottom" text="  Today" textAlignment="left" id="SKB-4v-hlT"/>
@@ -409,6 +434,10 @@
                                     </connections>
                                 </button>
                             </items>
+                            <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
+                            <variation key="device=watch45mm">
+                                <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="5"/>
+                            </variation>
                         </group>
                     </items>
                     <connections>
@@ -469,7 +498,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="cloud" catalog="system" width="128" height="85"/>
+        <image name="cloud" catalog="system" width="128" height="86"/>
         <image name="globe" catalog="system" width="128" height="121"/>
     </resources>
 </document>

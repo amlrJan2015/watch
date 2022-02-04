@@ -40,6 +40,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     }
     
     override func awake(withContext context: Any?) {
+        pressed = false
         if defaults.object(forKey: OptionsInterfaceController.SHOW_6_12_18) == nil {
             defaults.set(OptionsInterfaceController.SHOW_6_12_18_defaultValue, forKey: OptionsInterfaceController.SHOW_6_12_18)
         }
@@ -179,7 +180,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
         
-        WKExtension.shared().isFrontmostTimeoutExtended = true;
+        pressed = false
         
         session = WCSession.default
         session?.delegate = self
@@ -321,6 +322,14 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     
     @IBAction func onFavoritesMenuItemClick() {
         if InterfaceController.isRestMode() {
+            pushController(withName: "FavoritesView", context: nil)
+        }
+    }
+    
+    var pressed = false
+    @IBAction func onTableLongPress(_ sender: Any) {
+        if !pressed {
+            pressed = true
             pushController(withName: "FavoritesView", context: nil)
         }
     }
