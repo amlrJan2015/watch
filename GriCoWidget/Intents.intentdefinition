@@ -63,11 +63,11 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>3dMro3</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>20D74</string>
+	<string>21G72</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>12D4e</string>
+	<string>13F100</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>12.4</string>
+	<string>13.4.1</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
@@ -507,7 +507,7 @@
 			<key>INTypeDisplayNameID</key>
 			<string>dTQ5Mn</string>
 			<key>INTypeLastPropertyTag</key>
-			<integer>110</integer>
+			<integer>111</integer>
 			<key>INTypeName</key>
 			<string>JanitzaMeasurementValue</string>
 			<key>INTypeProperties</key>
@@ -671,6 +671,20 @@
 					<string>unit2</string>
 					<key>INTypePropertyTag</key>
 					<integer>110</integer>
+					<key>INTypePropertyType</key>
+					<string>String</string>
+				</dict>
+				<dict>
+					<key>INTypePropertyDisplayName</key>
+					<string>Unit</string>
+					<key>INTypePropertyDisplayNameID</key>
+					<string>fiv1VU</string>
+					<key>INTypePropertyDisplayPriority</key>
+					<integer>13</integer>
+					<key>INTypePropertyName</key>
+					<string>unit</string>
+					<key>INTypePropertyTag</key>
+					<integer>111</integer>
 					<key>INTypePropertyType</key>
 					<string>String</string>
 				</dict>

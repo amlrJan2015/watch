@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftUI
 
 class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
@@ -37,14 +38,15 @@ class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, 
             do {
                 data = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(unarchivedObject) as! [Measurement]
                 tableView.reloadData()
-                sendButton.setTitle("Send To Watch \(UserDefaults.standard.string(forKey: "lastReceiveRemoteNotificationData") ?? "")", for: .normal)
+                /* \(UserDefaults.standard.string(forKey: "lastReceiveRemoteNotificationData") ?? "")*/
+                sendButton.setTitle("Send To Watch", for: .normal)
             } catch {
                 fatalError("loadWidgetDataArray - Can't encode data: \(error)")
             }
         }
     }
     
-    @IBAction func onSendToWatchClick(_ sender: UIButton) {
+    func getMeasurementData() -> [[String:Any]] {
         var dictArr = [[String:Any]]()
         var index = 0
         for measurement in data {
@@ -65,29 +67,35 @@ class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, 
                     "measurementType": measurement.valueType?.type ?? "",
                     "measurementTypeName": measurement.valueType?.typeName ?? "",
                     MeasurementPropertyKey.favorite: measurement.favorite
-                    ])
+                ])
             }
             index = index + 1
         }
         
-//        connectivityHandler.session.sendMessage(
-//            [
-//                "serverUrl": appModel!.serverUrl,
-//                "measurementDataDictArr": dictArr,
-//                "refreshTime": appModel!.refreshTime
-//        ], replyHandler: nil) { (err) in
-//            NSLog("%@", "Error sending data to watch: \(err)")
-//        }
+        return dictArr
+    }
+    
+    @IBAction func onSendToWatchClick(_ sender: UIButton) {
+        
+        
+        //        connectivityHandler.session.sendMessage(
+        //            [
+        //                "serverUrl": appModel!.serverUrl,
+        //                "measurementDataDictArr": dictArr,
+        //                "refreshTime": appModel!.refreshTime
+        //        ], replyHandler: nil) { (err) in
+        //            NSLog("%@", "Error sending data to watch: \(err)")
+        //        }
         if connectivityHandler !== nil && connectivityHandler.session.activationState == .activated {
-                connectivityHandler.session.transferUserInfo([
+            connectivityHandler.session.transferUserInfo([
                 "serverUrl": appModel!.serverUrl,
-                "measurementDataDictArr": dictArr,
+                "measurementDataDictArr": getMeasurementData(),
                 "refreshTime": appModel!.refreshTime])
         } else {
             showAlert(alertTitle: "Failed to transfer config", alertMessage: "Start Watch App oder iPad?")
         }
         
-//                }
+        //                }
     }
     
     fileprivate func showAlert(alertTitle title: String, alertMessage message: String) {
@@ -159,8 +167,8 @@ class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, 
         super.prepare(for: segue, sender: sender)
         if segue.identifier == "EditMeasurement" {
             guard let detailVC = segue.destination as? MeasurementDetailViewController
-                else {
-                    fatalError("Unexpected destination: \(segue.destination)")
+            else {
+                fatalError("Unexpected destination: \(segue.destination)")
             }
             guard let selectedMeasurementCell = sender as? UITableViewCell else {
                 fatalError("Unexpected sender: \(sender)")
@@ -176,4 +184,15 @@ class SelectedMeasurementViewController: UIViewController, UITableViewDelegate, 
             detailVC.measurement = measurement
         }
     }
+    
+    @IBAction func onClickShowValues(_ sender: UIButton) {
+        do {
+            let data = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(UserDefaults.standard.data(forKey: Measurement.KEY_FOR_USER_DEFAULTS)!) as! [Measurement]
+            let vc = UIHostingController(rootView: ValuesScreen(configData: data, viewModel: MeasurementValueViewModel(serverUrl: appModel!.serverUrl, refreshTime: appModel!.refreshTime, measurementData: getMeasurementData())))
+            present(vc, animated: true)
+        } catch {
+            fatalError("Can't encode selected data: \(error)")
+        }
+    }
+    
 }

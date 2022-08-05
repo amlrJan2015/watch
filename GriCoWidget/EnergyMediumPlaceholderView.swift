@@ -12,8 +12,8 @@ import WidgetKit
 struct EnergyMediumPlaceholderView: View {
     var body: some View {
         EnergyMediumEntryView(entry: EnergyMediumEntry(configuration: ComparisonMediumIntent(), date: Date(),
-                                                       firstWidgetMVToday: MeasurementValue(date: Date(), value: 689887987.234, unit: "W"),
-                                                       firstWidgetMVYesterday: MeasurementValue(date: Date(), value: 689887987.234, unit: "W"),
+                                                       firstWidgetMVToday: MeasurementValue(date: Date(), value: 689887987.234, unit: "Wh"),
+                                                       firstWidgetMVYesterday: MeasurementValue(date: Date(), value: 689887987.234, unit: "Wh"),
                                                        secondWidgetMVToday: MeasurementValue(date: Date(), value: 689887987.234, unit: "W"),
                                                        secondWidgetMVYesterday: MeasurementValue(date: Date(), value: 689887987.234, unit: "W")))
     }

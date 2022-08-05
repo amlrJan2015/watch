@@ -117,10 +117,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
                 let PORT = "PORT"
                 let PROJECT = "PROJECT"
                 
-                let arr = data.filter({ (measurement) -> Bool in
+                /*filter({ (measurement) -> Bool in
                     return measurement.valueType?.value.contains("ActiveEnergy") ?? false || measurement.valueType?.value.contains("Power") ?? false
                 })
-                .map { measurement -> [String: String] in
+                .*/
+                let arr = data.map { measurement -> [String: String] in
                     var d: [String: String] = [:]
                     d["measurementType"] = measurement.valueType!.type
                     d["measurementValue"] = measurement.valueType!.value
@@ -131,6 +132,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
                     d["title"] = measurement.watchTitle
                     d["deviceName"] = measurement.device!.name
                     d["unit2"] = measurement.unit2
+                    d["unit"] = measurement.valueType!.unit
                     
                     return d
                 }

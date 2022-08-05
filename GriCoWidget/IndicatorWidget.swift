@@ -16,8 +16,8 @@ struct IndicatorWidget: Widget {
         IntentConfiguration(kind: kind, intent: IndicatorIntent.self, provider: IndicatorTimeLineProvider()) { entry in
             IndicatorEntryView(entry: entry)
         }
-        .configurationDisplayName("Power Widget")
-        .description("Power/Indicator on Widgets")
+        .configurationDisplayName("Online-Value Widget")
+        .description("Small Widget with an online value")
         .supportedFamilies([.systemSmall])
     }
 }

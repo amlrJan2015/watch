@@ -34,8 +34,8 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
     let REFRESH_TIME = "REFRESH_TIME"
     
     private func loadServerConfig() {
-        serverUrl.text = defaults.string(forKey: HOST) ?? "http://gridvis-ems.srv"
-        port.text = defaults.string(forKey: PORT) ?? "8080"
+        serverUrl.text = defaults.string(forKey: HOST) ?? "https://gridvis-ems.janitza.de"
+        port.text = defaults.string(forKey: PORT) ?? "443"
         projectName.text = defaults.string(forKey: PROJECT) ?? "EnergieManagementSystem Janitza"
         refreshTime.text = defaults.string(forKey: REFRESH_TIME) ?? "2"
     }
@@ -122,7 +122,7 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
                 print("nicht eingelogt")
             }
             
-        }
+        }        
     }
     
     override func viewWillDisappear(_ animated: Bool) {

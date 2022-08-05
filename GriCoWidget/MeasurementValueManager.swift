@@ -22,7 +22,7 @@ struct MeasurementValueManager {
     private static func getUrl(widget: JanitzaMeasurementValue?) -> String {
         let projectName = (widget?.projectName ?? "").addingPercentEncoding(withAllowedCharacters: .urlPathAllowed)
         
-        return "\(widget?.url ?? ""):\(widget?.port ?? "")/rest/1/projects/\(projectName!)/onlinevalues?value=\(widget?.deviceId ?? "");\(widget?.measurementValue ?? "");\(widget?.measurementType ?? "")"
+        return "\(widget?.url ?? ""):\(widget?.port ?? "")/rest/1/projects/\(projectName!)/onlinevalues?value=\(widget?.deviceId ?? "");\(widget?.measurementValue ?? "");\(widget?.measurementType ?? "")&timeout=5000"
     }
     
     static func fetchMeasurementValue(widget: JanitzaMeasurementValue?, complete: @escaping (MeasurementValue) -> Void) {
@@ -34,7 +34,7 @@ struct MeasurementValueManager {
             if let measurementPowerValueDict = response {
                 if let valueOpt = measurementPowerValueDict["value"] as? [String: Any] {
                     if let dValue = valueOpt["\(widget?.deviceId ?? "").\(widget?.measurementValue ?? "").\(widget?.measurementType ?? "")"] as? Double {
-                        complete(MeasurementValue(date: Date(), value: dValue, unit: "W"))
+                        complete(MeasurementValue(date: Date(), value: dValue, unit: widget?.unit2?.isEmpty ?? true ? widget?.unit ?? "" : widget?.unit2 ?? ""))
                     } else {
                         complete(MeasurementValue(date: Date(), value: Double.nan, unit: ""))
                     }

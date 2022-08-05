@@ -53,9 +53,15 @@ class IntentHandler: INExtension, ComparisonSmallIntentHandling, ComparisonMediu
                 let PORT = "PORT"
                 let PROJECT = "PROJECT"
                 
-                let measurement = data.filter({ (measurementsDict) -> Bool in
+                let measurementArr = data.filter({ (measurementsDict) -> Bool in
                     return measurementsDict["measurementValue"]?.contains("ActiveEnergy") ?? false
-                })[0]
+                })
+                
+                if measurementArr.isEmpty {
+                    return nil
+                }
+                
+                let measurement = measurementArr[0]
                 
                 let jm = JanitzaMeasurementValue(identifier: "\(measurement["title"]!) \(measurement["deviceName"]!)[\(measurement["deviceId"]!)]:\(measurement["measurementValue"]!)  \(measurement["measurementType"]!)",
                                                  display: "\(measurement["title"]!) \(measurement["deviceName"]!)[\(measurement["deviceId"]!)]:\(measurement["measurementValue"]!)  \(measurement["measurementType"]!)")
@@ -87,10 +93,11 @@ class IntentHandler: INExtension, ComparisonSmallIntentHandling, ComparisonMediu
                 let HOST = "HOST"
                 let PORT = "PORT"
                 let PROJECT = "PROJECT"
-                let measurements = data.filter({ (measurementsDict) -> Bool in
-                    return measurementsDict["measurementValue"]?.contains("Power") ?? false
-                })
-                .map { measurement -> JanitzaMeasurementValue in
+                /*.filter({ (measurementsDict) -> Bool in
+                 return measurementsDict["measurementValue"]?.contains("Power") ?? false
+                 })
+                 */
+                let measurements = data.map { measurement -> JanitzaMeasurementValue in
                     let jm = JanitzaMeasurementValue(identifier: "\(measurement["title"]!) \(measurement["deviceName"]!)[\(measurement["deviceId"]!)]:\(measurement["measurementValue"]!)  \(measurement["measurementType"]!)",
                                                      display: "\(measurement["title"]!) \(measurement["deviceName"]!)[\(measurement["deviceId"]!)]:\(measurement["measurementValue"]!)  \(measurement["measurementType"]!)")
                     
@@ -102,6 +109,7 @@ class IntentHandler: INExtension, ComparisonSmallIntentHandling, ComparisonMediu
                     jm.url = measurement[HOST]!
                     jm.title = measurement["title"]!
                     jm.unit2 = measurement["unit2"]!
+                    jm.unit = measurement["unit"]!
                     
                     return jm
                 }
@@ -126,21 +134,21 @@ class IntentHandler: INExtension, ComparisonSmallIntentHandling, ComparisonMediu
                 let measurements = data.filter({ (measurementsDict) -> Bool in
                     return measurementsDict["measurementValue"]?.contains("ActiveEnergy") ?? false
                 })
-                .map { measurement -> JanitzaMeasurementValue in
-                    let jm = JanitzaMeasurementValue(identifier: "\(measurement["title"]!) \(measurement["deviceName"]!)[\(measurement["deviceId"]!)]:\(measurement["measurementValue"]!)  \(measurement["measurementType"]!)",
-                                                     display: "\(measurement["title"]!) \(measurement["deviceName"]!)[\(measurement["deviceId"]!)]:\(measurement["measurementValue"]!)  \(measurement["measurementType"]!)")
-                    
-                    jm.measurementType = measurement["measurementType"]!
-                    jm.measurementValue = measurement["measurementValue"]!
-                    jm.deviceId = measurement["deviceId"]!
-                    jm.projectName = measurement[PROJECT]!
-                    jm.port = measurement[PORT]!
-                    jm.url = measurement[HOST]!
-                    jm.title = measurement["title"]!
-                    jm.unit2 = measurement["unit2"]!
-                    
-                    return jm
-                }
+                    .map { measurement -> JanitzaMeasurementValue in
+                        let jm = JanitzaMeasurementValue(identifier: "\(measurement["title"]!) \(measurement["deviceName"]!)[\(measurement["deviceId"]!)]:\(measurement["measurementValue"]!)  \(measurement["measurementType"]!)",
+                                                         display: "\(measurement["title"]!) \(measurement["deviceName"]!)[\(measurement["deviceId"]!)]:\(measurement["measurementValue"]!)  \(measurement["measurementType"]!)")
+                        
+                        jm.measurementType = measurement["measurementType"]!
+                        jm.measurementValue = measurement["measurementValue"]!
+                        jm.deviceId = measurement["deviceId"]!
+                        jm.projectName = measurement[PROJECT]!
+                        jm.port = measurement[PORT]!
+                        jm.url = measurement[HOST]!
+                        jm.title = measurement["title"]!
+                        jm.unit2 = measurement["unit2"]!
+                        
+                        return jm
+                    }
                 
                 let collection = INObjectCollection(items: measurements)
                 completion(collection, nil)
@@ -163,9 +171,15 @@ class IntentHandler: INExtension, ComparisonSmallIntentHandling, ComparisonMediu
                 let PORT = "PORT"
                 let PROJECT = "PROJECT"
                 
-                let measurement = data.filter({ (measurementsDict) -> Bool in
+                let measurementArr = data.filter({ (measurementsDict) -> Bool in
                     return measurementsDict["measurementValue"]?.contains("ActiveEnergy") ?? false
-                })[0]
+                })
+                
+                if measurementArr.isEmpty {
+                    return nil
+                }
+                
+                let measurement = measurementArr[0]
                 
                 let jm = JanitzaMeasurementValue(identifier: "\(measurement["title"]!) \(measurement["deviceName"]!)[\(measurement["deviceId"]!)]:\(measurement["measurementValue"]!)  \(measurement["measurementType"]!)",
                                                  display: "\(measurement["title"]!) \(measurement["deviceName"]!)[\(measurement["deviceId"]!)]:\(measurement["measurementValue"]!)  \(measurement["measurementType"]!)")
@@ -239,9 +253,15 @@ class IntentHandler: INExtension, ComparisonSmallIntentHandling, ComparisonMediu
                 let PORT = "PORT"
                 let PROJECT = "PROJECT"
                 
-                let measurement = data.filter({ (measurementsDict) -> Bool in
+                let measurementArr = data.filter({ (measurementsDict) -> Bool in
                     return measurementsDict["measurementValue"]?.contains("ActiveEnergy") ?? false
-                })[0]
+                })
+                
+                if measurementArr.isEmpty {
+                    return nil
+                }
+                
+                let measurement = measurementArr[0]
                 
                 let jm = JanitzaMeasurementValue(identifier: "\(measurement["title"]!) \(measurement["deviceName"]!)[\(measurement["deviceId"]!)]:\(measurement["measurementValue"]!)  \(measurement["measurementType"]!)",
                                                  display: "\(measurement["title"]!) \(measurement["deviceName"]!)[\(measurement["deviceId"]!)]:\(measurement["measurementValue"]!)  \(measurement["measurementType"]!)")
@@ -259,7 +279,7 @@ class IntentHandler: INExtension, ComparisonSmallIntentHandling, ComparisonMediu
                 
             } else {
                 print("no energy measurements")
-            }            
+            }
         } else {
             print("App group failed")
         }

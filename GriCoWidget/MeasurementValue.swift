@@ -8,21 +8,24 @@
 
 import Foundation
 
-struct MeasurementValue: Decodable {
-    let date: Date
-    let value: Double
-    let unit: String
+struct MeasurementValue: Decodable, Identifiable {
+    var id = UUID()
     
+    var date: Date
+    var value: Double
+    var unit: String
+    var icon = "💡"    
     
     public func getScaledValue() -> (String, String) {
         let (siPrefix, newValue) = EnergyCommon.getSiPrefix(value)
         return (String(format:"%.2f", newValue), siPrefix+unit)
     }
-    
+        
     public func getDateTimeFormatted() -> String {
         let formatter = DateFormatter()
         formatter.dateStyle = .short
-        formatter.timeStyle = .short
+        formatter.timeStyle = .medium
+        //formatter.setLocalizedDateFormatFromTemplate("dd.MM.yy HH:mm:ss")
         return formatter.string(for: date) ?? ""
     }
     
