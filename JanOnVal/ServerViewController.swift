@@ -11,6 +11,8 @@ import Firebase
 import GoogleSignIn
 import FirebaseFirestore
 import FirebaseAuth
+//import CloudKit
+import os.log
 
 class ServerViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var serverUrl: UITextField!
@@ -24,6 +26,13 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var cloud: UILabel!
     
     @IBOutlet weak var signInButton: GIDSignInButton!
+    
+    //private let defaultContainer = CKContainer.default()
+    
+    /// This sample uses the private database, which requires a logged in iCloud account.
+    //private lazy var database = defaultContainer.privateCloudDatabase
+    
+    //private let lastPersonRecordID: CKRecord.ID = CKRecord.ID(recordName: "config")
     
     var appModel: AppModel?
     
@@ -39,6 +48,61 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
         projectName.text = defaults.string(forKey: PROJECT) ?? "EnergieManagementSystem Janitza"
         refreshTime.text = defaults.string(forKey: REFRESH_TIME) ?? "2"
     }
+    
+    
+    /*func saveRecord(name: String, refreshTime: Int, serverURL: String, port: String, projectName: String) {
+        let lastPersonRecord = CKRecord(recordType: "Config", recordID: lastPersonRecordID)
+        
+        lastPersonRecord["name"] = name
+        lastPersonRecord["refreshTime"] = refreshTime
+        lastPersonRecord["serverUrl"] = serverURL
+        lastPersonRecord["port"] = port
+        lastPersonRecord["projectName"] = projectName
+
+        database.modifyRecords(saving: [lastPersonRecord], deleting: [], savePolicy: .changedKeys, atomically: true) { result in
+            switch result {
+            case .success(let successInfo):
+                print("Save to Cloud SUCCESS[\(successInfo.saveResults.count)]")
+                break
+            case .failure(let error):
+                self.reportError(error)
+            }
+        }
+    }
+    
+    private func reportError(_ error: Error) {
+        guard let ckerror = error as? CKError else {
+            os_log("Not a CKError: \(error.localizedDescription)")
+            return
+        }
+
+        switch ckerror.code {
+        case .partialFailure:
+            // Iterate through error(s) in partial failure and report each one.
+            let dict = ckerror.userInfo[CKPartialErrorsByItemIDKey] as? [NSObject: CKError]
+            if let errorDictionary = dict {
+                for (_, error) in errorDictionary {
+                    reportError(error)
+                }
+            }
+
+        // This switch could explicitly handle as many specific errors as needed, for example:
+        case .unknownItem:
+            os_log("CKError: Record not found.")
+
+        case .notAuthenticated:
+            os_log("CKError: An iCloud account must be signed in on device or Simulator to write to a PrivateDB.")
+
+        case .permissionFailure:
+            os_log("CKError: An iCloud account permission failure occured.")
+
+        case .networkUnavailable:
+            os_log("CKError: The network is unavailable.")
+
+        default:
+            os_log("CKError: \(error.localizedDescription)")
+        }
+    }*/
     
     var handleJanitzaID: AuthStateDidChangeListenerHandle?
     var handleJanitzaCloud: AuthStateDidChangeListenerHandle?
@@ -122,7 +186,7 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
                 print("nicht eingelogt")
             }
             
-        }        
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -141,6 +205,8 @@ class ServerViewController: UIViewController, UITextFieldDelegate {
         defaults.set(port.text, forKey: PORT)
         defaults.set(projectName.text, forKey: PROJECT)
         defaults.set(appModel!.refreshTime, forKey: REFRESH_TIME)
+        
+        /*saveRecord(name: "defaultSettings", refreshTime: appModel!.refreshTime, serverURL: serverUrl.text ?? "serverURL", port: port.text ?? "port", projectName: projectName.text ?? "projectName")*/
     }
     
     override func viewDidLoad() {

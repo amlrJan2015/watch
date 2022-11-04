@@ -38,6 +38,8 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
     func didReceiveRemoteNotification(_ userInfo: [AnyHashable : Any], fetchCompletionHandler completionHandler: @escaping (WKBackgroundFetchResult) -> Void) {
         print("REMOTE NOTIFICATION")
     }
+        
+    var firstRun = true
     
     override func awake(withContext context: Any?) {
         pressed = false
@@ -59,6 +61,15 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         }
         
         WKExtension.shared().registerForRemoteNotifications()
+        
+        let measurementDataDictArr = defaults.array(forKey: InterfaceController.MEASUREMENT_DATA) as? [[String:Any]]
+        
+        if firstRun && measurementDataDictArr?.filter({ (dict) -> Bool in
+            return dict["favorite"] as? Bool ?? false
+        }).count ?? 0 > 0 {
+            firstRun = false
+            pushController(withName: "FavoritesView", context: nil)
+        }
     }
     
     func didRegisterForRemoteNotifications(withDeviceToken deviceToken: Data) {
@@ -175,7 +186,7 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
         let ud = UserDefaults.standard
         return ud.object(forKey: InterfaceController.MODE) as! String == InterfaceController.REST_MODE
     }
-    
+        
     override func willActivate() {
         // This method is called when watch view controller is about to be visible to user
         super.willActivate()
@@ -195,7 +206,6 @@ class InterfaceController: WKInterfaceController, WKExtensionDelegate, WCSession
             refreshTime = refreshTime == 0 ? 3 : refreshTime
             
             if serverUrl != nil && measurementDataDictArr != nil {
-                
                 if table.numberOfRows != measurementDataDictArr?.count{
                     table.setNumberOfRows(measurementDataDictArr!.count, withRowType: "measurementRowType")
                 }

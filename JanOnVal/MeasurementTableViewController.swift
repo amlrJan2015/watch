@@ -50,9 +50,7 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
                                 self.measurements[device]?.append(m!)
                                 if let measurement = m,
                                     let valueType = measurement.valueType {
-                                    if self.measurementSearchBar.scopeButtonTitles![self.measurementSearchBar.selectedScopeButtonIndex] == valueType.value {
-                                        self.currMeasurements[device]?.append(m!)
-                                    }
+                                    self.currMeasurements[device]?.append(m!)
                                 }
                             }
                             
@@ -115,39 +113,15 @@ class MeasurementTableViewController: UIViewController, UISearchBarDelegate, UIT
     // MARK: - SearchBar
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         currMeasurements = [:]
-        let selectedScope = searchBar.selectedScopeButtonIndex
+        
         for (device, measurementArr) in measurements {
             currMeasurements[device] = [Measurement]()
             for measurement in measurementArr {
                 if let valueType = measurement.valueType {
                     if "" == searchText {
-                        if  "No Filter" == searchBar.scopeButtonTitles![selectedScope] ||
-                            searchBar.scopeButtonTitles![selectedScope] == valueType.value {
-                            currMeasurements[device]!.append(measurement)
-                        }
+                        currMeasurements[device]!.append(measurement)
                     } else if valueType.valueName.localizedCaseInsensitiveContains(searchText) {
                         currMeasurements[device]!.append(measurement)
-                    }
-                }
-            }
-        }
-        
-        self.tableView.reloadData()
-    }
-    
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-        currMeasurements = [:]
-        
-        for (device, measurementArr) in measurements {
-            currMeasurements[device] = [Measurement]()
-            if "No Filter" == measurementSearchBar.scopeButtonTitles![selectedScope] {
-                currMeasurements[device] = measurementArr
-            } else {
-                for measurement in measurementArr {
-                    if let valueType = measurement.valueType {
-                        if measurementSearchBar.scopeButtonTitles![selectedScope] == valueType.value {
-                            currMeasurements[device]!.append(measurement)
-                        }
                     }
                 }
             }

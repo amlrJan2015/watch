@@ -17,6 +17,7 @@ import FirebaseMessaging
 import FirebaseCore
 import FirebaseFunctions
 import WidgetKit
+//import CloudKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,
@@ -62,7 +63,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
         
         //        GIDSignIn.sharedInstance.clientID = janitzaIDApp.options.clientID
         
-//        sign()
+        //        sign()
         
         
         //TODO Attempt to restore the user's sign-in state
@@ -108,42 +109,79 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
         //        }
         
         WidgetCenter.shared.reloadAllTimelines()
+        /*let defaultContainer = CKContainer.default()
+        let database = defaultContainer.privateCloudDatabase
         
-        if let sharedUD = UserDefaults(suiteName: "group.measurements") {
-            do {
-                let data = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(UserDefaults.standard.data(forKey: Measurement.KEY_FOR_USER_DEFAULTS)!) as! [Measurement]
-                let defaults = UserDefaults.standard
-                let HOST = "HOST"
-                let PORT = "PORT"
-                let PROJECT = "PROJECT"
+        database.fetch(withRecordID: CKRecord.ID(recordName: "config")) { recordOpt, error in
+            if error != nil {
+                print("Error:\(error)")
+            } else {
                 
-                /*filter({ (measurement) -> Bool in
-                    return measurement.valueType?.value.contains("ActiveEnergy") ?? false || measurement.valueType?.value.contains("Power") ?? false
-                })
-                .*/
-                let arr = data.map { measurement -> [String: String] in
-                    var d: [String: String] = [:]
-                    d["measurementType"] = measurement.valueType!.type
-                    d["measurementValue"] = measurement.valueType!.value
-                    d["deviceId"] = String(measurement.device!.id)
-                    d[PROJECT] = defaults.string(forKey: PROJECT)
-                    d[PORT] = defaults.string(forKey: PORT)
-                    d[HOST] = defaults.string(forKey: HOST)
-                    d["title"] = measurement.watchTitle
-                    d["deviceName"] = measurement.device!.name
-                    d["unit2"] = measurement.unit2
-                    d["unit"] = measurement.valueType!.unit
+                if let configRecord = recordOpt {
+                    let configRecordReferenz = CKRecord.Reference(record: configRecord, action: CKRecord.ReferenceAction.deleteSelf)
+                    let predicate = NSPredicate(format: "config == %@", configRecordReferenz)
+                    let sort = NSSortDescriptor(key: "index", ascending: true)
+                    let query = CKQuery(recordType: "MeasurementValue", predicate: predicate)
                     
-                    return d
+                    database.fetch(withQuery: query) { result in
+                        
+                        switch result {
+                        case .success(let successInfo):
+                            print("Fetched size:\(successInfo.matchResults.count)")
+                            if let sharedUD = UserDefaults(suiteName: "group.measurements") {
+                                do {
+                                    //                                    let data = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(UserDefaults.standard.data(forKey: Measurement.KEY_FOR_USER_DEFAULTS)!) as! [Measurement]
+                                    let defaults = UserDefaults.standard
+                                    let HOST = "HOST"
+                                    let PORT = "PORT"
+                                    let PROJECT = "PROJECT"
+                                    
+                                    /*filter({ (measurement) -> Bool in
+                                     return measurement.valueType?.value.contains("ActiveEnergy") ?? false || measurement.valueType?.value.contains("Power") ?? false
+                                     })
+                                     .*/
+                                    let arr = successInfo.matchResults.map { measurementValueRecord -> [String: String] in
+                                        var d: [String: String] = [:]
+                                        do {
+                                            d["measurementType"] = try measurementValueRecord.1.get()["measurementType"]
+                                            d["measurementValue"] = try measurementValueRecord.1.get()["measurementValue"]
+                                            d["deviceId"] = try String(measurementValueRecord.1.get()["deviceId"] as! Int)
+                                            d[PROJECT] = configRecord["projectName"]
+                                            d[PORT] = configRecord["port"]
+                                            d[HOST] = configRecord["serverUrl"]
+                                            d["title"] = try measurementValueRecord.1.get()["title"]
+                                            d["deviceName"] = try measurementValueRecord.1.get()["deviceName"]
+                                            d["unit2"] = try measurementValueRecord.1.get()["unit2"]
+                                            d["unit"] = try measurementValueRecord.1.get()["unit"]
+                                        } catch {
+                                            
+                                        }
+                                        
+                                        return d
+                                    }
+                                    
+                                    sharedUD.set(arr, forKey: Measurement.KEY_FOR_USER_DEFAULTS)
+                                } catch {
+                                    fatalError("IntentHandler - Can't encode data: \(error)")
+                                }
+                            } else {
+                                print("App group failed")
+                            }
+                            break
+                        case .failure(let error):
+                            print("Fetch error: \(error)")
+                        }
+                        
+                        
+                        
+                    }
                 }
                 
-                sharedUD.set(arr, forKey: Measurement.KEY_FOR_USER_DEFAULTS)
-            } catch {
-                fatalError("IntentHandler - Can't encode data: \(error)")
+                
             }
-        } else {
-            print("App group failed")
-        }
+            
+            
+        }*/
         
         return true
     }
@@ -207,7 +245,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
         if let userData = userInfo["data"] as? [String: Double] {
             if let energy = userData["energy"], let activePower = userData["activePower"] {
                 let formatedEnergy: String = String(format: "%.1f", energy)
-                let formatedActivePower: String = String(format: "%.1f", activePower)                
+                let formatedActivePower: String = String(format: "%.1f", activePower)
                 sendComplicationUpdate(data: ["energy":formatedEnergy, "activePower": formatedActivePower])
             }
         }
@@ -252,7 +290,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
         }
         let token = tokenParts.joined()
         // 2. Print device token to use for PNs payloads
-        print("Device Token: \(token)")        
+        print("Device Token: \(token)")
     }
     
     func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
