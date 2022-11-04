@@ -28,15 +28,27 @@ struct EnergyValueManager {
     /*-----------------------------------SMALL------------------------------*/
     
     static func fetchSmallEnergy(configuration: ComparisonSmallIntent, complete: @escaping (EnergySmallEntry) -> Void) {
+        let date = Date()
+        let endYesterdayNamed = "NAMED_Yesterday"
+        let sComparison = configuration.smartComparison ?? 0 == 1
+        
+        var dateComponent = DateComponents()
+        dateComponent.hour = -24
+        let calendar = Calendar.current
+        let yesterday = calendar.date(byAdding: dateComponent, to: date)!
+        
+        let ns = Int(yesterday.timeIntervalSince1970) * 1000
+        let endYesterdayUTC = "UTC_\(ns)"
+        
+        let endYesterday = sComparison ? endYesterdayUTC : endYesterdayNamed
         
         let urlWidgetToday = getUrl(widget: configuration.widget, start: "NAMED_Today", end: "NAMED_Today")
-        let urlWidgetYesterday = getUrl(widget: configuration.widget, start: "NAMED_Yesterday", end: "NAMED_Yesterday")
+        let urlWidgetYesterday = getUrl(widget: configuration.widget, start: "NAMED_Yesterday", end: endYesterday)
         
         let urls = [urlWidgetToday, urlWidgetYesterday]
         
         let group = DispatchGroup()
-        var results: [Int:Foundation.Data] = [:]
-        let date = Date()
+        var results: [Int:Foundation.Data] = [:]        
         
         for urlIndex in 0..<urls.count {
             group.enter()
@@ -61,6 +73,7 @@ struct EnergyValueManager {
     }
     static func getSmallEnergy(configuration: ComparisonSmallIntent,  results: [Int:Foundation.Data]) -> EnergySmallEntry {
         let date = Date()
+        
         let jsonToday = try! JSONSerialization.jsonObject(with: results[0]!, options: []) as! [String: Any]
         let jsonYesterday = try! JSONSerialization.jsonObject(with: results[1]!, options: []) as! [String: Any]
         

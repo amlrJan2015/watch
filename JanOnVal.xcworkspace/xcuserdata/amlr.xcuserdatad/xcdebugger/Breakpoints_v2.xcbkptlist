@@ -185,8 +185,8 @@
             filePath = "GriCoWidget/IndicatorTimeLineProvider.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "32"
-            endingLineNumber = "32"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
             landmarkName = "getTimeline(for:in:completion:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -201,8 +201,8 @@
             filePath = "GriCoWidget/EnergyValueManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "86"
-            endingLineNumber = "86"
+            startingLineNumber = "99"
+            endingLineNumber = "99"
             landmarkName = "fetchMediumEnergy(configuration:complete:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -217,8 +217,8 @@
             filePath = "GriCoWidget/EnergyValueManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "205"
-            endingLineNumber = "205"
+            startingLineNumber = "218"
+            endingLineNumber = "218"
             landmarkName = "getMediumEnergy(configuration:results:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -233,8 +233,8 @@
             filePath = "GriCoWidget/EnergyValueManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "183"
-            endingLineNumber = "183"
+            startingLineNumber = "196"
+            endingLineNumber = "196"
             landmarkName = "fetchMediumEnergy(configuration:complete:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -249,8 +249,8 @@
             filePath = "GriCoWidget/EnergyValueManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "184"
-            endingLineNumber = "184"
+            startingLineNumber = "197"
+            endingLineNumber = "197"
             landmarkName = "fetchMediumEnergy(configuration:complete:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -265,8 +265,8 @@
             filePath = "GriCoWidget/EnergyValueManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "189"
-            endingLineNumber = "189"
+            startingLineNumber = "202"
+            endingLineNumber = "202"
             landmarkName = "fetchMediumEnergy(configuration:complete:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -281,8 +281,8 @@
             filePath = "GriCoWidget/EnergyValueManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "207"
-            endingLineNumber = "207"
+            startingLineNumber = "220"
+            endingLineNumber = "220"
             landmarkName = "getMediumEnergy(configuration:results:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -297,8 +297,8 @@
             filePath = "GriCoWidget/EnergyValueManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "106"
-            endingLineNumber = "106"
+            startingLineNumber = "119"
+            endingLineNumber = "119"
             landmarkName = "fetchMediumEnergy(configuration:complete:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -339,7 +339,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "B47DC300-44C6-4A80-B3CF-7196490633FD"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JanOnVal/ConnectivityHandler.swift"
@@ -409,8 +409,8 @@
             filePath = "GriCoWidget/EnergyValueManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "84"
-            endingLineNumber = "84"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "fetchMediumEnergy(configuration:complete:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -425,8 +425,8 @@
             filePath = "JanOnVal/SelectedMeasurementViewController.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "89"
-            endingLineNumber = "89"
+            startingLineNumber = "139"
+            endingLineNumber = "139"
             landmarkName = "onSendToWatchClick(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -441,8 +441,8 @@
             filePath = "GriCoWidget/EnergyValueManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "64"
-            endingLineNumber = "64"
+            startingLineNumber = "77"
+            endingLineNumber = "77"
             landmarkName = "getSmallEnergy(configuration:results:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -477,6 +477,38 @@
             endingLineNumber = "166"
             landmarkName = "onSaveClick(_:)"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "AB52D198-4411-4349-9F5D-AB4657FA7ECA - 5f6d5f020b88b62f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "GriCo.MeasurementDetailViewController.onSaveClick(__C.UIButton) -&gt; ()"
+                  moduleName = "GriCo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/amlr/dev/watch/JanOnVal/MeasurementDetailViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "166"
+                  endingLineNumber = "166"
+                  offsetFromSymbolStart = "2773">
+               </Location>
+               <Location
+                  uuid = "AB52D198-4411-4349-9F5D-AB4657FA7ECA - b458d2582b3229e0"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 (GriCo.Measurement) -&gt; Swift.Dictionary&lt;Swift.String, Swift.String&gt; in GriCo.MeasurementDetailViewController.onSaveClick(__C.UIButton) -&gt; ()"
+                  moduleName = "GriCo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/amlr/dev/watch/JanOnVal/MeasurementDetailViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "167"
+                  endingLineNumber = "167"
+                  offsetFromSymbolStart = "285">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -498,22 +530,6 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "A8204FD7-65C8-43FD-BF11-03AC398F5021"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "JanOnVal/AppDelegate.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
-            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
             uuid = "511F4ABB-DE19-40CE-B25E-99B326237754"
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
@@ -525,22 +541,38 @@
             endingLineNumber = "35"
             landmarkName = "fetchMeasurementValue(widget:complete:)"
             landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            uuid = "317806C1-9E4C-491F-AA51-45479FB65156"
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "JanOnVal/AppDelegate.swift"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "125"
-            endingLineNumber = "125"
-            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
-            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "511F4ABB-DE19-40CE-B25E-99B326237754 - 1b1c54f465c009df"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in static GriCo.MeasurementValueManager.fetchMeasurementValue(widget: Swift.Optional&lt;GriCo.JanitzaMeasurementValue&gt;, complete: (GriCo.MeasurementValue) -&gt; ()) -&gt; ()"
+                  moduleName = "GriCo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/amlr/dev/watch/GriCoWidget/MeasurementValueManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "1247">
+               </Location>
+               <Location
+                  uuid = "511F4ABB-DE19-40CE-B25E-99B326237754 - 1b1c54f465c009df"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in static GriCo.MeasurementValueManager.fetchMeasurementValue(widget: Swift.Optional&lt;GriCo.JanitzaMeasurementValue&gt;, complete: (GriCo.MeasurementValue) -&gt; ()) -&gt; ()"
+                  moduleName = "GriCo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/amlr/dev/watch/GriCoWidget/MeasurementValueManager.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "35"
+                  endingLineNumber = "35"
+                  offsetFromSymbolStart = "1503">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -563,7 +595,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "EE78E9BA-9E2A-4CCF-83F1-657D28844614"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JanOnVal/MeasurementTableViewController.swift"
@@ -579,7 +611,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "DE0188A8-EBCE-4112-8857-B0FB3515CD9C"
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "JanOnVal/MeasurementTableViewController.swift"
@@ -589,6 +621,53 @@
             endingLineNumber = "44"
             landmarkName = "fetchDataForSelectedDevices()"
             landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "DE0188A8-EBCE-4112-8857-B0FB3515CD9C - 17f0a420ccb1e4a9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in GriCo.MeasurementTableViewController.fetchDataForSelectedDevices() -&gt; ()"
+                  moduleName = "GriCo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/amlr/dev/watch/JanOnVal/MeasurementTableViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "982">
+               </Location>
+               <Location
+                  uuid = "DE0188A8-EBCE-4112-8857-B0FB3515CD9C - 17f0a420ccb1e4a9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in GriCo.MeasurementTableViewController.fetchDataForSelectedDevices() -&gt; ()"
+                  moduleName = "GriCo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/amlr/dev/watch/JanOnVal/MeasurementTableViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "1227">
+               </Location>
+               <Location
+                  uuid = "DE0188A8-EBCE-4112-8857-B0FB3515CD9C - 17f0a420ccb1e4a9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in GriCo.MeasurementTableViewController.fetchDataForSelectedDevices() -&gt; ()"
+                  moduleName = "GriCo"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/amlr/dev/watch/JanOnVal/MeasurementTableViewController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "44"
+                  endingLineNumber = "44"
+                  offsetFromSymbolStart = "1239">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -649,8 +728,8 @@
             filePath = "JanOnVal/MeasurementValueViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "144"
-            endingLineNumber = "144"
+            startingLineNumber = "155"
+            endingLineNumber = "155"
             landmarkName = "fetchDataWithTimer()"
             landmarkType = "7">
          </BreakpointContent>
@@ -685,6 +764,166 @@
             endingLineNumber = "71"
             landmarkName = "doGetData(request:index:)"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2462C08F-DFEB-4094-88E3-13F1BAA970C1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JanOnVal/SelectedMeasurementViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "getMeasurementData()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E56EA50E-88B6-4732-8FA3-B634699E3393"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JanOnVal/SelectedMeasurementViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "78"
+            endingLineNumber = "78"
+            landmarkName = "getMeasurementData()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "0DF2A806-A2FF-42F5-BC6A-7306494B414D"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JanOnVal/SelectedMeasurementViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "57"
+            endingLineNumber = "57"
+            landmarkName = "getMeasurementData()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "B53FE708-9D2D-4FF7-82D8-A55709DE6BD4"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JanOnVal/SelectedMeasurementViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "108"
+            endingLineNumber = "108"
+            landmarkName = "getMeasurementData()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "986529EA-1E1F-4700-817D-BA1657D4D811"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JanOnVal/AppDelegate.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
+            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "183C4D1F-ADC7-49D8-8B10-A6281386C167"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JanOnVal/AppDelegate.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "160"
+            endingLineNumber = "160"
+            landmarkName = "application(_:didFinishLaunchingWithOptions:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2D64C47A-1861-44BD-83CC-D5FD383789F0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JanOnVal/MeasurementTableViewController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "117"
+            endingLineNumber = "117"
+            landmarkName = "searchBar(_:textDidChange:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "3CE31B07-D833-49B4-9AAF-EE4918015B3C"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "JanOnVal WatchKit Extension/InterfaceController.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "67"
+            endingLineNumber = "67"
+            landmarkName = "awake(withContext:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "3CE31B07-D833-49B4-9AAF-EE4918015B3C - 91368b68ecebe757"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "JanOnVal_WatchKit_Extension.InterfaceController.awake(withContext: Swift.Optional&lt;Any&gt;) -&gt; ()"
+                  moduleName = "JanOnVal WatchKit Extension"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/amlr/dev/watch/JanOnVal%20WatchKit%20Extension/InterfaceController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "67"
+                  endingLineNumber = "67"
+                  offsetFromSymbolStart = "4288">
+               </Location>
+               <Location
+                  uuid = "3CE31B07-D833-49B4-9AAF-EE4918015B3C - dc955f2f0bdf9450"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.Dictionary&lt;Swift.String, Any&gt;) -&gt; Swift.Bool in implicit closure #1 () throws -&gt; Swift.Bool in JanOnVal_WatchKit_Extension.InterfaceController.awake(withContext: Swift.Optional&lt;Any&gt;) -&gt; ()"
+                  moduleName = "JanOnVal WatchKit Extension"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/amlr/dev/watch/JanOnVal%20WatchKit%20Extension/InterfaceController.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "68"
+                  endingLineNumber = "68"
+                  offsetFromSymbolStart = "60">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

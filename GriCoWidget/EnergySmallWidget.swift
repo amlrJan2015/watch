@@ -18,6 +18,6 @@ struct EnergySmallWidget: Widget {
         }
         .configurationDisplayName("Energy Small Widget")
         .description("Energy on Widgets")
-        .supportedFamilies([.systemSmall])
+        .supportedFamilies([.systemSmall, .accessoryInline, .accessoryRectangular, .accessoryCircular])
     }
 }

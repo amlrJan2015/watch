@@ -13,15 +13,22 @@ struct EnergySmallTimeLineProvider: IntentTimelineProvider {
     
     func placeholder(in context: Context) -> EnergySmallEntry {
         return EnergySmallEntry(configuration: ComparisonSmallIntent(), date: Date(),
-                                mesurementValueToday: MeasurementValue(date: Date(), value: 123.0, unit: "W"),
-                                mesurementValueYesterday: MeasurementValue(date: Date(), value: 123.0, unit: "W"))
+                                mesurementValueToday: MeasurementValue(date: Date(), value: Double.nan, unit: "Wh"),
+                                mesurementValueYesterday: MeasurementValue(date: Date(), value: Double.nan, unit: "Wh"))
     }
     
     func getSnapshot(for configuration: ComparisonSmallIntent, in context: Context, completion: @escaping (EnergySmallEntry) -> Void) {
         let date = Date()
-        let entry = EnergySmallEntry(configuration: ComparisonSmallIntent(), date: date,
-                                     mesurementValueToday: MeasurementValue(date: date, value: 123.0, unit: "W"),
-                                     mesurementValueYesterday: MeasurementValue(date: date, value: 123.0, unit: "W"))
+        var entry:EnergySmallEntry
+        if context.isPreview {
+            entry = EnergySmallEntry(configuration: ComparisonSmallIntent(), date: date,
+                                     mesurementValueToday: MeasurementValue(date: date, value: 1, unit: "Wh"),
+                                     mesurementValueYesterday: MeasurementValue(date: date, value: 2, unit: "Wh"))
+        } else {
+            entry = EnergySmallEntry(configuration: ComparisonSmallIntent(), date: date,
+                                     mesurementValueToday: MeasurementValue(date: date, value: Double.nan, unit: "Wh"),
+                                     mesurementValueYesterday: MeasurementValue(date: date, value: Double.nan, unit: "Wh"))
+        }
         
         completion(entry)
     }

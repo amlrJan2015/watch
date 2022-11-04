@@ -13,6 +13,11 @@ struct IndicatorEntry: TimelineEntry {
     let configuration: IndicatorIntent
     
     public let date: Date
-    public let mesurementValue: MeasurementValue
+    public var mesurementValue: MeasurementValue
+    
+    mutating func setDigsOnMV(d: Int) -> IndicatorEntry {
+        self.mesurementValue.setDigs(d: d)
+        return self
+    }
     
 }

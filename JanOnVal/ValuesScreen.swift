@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ValuesScreen: View {
     
+    @Environment(\.presentationMode) var presentationMode
+    
     let configData: [Measurement]
     
     @ObservedObject var viewModel: MeasurementValueViewModel
@@ -17,10 +19,15 @@ struct ValuesScreen: View {
     let layout = [
         GridItem(.adaptive(minimum: 150))
     ]
-    
+        
     var body: some View {
         
         ScrollView {
+            
+            Button("CLOSE") {
+                    presentationMode.wrappedValue.dismiss()
+            }.padding(10)
+            
             LazyVGrid(columns:layout, spacing: 15) {
                 ForEach(viewModel.values) {value in
                     ZStack{
@@ -44,7 +51,7 @@ struct ValuesScreen: View {
             }.padding(.vertical)
         }.onDisappear {
             viewModel.cancelTimer()
-        }        
+        }
     }
 }
 

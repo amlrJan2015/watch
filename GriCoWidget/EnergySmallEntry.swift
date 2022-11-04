@@ -13,6 +13,12 @@ struct EnergySmallEntry: TimelineEntry {
     let configuration: ComparisonSmallIntent
     
     public let date: Date
-    public let mesurementValueToday: MeasurementValue
-    public let mesurementValueYesterday: MeasurementValue    
+    public var mesurementValueToday: MeasurementValue
+    public var mesurementValueYesterday: MeasurementValue
+    
+    mutating func setDigsOnMVToday(d: Int) -> EnergySmallEntry {
+        self.mesurementValueToday.setDigs(d: d)
+        self.mesurementValueYesterday.setDigs(d: d)
+        return self
+    }
 }

@@ -18,6 +18,6 @@ struct IndicatorWidget: Widget {
         }
         .configurationDisplayName("Online-Value Widget")
         .description("Small Widget with an online value")
-        .supportedFamilies([.systemSmall])
+        .supportedFamilies([.systemSmall, .accessoryInline, .accessoryRectangular, .accessoryCircular])
     }
 }

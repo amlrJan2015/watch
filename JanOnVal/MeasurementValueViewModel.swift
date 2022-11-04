@@ -105,8 +105,19 @@ class MeasurementValueViewModel: ObservableObject {
                             }
                         }
                         break
-                        /*case MeasurementValueViewModel.MI:
-                         TableUtil.showManualInput(json, measurementData, valueLbl, unitLbl, waitLbl)*/
+                    case MeasurementValueViewModel.MI:
+                            let valmeasurement = json["details"] as? [String: Any]
+                            if let value = valmeasurement!["lastValue"] as? Double {
+                                DispatchQueue.main.async { // Correct
+                                    self.values[index].value = value
+                                    self.values[index].date = Date()
+                                }
+                            } else {
+                                DispatchQueue.main.async { // Correct
+                                    self.values[index].value = Double.nan
+                                    self.values[index].date = Date()
+                                }
+                            }
                     default:
                         print("unknown mode")
                     }
@@ -172,7 +183,7 @@ class MeasurementValueViewModel: ObservableObject {
             requestData = "unknown mode"
         }
         
-        print("\(serverUrl!)\(requestData)")
+        //print("\(serverUrl!)\(requestData)")
         
         var request = URLRequest(url: URL(string:"\(serverUrl!)\(requestData)")!)
         request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData

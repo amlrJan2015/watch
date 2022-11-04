@@ -14,11 +14,16 @@ struct MeasurementValue: Decodable, Identifiable {
     var date: Date
     var value: Double
     var unit: String
-    var icon = "💡"    
+    var icon = "💡"
+    var digs = 1
+    
+    mutating func setDigs(d: Int) {
+        digs = d
+    }
     
     public func getScaledValue() -> (String, String) {
         let (siPrefix, newValue) = EnergyCommon.getSiPrefix(value)
-        return (String(format:"%.2f", newValue), siPrefix+unit)
+        return (String(format:"%.\(digs)f", newValue), siPrefix+unit)
     }
         
     public func getDateTimeFormatted() -> String {

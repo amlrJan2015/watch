@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="19162" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="21225" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
     <device id="watch45"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19144"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="19044"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="21040"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
@@ -42,25 +41,6 @@
                             </gestureRecognizers>
                         </table>
                     </items>
-                    <menu key="menu" id="GWP-dQ-xMW">
-                        <items>
-                            <menuItem title="Favorites" icon="accept" id="zmN-Do-nQW">
-                                <connections>
-                                    <action selector="onFavoritesMenuItemClick" destination="AgC-eL-Hgc" id="azD-00-JgI"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="REST" image="globe" catalog="system" id="OPb-Zf-0J0">
-                                <connections>
-                                    <action selector="onRESTMenuItemClick" destination="AgC-eL-Hgc" id="zGP-wh-c33"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Cloud" image="cloud" catalog="system" id="LL6-gS-5tF">
-                                <connections>
-                                    <action selector="onCloudMenuItemClick" destination="AgC-eL-Hgc" id="Cef-Kp-Pem"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
                     <connections>
                         <outlet property="info" destination="jTI-wC-eWP" id="LCs-aW-36w"/>
                         <outlet property="table" destination="UXK-c9-bYL" id="BcV-Nf-FFa"/>
@@ -110,15 +90,6 @@
                             </connections>
                         </button>
                     </items>
-                    <menu key="menu" id="xWd-uB-HtY">
-                        <items>
-                            <menuItem title="Chart" icon="accept" id="7vG-7S-4hA">
-                                <connections>
-                                    <action selector="onChartMenuItemClick" destination="zXX-6X-8Qf" id="c9a-nY-RT7"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
                     <connections>
                         <outlet property="table" destination="aw4-Qx-zZd" id="no6-EX-cML"/>
                         <outlet property="tableTitle" destination="shU-52-gZv" id="uQW-mi-gWf"/>
@@ -176,15 +147,6 @@
                             </variation>
                         </group>
                     </items>
-                    <menu key="menu" id="opz-YU-Msj">
-                        <items>
-                            <menuItem title="Chart" icon="accept" id="l83-0Y-MWo">
-                                <connections>
-                                    <action selector="onChartMenuItemClick" destination="vjb-46-twT" id="9TX-ah-rZh"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
                     <connections>
                         <outlet property="headerEmoji" destination="hld-nO-NYd" id="U9B-Pm-x4s"/>
                         <outlet property="onlineValue" destination="qgP-ZO-m8r" id="Dya-rz-nfR"/>
@@ -218,25 +180,6 @@
                             <color key="backgroundColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         </group>
                     </items>
-                    <menu key="menu" id="hKA-XO-Y9m">
-                        <items>
-                            <menuItem title="Today" icon="accept" id="0MB-7D-c2P">
-                                <connections>
-                                    <action selector="onTodayMenuItemClick" destination="Xo5-dA-Fg5" id="LPx-8h-Gc5"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Yesterday" icon="accept" id="WQd-OF-Hf9">
-                                <connections>
-                                    <action selector="onYesterdayMenuItemClick" destination="Xo5-dA-Fg5" id="vyc-VW-GB6"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Options" icon="add" id="TyW-7P-T6O">
-                                <connections>
-                                    <action selector="onOptionsMenuItemClick" destination="Xo5-dA-Fg5" id="1nt-9Y-EAM"/>
-                                </connections>
-                            </menuItem>
-                        </items>
-                    </menu>
                     <connections>
                         <outlet property="image" destination="Xb6-E9-VIf" id="IZw-ki-z12"/>
                         <outlet property="maxLbl" destination="ovD-bt-ckA" id="6vu-7n-n1I"/>
@@ -497,8 +440,4 @@
             <point key="canvasLocation" x="469" y="-53"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="cloud" catalog="system" width="128" height="86"/>
-        <image name="globe" catalog="system" width="128" height="121"/>
-    </resources>
 </document>

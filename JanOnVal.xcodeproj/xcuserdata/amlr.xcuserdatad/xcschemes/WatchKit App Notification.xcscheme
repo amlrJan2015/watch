@@ -65,10 +65,8 @@
       allowLocationSimulation = "YES"
       launchAutomaticallySubstyle = "16"
       notificationPayloadFile = "JanOnVal WatchKit Extension/test_apns/PushNotificationPayload.apns">
-      <RemoteRunnable
-         runnableDebuggingMode = "2"
-         BundleIdentifier = "com.apple.Carousel"
-         RemotePath = "/$(PRODUCT_NAME)">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AA43F51C1FDA6A5E00C879E0"
@@ -76,7 +74,7 @@
             BlueprintName = "JanOnVal WatchKit App"
             ReferencedContainer = "container:JanOnVal.xcodeproj">
          </BuildableReference>
-      </RemoteRunnable>
+      </BuildableProductRunnable>
    </LaunchAction>
    <ProfileAction
       buildConfiguration = "Release"
@@ -84,10 +82,8 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
-      <RemoteRunnable
-         runnableDebuggingMode = "2"
-         BundleIdentifier = "com.apple.Carousel"
-         RemotePath = "/$(PRODUCT_NAME)">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "AA43F51C1FDA6A5E00C879E0"
@@ -95,16 +91,7 @@
             BlueprintName = "JanOnVal WatchKit App"
             ReferencedContainer = "container:JanOnVal.xcodeproj">
          </BuildableReference>
-      </RemoteRunnable>
-      <MacroExpansion>
-         <BuildableReference
-            BuildableIdentifier = "primary"
-            BlueprintIdentifier = "AA43F51C1FDA6A5E00C879E0"
-            BuildableName = "GridVis Companion.app"
-            BlueprintName = "JanOnVal WatchKit App"
-            ReferencedContainer = "container:JanOnVal.xcodeproj">
-         </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">

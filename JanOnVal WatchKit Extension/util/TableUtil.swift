@@ -306,7 +306,7 @@ class TableUtil {
             requestData = "unknown mode"
         }
         
-        print("\(serverUrl!)\(requestData)")
+        //print("\(serverUrl!)\(requestData)")
         
         var request = URLRequest(url: URL(string:"\(serverUrl!)\(requestData)")!)        
         request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData
@@ -346,7 +346,7 @@ class TableUtil {
         let online = measurementData["isOnline"] as! Bool
         let requestData = "devices/\(deviceId)/hist/values/\(measurementValue)/\(measurementType)/\(timebase)?start=\(namedTimeStart)&end=\(namedTimeEnd)&online=\(online)"
         let requestStr = "\(serverUrl!)\(requestData)"
-        print(requestStr)
+        //print(requestStr)
         var request = URLRequest(url: URL(string:requestStr)!)
         request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData
         

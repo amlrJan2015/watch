@@ -11,12 +11,17 @@ import WidgetKit
 
 struct IndicatorTimeLineProvider: IntentTimelineProvider {
     func placeholder(in context: Context) -> IndicatorEntry {
-        return IndicatorEntry(configuration: IndicatorIntent(), date: Date(), mesurementValue: MeasurementValue(date: Date(), value: 123.0, unit: "W"))
+        return IndicatorEntry(configuration: IndicatorIntent(), date: Date(), mesurementValue: MeasurementValue(date: Date(), value: Double.nan, unit: "W"))
     }
     
     func getSnapshot(for configuration: IndicatorIntent, in context: Context, completion: @escaping (IndicatorEntry) -> Void) {
         let date = Date()
-        let entry = IndicatorEntry(configuration: configuration, date: date, mesurementValue: MeasurementValue(date: date, value: 123.0, unit: "W"))
+        var entry: IndicatorEntry
+        if context.isPreview {
+            entry = IndicatorEntry(configuration: configuration, date: date, mesurementValue: MeasurementValue(date: date, value: 123, unit: "W"))
+        } else {
+            entry = IndicatorEntry(configuration: configuration, date: date, mesurementValue: MeasurementValue(date: date, value: Double.nan, unit: "W"))
+        }
         
         completion(entry)
     }
