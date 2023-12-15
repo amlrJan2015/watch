@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="21225" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
-    <device id="watch45"/>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="21507" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="AgC-eL-Hgc">
+    <device id="watch49"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="21040"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="21501"/>
     </dependencies>
     <scenes>
         <!--Interface Controller-->
@@ -144,6 +144,9 @@
                             </variation>
                             <variation key="device=watch45mm">
                                 <edgeInsets key="margins" left="12" right="9" top="0.0" bottom="1"/>
+                            </variation>
+                            <variation key="device=watch49mm">
+                                <edgeInsets key="margins" left="14" right="13" top="0.0" bottom="5"/>
                             </variation>
                         </group>
                     </items>
@@ -379,6 +382,9 @@
                             </items>
                             <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="0.0"/>
                             <variation key="device=watch45mm">
+                                <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="5"/>
+                            </variation>
+                            <variation key="device=watch49mm">
                                 <edgeInsets key="margins" left="0.0" right="0.0" top="0.0" bottom="5"/>
                             </variation>
                         </group>

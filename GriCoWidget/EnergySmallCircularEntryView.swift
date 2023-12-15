@@ -23,6 +23,6 @@ struct EnergySmallCircularEntryView: View {
                 Text(entry.mesurementValueYesterday.getScaledValue().0).font(.system(.caption, weight: .bold)).previewLayout(.sizeThatFits)
                 Text(entry.mesurementValueYesterday.getScaledValue().1).font(.caption).previewLayout(.sizeThatFits)
             }
-        }
+        }.containerBackground(for: .widget){}
     }
 }

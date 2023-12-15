@@ -16,10 +16,6 @@ struct EnergySmallEntryView: View {
         switch widgetFamily {
         case .systemSmall:
             ZStack{
-                RadialGradient(gradient: Gradient(colors: [
-                    Color(red: 143/255.0, green: 172/255.0, blue: 202/255.0, opacity:1.0),
-                    Color(red: 69.0/255.0, green: 116.0/255.0, blue: 167/255.0, opacity:1.0)]),
-                               center: .top, startRadius: 0, endRadius: 150)
                 //            Image("JWS").scaleEffect(CGSize(width: 0.024, height: 0.024)).position(x: 17.0, y: 20.0)
                 HStack {
                     VStack(alignment: .center, spacing: 2) {
@@ -50,7 +46,14 @@ struct EnergySmallEntryView: View {
                     }
                 }
                 .padding(5.0)
-            }.edgesIgnoringSafeArea(.all)
+            }
+            .edgesIgnoringSafeArea(.all)
+            .containerBackground(for: .widget) {
+                RadialGradient(gradient: Gradient(colors: [
+                    Color(red: 143/255.0, green: 172/255.0, blue: 202/255.0, opacity:1.0),
+                    Color(red: 69.0/255.0, green: 116.0/255.0, blue: 167/255.0, opacity:1.0)]),
+                               center: .top, startRadius: 0, endRadius: 150)
+            }
         case .accessoryInline:
             EnergySmallInlineEntryView(entry: entry)
         case .accessoryRectangular:

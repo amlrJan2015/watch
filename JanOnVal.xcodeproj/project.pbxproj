@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -43,12 +43,14 @@
 		255A9C1E2539B4360043944F /* MeasurementValueManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255A9C1D2539B4360043944F /* MeasurementValueManager.swift */; };
 		256DE29D20248C0C000D2549 /* AppTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DE29C20248C0C000D2549 /* AppTabBarController.swift */; };
 		256DE29F202729A2000D2549 /* MeasurementRowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DE29E202729A2000D2549 /* MeasurementRowType.swift */; };
-		256DECBD290BBCAE00001DC9 /* Pods_JanOnVal.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 25B7F290239A63A4009E49F3 /* Pods_JanOnVal.framework */; };
 		256DECC1290BD40A00001DC9 /* IndicatorInlineEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 256DECC0290BD40A00001DC9 /* IndicatorInlineEntryView.swift */; };
 		2579BD3425DA908200DE1F2C /* EnergyMediumEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2579BD3325DA908200DE1F2C /* EnergyMediumEntry.swift */; };
 		2579BD3B25DA927700DE1F2C /* EnergyMediumTimeLineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2579BD3A25DA927700DE1F2C /* EnergyMediumTimeLineProvider.swift */; };
 		2579BD4225DA929400DE1F2C /* EnergyMediumWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2579BD4125DA929400DE1F2C /* EnergyMediumWidget.swift */; };
 		25817E1C25BB0075005DD297 /* EnergySmallPlaceholderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25817E1B25BB0075005DD297 /* EnergySmallPlaceholderView.swift */; };
+		2582DDB92B1B8BA7007CF9E5 /* LineChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2582DDB82B1B8BA7007CF9E5 /* LineChart.swift */; };
+		2582DDBB2B1BA15D007CF9E5 /* ChartData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2582DDBA2B1BA15D007CF9E5 /* ChartData.swift */; };
+		2582DDBD2B1BB3D6007CF9E5 /* ChartDataSeries.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2582DDBC2B1BB3D6007CF9E5 /* ChartDataSeries.swift */; };
 		2587F6CA203DEE89003DC730 /* HistMeasurementRowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2587F6C9203DEE89003DC730 /* HistMeasurementRowType.swift */; };
 		25952C09203DF83500B0AA33 /* TableUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25952C08203DF83500B0AA33 /* TableUtil.swift */; };
 		259A9446220D66A40085A387 /* OptionsInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 259A9445220D66A40085A387 /* OptionsInterfaceController.swift */; };
@@ -78,7 +80,6 @@
 		25BC038625B1C85800005D24 /* IndicatorWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BC038525B1C85800005D24 /* IndicatorWidget.swift */; };
 		25E9C19B21FB11AA00731F58 /* FavoritesInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E9C19A21FB11AA00731F58 /* FavoritesInterfaceController.swift */; };
 		25EB1D4E2046C3F800AF340B /* MeasurementPropertyKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25EB1D4D2046C3F800AF340B /* MeasurementPropertyKey.swift */; };
-		25F710C52387C14F00C8585E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 25F710C42387C14F00C8585E /* GoogleService-Info.plist */; };
 		AA425AD0201E21A8001FA571 /* MeasurementTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA425ACF201E21A8001FA571 /* MeasurementTableViewController.swift */; };
 		AA425AD4201E603D001FA571 /* Measurement.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA425AD3201E603D001FA571 /* Measurement.swift */; };
 		AA43F50F1FDA6A5E00C879E0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA43F50E1FDA6A5E00C879E0 /* AppDelegate.swift */; };
@@ -207,6 +208,9 @@
 		2579BD4125DA929400DE1F2C /* EnergyMediumWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyMediumWidget.swift; sourceTree = "<group>"; };
 		25817E1B25BB0075005DD297 /* EnergySmallPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergySmallPlaceholderView.swift; sourceTree = "<group>"; };
 		25817E2925BB0640005DD297 /* EnergyCommon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = EnergyCommon.swift; path = ../GriCoWidget/EnergyCommon.swift; sourceTree = "<group>"; };
+		2582DDB82B1B8BA7007CF9E5 /* LineChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChart.swift; sourceTree = "<group>"; };
+		2582DDBA2B1BA15D007CF9E5 /* ChartData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartData.swift; sourceTree = "<group>"; };
+		2582DDBC2B1BB3D6007CF9E5 /* ChartDataSeries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartDataSeries.swift; sourceTree = "<group>"; };
 		2587B98B2387DE5300A030EC /* JanOnVal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JanOnVal.entitlements; sourceTree = "<group>"; };
 		2587F6C9203DEE89003DC730 /* HistMeasurementRowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistMeasurementRowType.swift; sourceTree = "<group>"; };
 		259517842387FF8700136885 /* JanOnVal WatchKit Extension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "JanOnVal WatchKit Extension.entitlements"; sourceTree = "<group>"; };
@@ -230,8 +234,6 @@
 		25B43A5625DA85D40022BF2C /* EnergySmallWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergySmallWidget.swift; sourceTree = "<group>"; };
 		25B43A5D25DA865A0022BF2C /* EnergySmallTimeLineProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergySmallTimeLineProvider.swift; sourceTree = "<group>"; };
 		25B43A6425DA8C060022BF2C /* EnergyMediumEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnergyMediumEntryView.swift; sourceTree = "<group>"; };
-		25B7F284239A6261009E49F3 /* Pods_JanOnVal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_JanOnVal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		25B7F290239A63A4009E49F3 /* Pods_JanOnVal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_JanOnVal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		25BC036B25B1AF7800005D24 /* WidgetFamily.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetFamily.swift; sourceTree = "<group>"; };
 		25BC037725B1C38900005D24 /* IndicatorPlaceholderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorPlaceholderView.swift; sourceTree = "<group>"; };
 		25BC037E25B1C7D800005D24 /* IndicatorEntryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorEntryView.swift; sourceTree = "<group>"; };
@@ -239,11 +241,7 @@
 		25E9C19A21FB11AA00731F58 /* FavoritesInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesInterfaceController.swift; sourceTree = "<group>"; };
 		25EB1D4D2046C3F800AF340B /* MeasurementPropertyKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementPropertyKey.swift; sourceTree = "<group>"; };
 		25EF37B4238A7D390058E38F /* JanOnValDebug.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JanOnValDebug.entitlements; sourceTree = "<group>"; };
-		25F710C42387C14F00C8585E /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = SOURCE_ROOT; };
 		25FF048D237EBD04006AE159 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; name = PushNotificationPayload.apns; path = test_apns/PushNotificationPayload.apns; sourceTree = "<group>"; };
-		32927FC3836B68F574773395 /* Pods-JanOnVal.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JanOnVal.release.xcconfig"; path = "Target Support Files/Pods-JanOnVal/Pods-JanOnVal.release.xcconfig"; sourceTree = "<group>"; };
-		45486C1EB9DD53224B28FF22 /* Pods-JanOnVal.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-JanOnVal.debug.xcconfig"; path = "Target Support Files/Pods-JanOnVal/Pods-JanOnVal.debug.xcconfig"; sourceTree = "<group>"; };
-		6AFD8549DEC30BEBF2BB8C9B /* Pods_JanOnVal_WatchKit_App.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JanOnVal_WatchKit_App.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA425ACF201E21A8001FA571 /* MeasurementTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementTableViewController.swift; sourceTree = "<group>"; };
 		AA425AD3201E603D001FA571 /* Measurement.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Measurement.swift; sourceTree = "<group>"; };
 		AA43F50B1FDA6A5E00C879E0 /* GriCo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GriCo.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -266,8 +264,6 @@
 		AA665223201B7AF400E63CC1 /* AppModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppModel.swift; sourceTree = "<group>"; };
 		AA9A778121A7E4B0003B6045 /* ChartsInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChartsInterfaceController.swift; sourceTree = "<group>"; };
 		AAC370E52015C8E800132087 /* ConnectivityHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectivityHandler.swift; sourceTree = "<group>"; };
-		D19E5288F5FD781916980A43 /* Pods_JanOnVal.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JanOnVal.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		EEA81FF8E74A686F596CB170 /* Pods_JanOnVal_WatchKit_Extension.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_JanOnVal_WatchKit_Extension.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -299,7 +295,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				25A48977289D08CF00574C9C /* CloudKit.framework in Frameworks */,
-				256DECBD290BBCAE00001DC9 /* Pods_JanOnVal.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -317,11 +312,6 @@
 			isa = PBXGroup;
 			children = (
 				25A48976289D08CF00574C9C /* CloudKit.framework */,
-				25B7F290239A63A4009E49F3 /* Pods_JanOnVal.framework */,
-				25B7F284239A6261009E49F3 /* Pods_JanOnVal.framework */,
-				D19E5288F5FD781916980A43 /* Pods_JanOnVal.framework */,
-				6AFD8549DEC30BEBF2BB8C9B /* Pods_JanOnVal_WatchKit_App.framework */,
-				EEA81FF8E74A686F596CB170 /* Pods_JanOnVal_WatchKit_Extension.framework */,
 				254DF5F7251DB312003CED3A /* WidgetKit.framework */,
 				254DF5F9251DB312003CED3A /* SwiftUI.framework */,
 				254F30F62529071500E4AD12 /* IntentsUI.framework */,
@@ -478,6 +468,9 @@
 				25817E2925BB0640005DD297 /* EnergyCommon.swift */,
 				255A9C162539B2A70043944F /* MeasurementValue.swift */,
 				25B1C94C2894038B00F3FAE7 /* MeasurementValueViewModel.swift */,
+				2582DDB82B1B8BA7007CF9E5 /* LineChart.swift */,
+				2582DDBA2B1BA15D007CF9E5 /* ChartData.swift */,
+				2582DDBC2B1BB3D6007CF9E5 /* ChartDataSeries.swift */,
 			);
 			name = online_values;
 			sourceTree = "<group>";
@@ -608,7 +601,6 @@
 				254DF64D251DB734003CED3A /* GriCoWidget */,
 				254F30ED2529071400E4AD12 /* WidgetsIntensExtension */,
 				AA43F50C1FDA6A5E00C879E0 /* Products */,
-				AF49B6AAF7B7F600E338B7CA /* Pods */,
 				1423E64F63956BF8D73D0090 /* Frameworks */,
 			);
 			sourceTree = "<group>";
@@ -631,7 +623,6 @@
 				25B1C93D2893F9E600F3FAE7 /* online_values */,
 				25EF37B4238A7D390058E38F /* JanOnValDebug.entitlements */,
 				2587B98B2387DE5300A030EC /* JanOnVal.entitlements */,
-				25F710C42387C14F00C8585E /* GoogleService-Info.plist */,
 				AA43F50E1FDA6A5E00C879E0 /* AppDelegate.swift */,
 				AA43F5121FDA6A5E00C879E0 /* Main.storyboard */,
 				AA43F5151FDA6A5E00C879E0 /* Assets.xcassets */,
@@ -680,15 +671,6 @@
 			path = "JanOnVal WatchKit Extension";
 			sourceTree = "<group>";
 		};
-		AF49B6AAF7B7F600E338B7CA /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				45486C1EB9DD53224B28FF22 /* Pods-JanOnVal.debug.xcconfig */,
-				32927FC3836B68F574773395 /* Pods-JanOnVal.release.xcconfig */,
-			);
-			path = Pods;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -730,12 +712,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = AA43F5421FDA6A5E00C879E0 /* Build configuration list for PBXNativeTarget "JanOnVal" */;
 			buildPhases = (
-				D1F769BD4F108238F7ABDB5D /* [CP] Check Pods Manifest.lock */,
 				AA43F5071FDA6A5E00C879E0 /* Sources */,
 				AA43F5081FDA6A5E00C879E0 /* Frameworks */,
 				AA43F5091FDA6A5E00C879E0 /* Resources */,
 				AA43F5411FDA6A5E00C879E0 /* Embed Watch Content */,
-				F0B7047FC630E1B7CA2E55BA /* [CP] Embed Pods Frameworks */,
 				254DF659251DB734003CED3A /* Embed App Extensions */,
 			);
 			buildRules = (
@@ -860,7 +840,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA43F5191FDA6A5E00C879E0 /* LaunchScreen.storyboard in Resources */,
-				25F710C52387C14F00C8585E /* GoogleService-Info.plist in Resources */,
 				AA43F5161FDA6A5E00C879E0 /* Assets.xcassets in Resources */,
 				AA43F5141FDA6A5E00C879E0 /* Main.storyboard in Resources */,
 			);
@@ -884,99 +863,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		D1F769BD4F108238F7ABDB5D /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-JanOnVal-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F0B7047FC630E1B7CA2E55BA /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-JanOnVal/Pods-JanOnVal-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/AppAuth/AppAuth.framework",
-				"${BUILT_PRODUCTS_DIR}/BoringSSL-GRPC/openssl_grpc.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseAppCheckInterop/FirebaseAppCheckInterop.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseAuth/FirebaseAuth.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseAuthInterop/FirebaseAuthInterop.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseCore/FirebaseCore.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseCoreExtension/FirebaseCoreExtension.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseCoreInternal/FirebaseCoreInternal.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseFirestore/FirebaseFirestore.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseFunctions/FirebaseFunctions.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseInstallations/FirebaseInstallations.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseMessaging/FirebaseMessaging.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseMessagingInterop/FirebaseMessagingInterop.framework",
-				"${BUILT_PRODUCTS_DIR}/FirebaseSharedSwift/FirebaseSharedSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMAppAuth/GTMAppAuth.framework",
-				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleDataTransport/GoogleDataTransport.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleSignIn/GoogleSignIn.framework",
-				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
-				"${BUILT_PRODUCTS_DIR}/Libuv-gRPC/uv.framework",
-				"${BUILT_PRODUCTS_DIR}/PromisesObjC/FBLPromises.framework",
-				"${BUILT_PRODUCTS_DIR}/abseil/absl.framework",
-				"${BUILT_PRODUCTS_DIR}/gRPC-C++/grpcpp.framework",
-				"${BUILT_PRODUCTS_DIR}/gRPC-Core/grpc.framework",
-				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
-				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AppAuth.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/openssl_grpc.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAppCheckInterop.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAuth.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseAuthInterop.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreExtension.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseCoreInternal.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseFirestore.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseFunctions.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseInstallations.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessaging.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseMessagingInterop.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FirebaseSharedSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMAppAuth.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleDataTransport.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleSignIn.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/uv.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBLPromises.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/absl.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpcpp.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/grpc.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-JanOnVal/Pods-JanOnVal-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		254DF646251DB734003CED3A /* Sources */ = {
@@ -1040,6 +926,7 @@
 				25258B5721DD2E6900579FF9 /* SelectedMeasurementViewController.swift in Sources */,
 				25B1C93C2893E73300F3FAE7 /* ValuesScreen.swift in Sources */,
 				AA4F10A6201B534000DDA380 /* DevicesViewController.swift in Sources */,
+				2582DDB92B1B8BA7007CF9E5 /* LineChart.swift in Sources */,
 				AA665224201B7AF400E63CC1 /* AppModel.swift in Sources */,
 				256DE29D20248C0C000D2549 /* AppTabBarController.swift in Sources */,
 				AAC370E62015C8E800132087 /* ConnectivityHandler.swift in Sources */,
@@ -1050,6 +937,7 @@
 				2557962821D0A27A00FCAFAC /* ValueType.swift in Sources */,
 				25B1C9422893FFCB00F3FAE7 /* MeasurementValueManager.swift in Sources */,
 				AA665222201B78F800E63CC1 /* ServerViewController.swift in Sources */,
+				2582DDBD2B1BB3D6007CF9E5 /* ChartDataSeries.swift in Sources */,
 				AA425AD4201E603D001FA571 /* Measurement.swift in Sources */,
 				AA43F50F1FDA6A5E00C879E0 /* AppDelegate.swift in Sources */,
 				2554BEEC21F1B5B60091DC95 /* DevicePropertyKey.swift in Sources */,
@@ -1058,6 +946,7 @@
 				251724532036B19D000C5EEA /* PickerData.swift in Sources */,
 				25EB1D4E2046C3F800AF340B /* MeasurementPropertyKey.swift in Sources */,
 				AA4F10A8201B561300DDA380 /* Device.swift in Sources */,
+				2582DDBB2B1BA15D007CF9E5 /* ChartData.swift in Sources */,
 				25B1C94D2894038B00F3FAE7 /* MeasurementValueViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1148,16 +1037,16 @@
 				CODE_SIGN_ENTITLEMENTS = GriCoWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 91;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = GriCoWidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 16.3;
+				MARKETING_VERSION = 16.8;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch.GriCoWidget;
@@ -1166,7 +1055,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
 		};
@@ -1180,16 +1069,16 @@
 				CODE_SIGN_ENTITLEMENTS = GriCoWidgetExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 91;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = GriCoWidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 16.3;
+				MARKETING_VERSION = 16.8;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch.GriCoWidget;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1197,7 +1086,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Release;
 		};
@@ -1209,16 +1098,16 @@
 				CODE_SIGN_ENTITLEMENTS = WidgetsIntensExtension/WidgetsIntensExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 91;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = WidgetsIntensExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 16.3;
+				MARKETING_VERSION = 16.8;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch.WidgetsIntensExtension;
@@ -1227,7 +1116,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
 		};
@@ -1239,16 +1128,16 @@
 				CODE_SIGN_ENTITLEMENTS = WidgetsIntensExtension/WidgetsIntensExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 91;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = WidgetsIntensExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 16.3;
+				MARKETING_VERSION = 16.8;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch.WidgetsIntensExtension;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1256,7 +1145,7 @@
 				SKIP_INSTALL = YES;
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Release;
 		};
@@ -1314,7 +1203,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1373,7 +1262,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
@@ -1392,7 +1281,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 98;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = "JanOnVal WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1400,7 +1289,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 16.3;
+				MARKETING_VERSION = 17.4;
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch.wk.wke;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1408,7 +1297,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+				WATCHOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Debug;
 		};
@@ -1420,7 +1309,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 98;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = "JanOnVal WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1428,7 +1317,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 16.3;
+				MARKETING_VERSION = 17.4;
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch.wk.wke;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1436,7 +1325,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+				WATCHOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
 		};
@@ -1448,7 +1337,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 98;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				IBSC_MODULE = JanOnVal_WatchKit_Extension;
 				INFOPLIST_FILE = "JanOnVal WatchKit App/Info.plist";
@@ -1456,7 +1345,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 16.3;
+				MARKETING_VERSION = 17.4;
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch.wk;
 				PRODUCT_NAME = "GridVis Companion";
 				PROVISIONING_PROFILE = "";
@@ -1465,7 +1354,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+				WATCHOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Debug;
 		};
@@ -1477,7 +1366,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 98;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				IBSC_MODULE = JanOnVal_WatchKit_Extension;
 				INFOPLIST_FILE = "JanOnVal WatchKit App/Info.plist";
@@ -1485,7 +1374,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 16.3;
+				MARKETING_VERSION = 17.4;
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch.wk;
 				PRODUCT_NAME = "GridVis Companion";
 				PROVISIONING_PROFILE = "";
@@ -1494,13 +1383,12 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+				WATCHOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
 		};
 		AA43F5431FDA6A5E00C879E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 45486C1EB9DD53224B28FF22 /* Pods-JanOnVal.debug.xcconfig */;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
@@ -1508,17 +1396,17 @@
 				CODE_SIGN_ENTITLEMENTS = JanOnVal/JanOnValDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 98;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = JanOnVal/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "GridVis Companion";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 16.3;
+				MARKETING_VERSION = 17.4;
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch;
 				PRODUCT_NAME = GriCo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1526,13 +1414,12 @@
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
 		};
 		AA43F5441FDA6A5E00C879E0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 32927FC3836B68F574773395 /* Pods-JanOnVal.release.xcconfig */;
 			buildSettings = {
 				ALLOW_TARGET_PLATFORM_SPECIALIZATION = YES;
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
@@ -1540,17 +1427,17 @@
 				CODE_SIGN_ENTITLEMENTS = JanOnVal/JanOnVal.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 86;
+				CURRENT_PROJECT_VERSION = 98;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = JanOnVal/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "GridVis Companion";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 16.3;
+				MARKETING_VERSION = 17.4;
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch;
 				PRODUCT_NAME = GriCo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1558,7 +1445,7 @@
 				SUPPORTS_MACCATALYST = YES;
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Release;
 		};

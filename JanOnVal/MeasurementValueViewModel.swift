@@ -14,6 +14,7 @@ class MeasurementValueViewModel: ObservableObject {
     private let refreshTime: Int
     private let measurementData: [[String:Any]]
     @Published var values: [MeasurementValue]
+    @Published var seriesData: [ChartDataSeries]
     
     init(serverUrl:String, refreshTime: Int, measurementData: [[String:Any]]) {
         self.serverUrl = serverUrl
@@ -24,7 +25,97 @@ class MeasurementValueViewModel: ObservableObject {
             let unit2 = (measurementDataItem["unit2"] as? String ?? "")
             return MeasurementValue(date: Date(), value: Double.nan, unit: unit2.isEmpty ? unit1 : unit2 , icon: measurementDataItem["watchTitle"] as? String ?? "💡")
         })
+        
+        self.seriesData = []
+        //self.computeChartData(index: 1)
+        
         fetchDataWithTimer()
+    }
+    
+    func computeChartData(index: Int) {
+        if index != -1 {
+            self.seriesData = []
+            let mData = measurementData[index]
+            let request = MeasurementValueViewModel.createChartRequest(mData, serverUrl, timePeriod: "NAMED_Today")
+            let session = URLSession.shared
+            session.dataTask(with: request) { data, response, error -> Void in
+                do {
+                    if let measurementDataJson = data {
+                        let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
+                        let valuesOpt = json["values"] as? [[String: Any]]
+                        
+                        if let values = valuesOpt {
+                            
+                            var serData = ChartDataSeries(timePeriod: "Today", pvData: [])
+                            
+                            let chartDataToday = values.map({value in
+                                let startTime = value["startTime"] as! Int64
+                                let endTime = value["endTime"] as! Int64
+                                
+                                let time = (startTime + endTime) / 2 / 1_000_000_000
+                                
+                                if let avg = value["avg"] as? Double {
+                                    
+                                    serData.setMin(value: avg)
+                                    serData.setMax(value: avg)
+                                    
+                                    return ChartData(hour: Date(timeIntervalSince1970: TimeInterval(time)), activePower: avg)
+                                }
+                                
+                                return ChartData(hour: Date(timeIntervalSince1970: TimeInterval(time)), activePower: Double.nan)
+                            })
+                            DispatchQueue.main.async {
+                                var sData = ChartDataSeries(timePeriod: "Today", pvData: chartDataToday)
+                                sData.setMax(value: serData.max ?? 0.0)
+                                sData.setMin(value: serData.min ?? 0.0)
+                                self.seriesData.append(sData)
+                            }
+                        }
+                    }
+                } catch {
+                    self.seriesData = []
+                }
+            }.resume()
+            
+            let requestYesterday = MeasurementValueViewModel.createChartRequest(mData, serverUrl, timePeriod: "NAMED_Yesterday")
+            session.dataTask(with: requestYesterday) { data, response, error -> Void in
+                do {
+                    if let measurementDataJson = data {
+                        let json = try JSONSerialization.jsonObject(with: measurementDataJson) as! Dictionary<String, AnyObject>
+                        let valuesOpt = json["values"] as? [[String: Any]]
+                        if let values = valuesOpt {
+                            
+                            var serData = ChartDataSeries(timePeriod: "Yesterday", pvData: [])
+                            
+                            let chartDataYesterday = values.map({value in
+                                let startTime = value["startTime"] as! Int64
+                                let endTime = value["endTime"] as! Int64
+                                
+                                let time = (startTime + endTime) / 2 / 1_000_000_000 + (60 * 60 * 24)
+                                
+                                if let avg = value["avg"] as? Double {
+                                    
+                                    serData.setMin(value: avg)
+                                    serData.setMax(value: avg)
+                                    
+                                    return ChartData(hour: Date(timeIntervalSince1970: TimeInterval(time)), activePower: avg)
+                                }
+                                
+                                return ChartData(hour: Date(timeIntervalSince1970: TimeInterval(time)), activePower: Double.nan)
+                            })
+                            DispatchQueue.main.async {
+                                var sData = ChartDataSeries(timePeriod: "Yesterday", pvData: chartDataYesterday)
+                                sData.setMax(value: serData.max ?? 0.0)
+                                sData.setMin(value: serData.min ?? 0.0)
+                                self.seriesData.append(sData)
+                            }
+                        }
+                    }
+                } catch {
+                    self.seriesData = []
+                }
+            }.resume()
+        }
     }
     
     func addMeasurementValue(measurementValue: MeasurementValue) {
@@ -60,7 +151,7 @@ class MeasurementValueViewModel: ObservableObject {
     }
     
     private func doGetData(request: URLRequest, index: Int) -> URLSessionDataTask {
-        //        print("RequestTo:\(self.serverUrl!)onlinevalues?value=\(self.selectedMeasurementArr[index])")
+        //print("RequestTo:\(request.url)")
         let measurementDataItem = self.measurementData[index]
         let mode = measurementDataItem["mode"] as! Int
         
@@ -184,6 +275,28 @@ class MeasurementValueViewModel: ObservableObject {
         }
         
         //print("\(serverUrl!)\(requestData)")
+        
+        var request = URLRequest(url: URL(string:"\(serverUrl!)\(requestData)")!)
+        request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData
+        
+        request.httpMethod = "GET"
+        request.setValue("application/json", forHTTPHeaderField: "Accept")
+        return request
+    }
+    
+    public static func createChartRequest(_ measurementData:[String: Any], _ serverUrl: String?, timePeriod: String) -> URLRequest {
+        let deviceId = measurementData["deviceId"] as! Int
+        let measurementValue = measurementData["measurementValue"] as! String
+        let measurementType = measurementData["measurementType"] as! String
+        
+        let timebase = measurementData["timebase"] as! String
+        let start = measurementData["start"] as! String
+        let end = measurementData["end"] as! String
+        let isOnline = measurementData["isOnline"] as! Bool
+        
+        var requestData = "devices/\(deviceId)/hist/values/\(measurementValue)/\(measurementType)/\(timebase)?start=\(timePeriod)&end=\(timePeriod)&online=\(isOnline)"
+        
+        print("Chart request: \(serverUrl!)\(requestData)")
         
         var request = URLRequest(url: URL(string:"\(serverUrl!)\(requestData)")!)
         request.cachePolicy = URLRequest.CachePolicy.reloadIgnoringLocalCacheData

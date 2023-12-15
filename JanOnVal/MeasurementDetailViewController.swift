@@ -8,7 +8,7 @@
 
 import UIKit
 
-class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UIPickerViewDelegate, UIPickerViewDataSource, UIGestureRecognizerDelegate {
+class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UIGestureRecognizerDelegate {
     
     var measurement: Measurement?
     
@@ -17,8 +17,17 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
     
     @IBOutlet weak var watchTitle: UITextField!
     @IBOutlet weak var isOnlineOrHistorrical: UISegmentedControl!
-    @IBOutlet weak var start: UIPickerView!
-    @IBOutlet weak var end: UIPickerView!
+    
+    
+    @IBOutlet weak var startLbl: UILabel!
+    @IBOutlet weak var endLbl: UILabel!
+    
+    @IBOutlet weak var start: UIButton!    
+    @IBOutlet weak var end: UIButton!
+    
+    private var startIdx = 0
+    private var endIdx = 0
+    
     @IBOutlet weak var timebase: UITextField!
     @IBOutlet weak var unit2: UITextField!
     
@@ -39,12 +48,6 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
     override func viewDidLoad() {
         super.viewDidLoad()
         watchTitle.delegate = self
-        
-        start.delegate = self
-        start.dataSource = self
-        
-        end.delegate = self
-        end.dataSource = self
         
         gesture.delegate = self
         
@@ -68,23 +71,118 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
                 isOnlineOrHistorrical.selectedSegmentIndex = measurement.mode
                 unit2.text = measurement.unit2
                 favorite.isOn = measurement.favorite
-                
+                                
                 if measurement.mode == Measurement.HIST {
                     show()
-                    if let indexOfStart = PickerData.startEndArr.firstIndex(of: String(measurement.start.split(separator: "_")[1])) {
-                        start.selectRow(indexOfStart, inComponent: 0, animated: true)
-                    }
-                    if let indexOfEnd = PickerData.startEndArr.firstIndex(of: String(measurement.end.split(separator: "_")[1])) {
-                        end.selectRow(indexOfEnd, inComponent: 0, animated: true)
-                    }
                 } else {
                     hide()
                 }
+                
+                if let indexOfStart = PickerData.startEndArr.firstIndex(of: String(measurement.start.split(separator: "_")[1])) {
+                    startIdx = indexOfStart
+                    start.setTitle(PickerData.startEndArr[startIdx], for: UIControl.State.normal)
+                }
+                if let indexOfEnd = PickerData.startEndArr.firstIndex(of: String(measurement.end.split(separator: "_")[1])) {
+                    endIdx = indexOfEnd
+                    end.setTitle(PickerData.startEndArr[endIdx], for: UIControl.State.normal)
+                }
+                start.menu = addMenuItemsForStart(start, true)
+                end.menu = addMenuItemsForStart(end, false)
             }
         }
     }
     
+    func addMenuItemsForStart(_ button: UIButton, _ isStart: Bool) -> UIMenu {
+        let menuItems = UIMenu(title: "START", children: [
+            UIAction(title: NSLocalizedString(PickerData.startEndArr[0], comment: "")) { action in
+                button.setTitle(PickerData.startEndArr[0], for: UIControl.State.normal)
+                if isStart {
+                    self.startIdx = 0
+                    self.measurement?.start = PickerData.NAMED+PickerData.startEndArr[self.startIdx]
+                } else {
+                    self.endIdx = 0
+                    self.measurement?.end = PickerData.NAMED+PickerData.startEndArr[self.endIdx]
+                }
+                
+            },
+            UIAction(title: NSLocalizedString(PickerData.startEndArr[1], comment: "")) { action in
+                button.setTitle(PickerData.startEndArr[1], for: UIControl.State.normal)
+                if isStart {
+                    self.startIdx = 1
+                    self.measurement?.start = PickerData.NAMED+PickerData.startEndArr[self.startIdx]
+                } else {
+                    self.endIdx = 1
+                    self.measurement?.end = PickerData.NAMED+PickerData.startEndArr[self.endIdx]
+                }
+            },
+            UIAction(title: NSLocalizedString(PickerData.startEndArr[2], comment: "")) { action in
+                button.setTitle(PickerData.startEndArr[2], for: UIControl.State.normal)
+                if isStart {
+                    self.startIdx = 2
+                    self.measurement?.start = PickerData.NAMED+PickerData.startEndArr[self.startIdx]
+                } else {
+                    self.endIdx = 2
+                    self.measurement?.end = PickerData.NAMED+PickerData.startEndArr[self.endIdx]
+                }
+            },
+            UIAction(title: NSLocalizedString(PickerData.startEndArr[3], comment: "")) { action in
+                button.setTitle(PickerData.startEndArr[3], for: UIControl.State.normal)
+                if isStart {
+                    self.startIdx = 3
+                    self.measurement?.start = PickerData.NAMED+PickerData.startEndArr[self.startIdx]
+                } else {
+                    self.endIdx = 3
+                    self.measurement?.end = PickerData.NAMED+PickerData.startEndArr[self.endIdx]
+                }
+            },
+            UIAction(title: NSLocalizedString(PickerData.startEndArr[4], comment: "")) { action in
+                button.setTitle(PickerData.startEndArr[4], for: UIControl.State.normal)
+                if isStart {
+                    self.startIdx = 4
+                    self.measurement?.start = PickerData.NAMED+PickerData.startEndArr[self.startIdx]
+                } else {
+                    self.endIdx = 4
+                    self.measurement?.end = PickerData.NAMED+PickerData.startEndArr[self.endIdx]
+                }
+            },
+            UIAction(title: NSLocalizedString(PickerData.startEndArr[5], comment: "")) { action in
+                button.setTitle(PickerData.startEndArr[5], for: UIControl.State.normal)
+                if isStart {
+                    self.startIdx = 5
+                    self.measurement?.start = PickerData.NAMED+PickerData.startEndArr[self.startIdx]
+                } else {
+                    self.endIdx = 5
+                    self.measurement?.end = PickerData.NAMED+PickerData.startEndArr[self.endIdx]
+                }
+            },
+            UIAction(title: NSLocalizedString(PickerData.startEndArr[6], comment: "")) { action in
+                button.setTitle(PickerData.startEndArr[6], for: UIControl.State.normal)
+                if isStart {
+                    self.startIdx = 6
+                    self.measurement?.start = PickerData.NAMED+PickerData.startEndArr[self.startIdx]
+                } else {
+                    self.endIdx = 6
+                    self.measurement?.end = PickerData.NAMED+PickerData.startEndArr[self.endIdx]
+                }
+            },
+            UIAction(title: NSLocalizedString(PickerData.startEndArr[7], comment: "")) { action in
+                button.setTitle(PickerData.startEndArr[7], for: UIControl.State.normal)
+                if isStart {
+                    self.startIdx = 7
+                    self.measurement?.start = PickerData.NAMED+PickerData.startEndArr[self.startIdx]
+                } else {
+                    self.endIdx = 7
+                    self.measurement?.end = PickerData.NAMED+PickerData.startEndArr[self.endIdx]
+                }
+            }
+        ] )
+        
+        return menuItems
+    }
+      
     private func hide() {
+        startLbl.isHidden = true
+        endLbl.isHidden = true
         start.isHidden = true
         end.isHidden = true
     }
@@ -92,19 +190,8 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
     private func show() {
         start.isHidden = false
         end.isHidden = false
-    }
-    
-    
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return PickerData.startEndArr.count
-    }
-    
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        return PickerData.startEndArr[row]
+        startLbl.isHidden = false
+        endLbl.isHidden = false
     }
     
     @IBAction func onOnlineOrHistoricalChange(_ sender: UISegmentedControl) {
@@ -115,15 +202,7 @@ class MeasurementDetailViewController: UIViewController, UITextFieldDelegate, UI
             hide()
         }
     }
-    
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        if pickerView === start {
-            measurement?.start = PickerData.NAMED+PickerData.startEndArr[row]
-        } else if pickerView === end {
-            measurement?.end = PickerData.NAMED+PickerData.startEndArr[row]
-        }
-    }
-    
+        
     @IBAction func onFavoriteChange(_ sender: UISwitch) {
         measurement?.favorite = sender.isOn
     }

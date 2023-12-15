@@ -19,6 +19,6 @@ struct IndicatorRectangularEntryView: View {
                 Text(entry.mesurementValue.getScaledValue().0).font(.system(.headline, weight: .bold)).previewLayout(.sizeThatFits)
                 Text(entry.mesurementValue.getScaledValue().1).font(.body).previewLayout(.sizeThatFits)
             }
-        }
+        }.containerBackground(for: .widget){}
     }
 }

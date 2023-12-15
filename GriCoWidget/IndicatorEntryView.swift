@@ -15,11 +15,7 @@ struct IndicatorEntryView: View {
     var body: some View {
         switch widgetFamily {
         case .systemSmall:
-            ZStack{
-                RadialGradient(gradient: Gradient(colors: [
-                    Color(red: 143/255.0, green: 172/255.0, blue: 202/255.0, opacity:1.0),
-                    Color(red: 69.0/255.0, green: 116.0/255.0, blue: 167/255.0, opacity:1.0)]),
-                               center: .top, startRadius: 0, endRadius: 200)
+            //ZStack{
                 VStack(alignment: .center, spacing: 2) {
                     Text(entry.configuration.indicatorWidgetData?.title ?? "💡")
                         .font(.largeTitle)
@@ -29,6 +25,12 @@ struct IndicatorEntryView: View {
                     }
                     Text(entry.mesurementValue.getDateTimeFormatted()).font(.system(.caption2, design: .default)).foregroundColor(.white)
                 }
+            //}
+            .containerBackground(for: .widget) {
+                RadialGradient(gradient: Gradient(colors: [
+                    Color(red: 143/255.0, green: 172/255.0, blue: 202/255.0, opacity:1.0),
+                    Color(red: 69.0/255.0, green: 116.0/255.0, blue: 167/255.0, opacity:1.0)]),
+                               center: .top, startRadius: 0, endRadius: 200)                
             }
         case .accessoryInline:
             IndicatorInlineEntryView(entry: entry)

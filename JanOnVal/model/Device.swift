@@ -12,10 +12,10 @@ import os.log
 class Device: NSObject, NSCoding, Decodable {
     let id: Int
     let name: String
-    let desc: String
+    let desc: String?
     let type: String
     
-    init(id: Int, name: String, description: String, type: String) {
+    init(id: Int, name: String, description: String?, type: String) {
         self.id = id
         self.name = name
         self.desc = description
@@ -33,7 +33,6 @@ class Device: NSObject, NSCoding, Decodable {
     init?(json: [String: Any]) {
         guard let name = json["name"] as? String,
             let id = json["id"] as? Int,
-            let description = json["description"] as? String,
             let type = json["type"] as? String
             else {
                 return nil
@@ -41,7 +40,7 @@ class Device: NSObject, NSCoding, Decodable {
         
         self.name = name
         self.id = id
-        self.desc = description
+        self.desc = json["description"] as? String
         self.type = type
     }
     
@@ -59,11 +58,9 @@ class Device: NSObject, NSCoding, Decodable {
                 os_log("Unable to decode the name for a device object", log: OSLog.default, type: .debug)
                 return nil
         }
-        guard let description = aDecoder.decodeObject(forKey: DevicePropertyKey.description) as? String
-            else {
-                os_log("Unable to decode the description for a device object", log: OSLog.default, type: .debug)
-                return nil
-        }
+        
+        let description = aDecoder.decodeObject(forKey: DevicePropertyKey.description) as? String
+        
         guard let type = aDecoder.decodeObject(forKey: DevicePropertyKey.type) as? String
             else {
                 os_log("Unable to decode the type for a device object", log: OSLog.default, type: .debug)

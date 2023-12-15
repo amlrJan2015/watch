@@ -19,6 +19,6 @@ struct IndicatorCircularEntryView: View {
                 Text(entry.mesurementValue.getScaledValue().0).font(.system(.caption, weight: .bold)).previewLayout(.sizeThatFits).previewLayout(.sizeThatFits)
                 Text(entry.mesurementValue.getScaledValue().1).font(.caption).previewLayout(.sizeThatFits).previewLayout(.sizeThatFits)
             }
-        }
+        }.containerBackground(for: .widget){}
     }
 }

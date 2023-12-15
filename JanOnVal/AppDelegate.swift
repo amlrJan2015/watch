@@ -9,75 +9,18 @@
 import UIKit
 import WatchConnectivity
 import BackgroundTasks
-import Firebase
-import GoogleSignIn
-import FirebaseFirestore
-import FirebaseAuth
-import FirebaseMessaging
-import FirebaseCore
-import FirebaseFunctions
 import WidgetKit
 //import CloudKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate,
-                   MessagingDelegate,
                    UNUserNotificationCenterDelegate {
-    
-    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-        return GIDSignIn.sharedInstance.handle(url)
-    }
     
     var window: UIWindow?
     var connectivityHandler: ConnectivityHandler?
     let tabBarController = AppTabBarController()
-    var cloudDB: Firestore!
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
-        FirebaseApp.configure()
-        Messaging.messaging().delegate = self
-        
-        
-        // Configure with manual options. Note that projectID and apiKey, though not
-        // required by the initializer, are mandatory.
-        let secondaryOptions = FirebaseOptions(googleAppID: "1:58546128054:ios:ac97d7a00ec3d0ef639217",
-                                               gcmSenderID: "58546128054")
-        secondaryOptions.apiKey = "AIzaSyCPvCnCeVghPh9VXWEkRuMT_lliUDQHdpg"
-        secondaryOptions.projectID = "janitza-id"
-        
-        // The other options are not mandatory, but may be required
-        // for specific Firebase products.
-        secondaryOptions.bundleID = "de.janitza.ios.gridvis.watch"
-        //        secondaryOptions.trackingID = "UA-12345678-1"
-        secondaryOptions.clientID = "58546128054-7qo2aqmkvcoi2lmkf2612hk77t0at70n.apps.googleusercontent.com"
-        secondaryOptions.databaseURL = "https://janitza-id.firebaseio.com"
-        secondaryOptions.storageBucket = "janitza-id.appspot.com"
-        secondaryOptions.appGroupID = nil
-        
-        FirebaseApp.configure(name: "JanitzID", options: secondaryOptions)
-        guard let janitzaIDApp = FirebaseApp.app(name: "JanitzID") else {
-            assert(false,"Could not retrieve secondary app!!!")
-            return false
-        }
-        
-        //        GIDSignIn.sharedInstance.clientID = janitzaIDApp.options.clientID
-        
-        //        sign()
-        
-        
-        //TODO Attempt to restore the user's sign-in state
-        /*
-         GIDSignIn.sharedInstance.restorePreviousSignIn { user, error in
-         if error != nil || user == nil {
-         // Show the app's signed-out state.
-         } else {
-         // Show the app's signed-in state.
-         }
-         }
-         */
-        
-        
         NSKeyedUnarchiver.setClass(Device.self, forClassName: "JanOnVal.Device")
         NSKeyedUnarchiver.setClass(ValueType.self, forClassName: "JanOnVal.ValueType")
         NSKeyedUnarchiver.setClass(Measurement.self, forClassName: "JanOnVal.Measurement")
@@ -101,12 +44,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
         }
         
         registerForPushNotifications()
-        
-        
-        //        BGTaskScheduler.shared.register(forTaskWithIdentifier: "de.janitza.ios.gridvis.watch.GriCo.fetchDataForComplication", using: nil) { task in
-        //            // Downcast the parameter to an app refresh task as this identifier is used for a refresh request.
-        //            self.handleAppRefresh(task: task as! BGAppRefreshTask)
-        //        }
+       
         
         WidgetCenter.shared.reloadAllTimelines()
         /*let defaultContainer = CKContainer.default()
@@ -277,12 +215,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
             print("####ERROR: transferCurrentComplicationUserInfo failed")
         }
     }
-    
-    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        print("Firebase registration token: \(String(describing: fcmToken))")
-        UserDefaults.standard.set(fcmToken ?? "", forKey: "fcmToken")
-    }
-    
+        
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
         //         1. Convert device token to string
         let tokenParts = deviceToken.map { data -> String in

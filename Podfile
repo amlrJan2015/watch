@@ -2,7 +2,7 @@
 #platform :ios, '13.2'
 
 target 'JanOnVal' do
-  platform :ios, '14.0'
+  platform :ios, '16.0'
   # Comment the next line if you don't want to use dynamic frameworks
   
   use_frameworks!

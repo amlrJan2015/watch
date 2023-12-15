@@ -7,3 +7,10 @@
 //
 
 import Foundation
+
+struct ChartData: Identifiable {
+    let hour: Date
+    let activePower: Double
+    
+    var id: Date { hour }
+}

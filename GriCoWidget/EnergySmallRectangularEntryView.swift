@@ -23,6 +23,6 @@ struct EnergySmallRectangularEntryView: View {
                 Text(entry.mesurementValueYesterday.getScaledValue().0).font(.system(.headline, weight: .bold)).previewLayout(.sizeThatFits)
                 Text(entry.mesurementValueYesterday.getScaledValue().1).font(.body).previewLayout(.sizeThatFits)
             }
-        }
+        }.containerBackground(for: .widget){}
     }
 }

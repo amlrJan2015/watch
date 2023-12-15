@@ -14,24 +14,24 @@ struct EnergyMediumEntryView: View {
     var body: some View {
         
         if entry.configuration.viewMode == ViewModeList.twoWidgets {
-            ZStack{
-                RadialGradient(gradient: Gradient(colors: [
-                                                    Color(red: 143/255.0, green: 172/255.0, blue: 202/255.0, opacity:1.0),
-                                                    Color(red: 69.0/255.0, green: 116.0/255.0, blue: 167/255.0, opacity:1.0)]),
-                               center: .top, startRadius: 0, endRadius: 200)
+            //ZStack{
+                
                 
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 36) {
                     FirstWidgetView(entry: entry)
                     SecondWidgetView(entry: entry)
                 }
                 .padding(5.0)
-            }
+                .containerBackground(for: .widget) {
+                    RadialGradient(gradient: Gradient(colors: [
+                                                        Color(red: 143/255.0, green: 172/255.0, blue: 202/255.0, opacity:1.0),
+                                                        Color(red: 69.0/255.0, green: 116.0/255.0, blue: 167/255.0, opacity:1.0)]),
+                                   center: .top, startRadius: 0, endRadius: 200)
+                }
+            //}
         } else {
-            ZStack{
-                RadialGradient(gradient: Gradient(colors: [
-                                                    Color(red: 143/255.0, green: 172/255.0, blue: 202/255.0, opacity:1.0),
-                                                    Color(red: 69.0/255.0, green: 116.0/255.0, blue: 167/255.0, opacity:1.0)]),
-                               center: .top, startRadius: 0, endRadius: 200)
+            //ZStack{
+                
                 /*Energy*/
                 HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 10) {
                     FirstWidgetView(entry: entry)
@@ -88,7 +88,13 @@ struct EnergyMediumEntryView: View {
                     }
                 }
                 .padding(15)
-            }
+                .containerBackground(for: .widget) {
+                    RadialGradient(gradient: Gradient(colors: [
+                                                        Color(red: 143/255.0, green: 172/255.0, blue: 202/255.0, opacity:1.0),
+                                                        Color(red: 69.0/255.0, green: 116.0/255.0, blue: 167/255.0, opacity:1.0)]),
+                                   center: .top, startRadius: 0, endRadius: 200)
+                }
+            //}
         }
     }    
 }

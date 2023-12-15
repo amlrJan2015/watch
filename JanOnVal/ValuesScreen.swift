@@ -9,8 +9,11 @@
 import SwiftUI
 
 struct ValuesScreen: View {
-    
     @Environment(\.presentationMode) var presentationMode
+    @State var showChart = false
+    @State var chartIndex = -1
+    @State var chartName = "⌛️"
+    @State var chartUnit = ""
     
     let configData: [Measurement]
     
@@ -19,34 +22,44 @@ struct ValuesScreen: View {
     let layout = [
         GridItem(.adaptive(minimum: 150))
     ]
-        
+    
     var body: some View {
         
         ScrollView {
             
             Button("CLOSE") {
-                    presentationMode.wrappedValue.dismiss()
+                presentationMode.wrappedValue.dismiss()
             }.padding(10)
             
             LazyVGrid(columns:layout, spacing: 15) {
-                ForEach(viewModel.values) {value in
+                ForEach(Array(viewModel.values.enumerated()), id: \.offset) {index, item in
                     ZStack{
                         RadialGradient(gradient: Gradient(colors: [
                             Color(red: 143/255.0, green: 172/255.0, blue: 202/255.0, opacity:1.0),
                             Color(red: 69.0/255.0, green: 116.0/255.0, blue: 167/255.0, opacity:1.0)]),
                                        center: .top, startRadius: 0, endRadius: 200)
                         VStack(alignment: .center, spacing: 2) {
-                            Text(value.icon)
+                            Text(item.icon)
                                 .font(.largeTitle)
                             HStack(alignment: /*@START_MENU_TOKEN@*/.center/*@END_MENU_TOKEN@*/, spacing: 8) {
-                                Text(value.getScaledValue().0).font(.system(.title2, design: .default)).bold().foregroundColor(.white)
-                                Text(value.getScaledValue().1).font(.system(.title2, design: .default)).bold().foregroundColor(.white)
+                                Text(item.getScaledValue().0).font(.system(.title2, design: .default)).bold().foregroundColor(.white)
+                                Text(item.getScaledValue().1).font(.system(.title2, design: .default)).bold().foregroundColor(.white)
                             }
-                            Text(value.getDateTimeFormatted()).font(.system(.caption2, design: .default)).foregroundColor(.white)
+                            Text(item.getDateTimeFormatted()).font(.system(.caption2, design: .default)).foregroundColor(.white)
                         }
                     }
                     .frame(width: 150, height: 150, alignment: Alignment.center)
                     .cornerRadius(15)
+                    .onTapGesture(perform: {
+                        showChart.toggle()
+                        chartName = item.icon
+                        chartUnit = item.unit
+                        chartIndex = index
+                        viewModel.computeChartData(index: index)
+                    })
+                    .sheet(isPresented: $showChart, content: {
+                        LineChart(name: chartName, unit: chartUnit, seriesData: viewModel.seriesData)
+                    })
                 }
             }.padding(.vertical)
         }.onDisappear {
