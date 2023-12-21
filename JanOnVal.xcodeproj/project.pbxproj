@@ -1040,7 +1040,7 @@
 				CURRENT_PROJECT_VERSION = 91;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = GriCoWidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1072,7 +1072,7 @@
 				CURRENT_PROJECT_VERSION = 91;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = GriCoWidget/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1101,7 +1101,7 @@
 				CURRENT_PROJECT_VERSION = 91;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = WidgetsIntensExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1131,7 +1131,7 @@
 				CURRENT_PROJECT_VERSION = 91;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = WidgetsIntensExtension/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1203,14 +1203,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+				WATCHOS_DEPLOYMENT_TARGET = 10.2;
 			};
 			name = Debug;
 		};
@@ -1262,14 +1262,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				VALIDATE_PRODUCT = YES;
-				WATCHOS_DEPLOYMENT_TARGET = 9.1;
+				WATCHOS_DEPLOYMENT_TARGET = 10.2;
 			};
 			name = Release;
 		};
@@ -1281,7 +1281,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 98;
+				CURRENT_PROJECT_VERSION = 99;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = "JanOnVal WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1289,7 +1289,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 17.4;
+				MARKETING_VERSION = 17.5;
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch.wk.wke;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1297,7 +1297,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.1;
+				WATCHOS_DEPLOYMENT_TARGET = 10.2;
 			};
 			name = Debug;
 		};
@@ -1309,7 +1309,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 98;
+				CURRENT_PROJECT_VERSION = 99;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = "JanOnVal WatchKit Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1317,7 +1317,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 17.4;
+				MARKETING_VERSION = 17.5;
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch.wk.wke;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1325,7 +1325,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.1;
+				WATCHOS_DEPLOYMENT_TARGET = 10.2;
 			};
 			name = Release;
 		};
@@ -1337,7 +1337,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 98;
+				CURRENT_PROJECT_VERSION = 99;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				IBSC_MODULE = JanOnVal_WatchKit_Extension;
 				INFOPLIST_FILE = "JanOnVal WatchKit App/Info.plist";
@@ -1345,7 +1345,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 17.4;
+				MARKETING_VERSION = 17.5;
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch.wk;
 				PRODUCT_NAME = "GridVis Companion";
 				PROVISIONING_PROFILE = "";
@@ -1354,7 +1354,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.1;
+				WATCHOS_DEPLOYMENT_TARGET = 10.2;
 			};
 			name = Debug;
 		};
@@ -1366,7 +1366,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 98;
+				CURRENT_PROJECT_VERSION = 99;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				IBSC_MODULE = JanOnVal_WatchKit_Extension;
 				INFOPLIST_FILE = "JanOnVal WatchKit App/Info.plist";
@@ -1374,7 +1374,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 17.4;
+				MARKETING_VERSION = 17.5;
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch.wk;
 				PRODUCT_NAME = "GridVis Companion";
 				PROVISIONING_PROFILE = "";
@@ -1383,7 +1383,7 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 10.1;
+				WATCHOS_DEPLOYMENT_TARGET = 10.2;
 			};
 			name = Release;
 		};
@@ -1396,17 +1396,17 @@
 				CODE_SIGN_ENTITLEMENTS = JanOnVal/JanOnValDebug.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 98;
+				CURRENT_PROJECT_VERSION = 99;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = JanOnVal/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "GridVis Companion";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 17.4;
+				MARKETING_VERSION = 17.5;
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch;
 				PRODUCT_NAME = GriCo;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1427,17 +1427,17 @@
 				CODE_SIGN_ENTITLEMENTS = JanOnVal/JanOnVal.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 98;
+				CURRENT_PROJECT_VERSION = 99;
 				DEVELOPMENT_TEAM = 364UQ5RPHK;
 				INFOPLIST_FILE = JanOnVal/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "GridVis Companion";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.2;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 17.4;
+				MARKETING_VERSION = 17.5;
 				PRODUCT_BUNDLE_IDENTIFIER = de.janitza.ios.gridvis.watch;
 				PRODUCT_NAME = GriCo;
 				PROVISIONING_PROFILE_SPECIFIER = "";

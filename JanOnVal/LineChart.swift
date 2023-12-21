@@ -132,6 +132,7 @@ struct LineChart: View {
     @Environment(\.presentationMode) var presentationMode
     let name: String
     let unit: String
+    let timebase: Int
     let seriesData: [ChartDataSeries]
     @State var rawSelectedDate: Date?
     
@@ -258,19 +259,26 @@ struct LineChart: View {
     
     func valuesPerTimePeriod(on selectedDate: Date) -> [ValuePerTimeperiod]? {
         
-        let seriesIndex = seriesData[0].pvData.count >= seriesData[1].pvData.count ? 0 : 1
+        let indexToday = seriesData[0].timePeriod == "Today" ? 0 : 1
+        let indexYesterday = Swift.abs(indexToday - 1)
         
-        let index = seriesData[seriesIndex].pvData.firstIndex(where: { chartData in
-            Swift.abs(chartData.hour.timeIntervalSince(selectedDate)) < (10 * 60)
+        let seriesIndexToday = seriesData[indexToday].pvData.firstIndex(where: { chartData in
+            Int(Swift.abs(chartData.hour.timeIntervalSince(selectedDate))) < timebase
+        })
+        
+        let seriesIndexYesterday = seriesData[indexYesterday].pvData.firstIndex(where: { chartData in
+            Int(Swift.abs(chartData.hour.timeIntervalSince(selectedDate))) < timebase
         })
                 
-        if index == nil {
+        if seriesIndexToday == nil && seriesIndexYesterday == nil{
             return nil
         }
         
-        return seriesData.map {
-            return ValuePerTimeperiod(timeperiod: $0.timePeriod, value: index! < $0.pvData.count ? $0.pvData[index!].activePower : nil)
-        }
+        var result: Array<ValuePerTimeperiod> = []
+        result.insert(ValuePerTimeperiod(timeperiod: "Today", value: seriesIndexToday != nil ? seriesData[indexToday].pvData[seriesIndexToday!].activePower : nil), at: 0)
+        result.insert(ValuePerTimeperiod(timeperiod: "Yesterday", value: seriesIndexYesterday != nil ? seriesData[indexYesterday].pvData[seriesIndexYesterday!].activePower : nil), at: 1)
+        
+        return result
     }
     
     public static func getDateTimeFormatted(date: Date) -> String {
@@ -325,5 +333,5 @@ var descriptionFont: Font = .subheadline
 #endif
 
 #Preview {
-    LineChart(name: "Test", unit: "W", seriesData: seriesData, rawSelectedDate: Date(timeIntervalSince1970: 1701428400.0))
+    LineChart(name: "Test", unit: "W", timebase: 600,seriesData: seriesData, rawSelectedDate: Date(timeIntervalSince1970: 1701428400.0))
 }

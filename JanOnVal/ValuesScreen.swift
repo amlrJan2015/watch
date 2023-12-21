@@ -14,6 +14,7 @@ struct ValuesScreen: View {
     @State var chartIndex = -1
     @State var chartName = "⌛️"
     @State var chartUnit = ""
+    @State var timebase = 600
     
     let configData: [Measurement]
     
@@ -54,11 +55,12 @@ struct ValuesScreen: View {
                         showChart.toggle()
                         chartName = item.icon
                         chartUnit = item.unit
+                        timebase = configData[index].timebase
                         chartIndex = index
                         viewModel.computeChartData(index: index)
                     })
                     .sheet(isPresented: $showChart, content: {
-                        LineChart(name: chartName, unit: chartUnit, seriesData: viewModel.seriesData)
+                        LineChart(name: chartName, unit: chartUnit, timebase: timebase, seriesData: viewModel.seriesData)
                     })
                 }
             }.padding(.vertical)
